@@ -55,11 +55,18 @@ import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
+import androidx.compose.ui.text.font.Font
+import androidx.compose.ui.text.font.FontFamily
+import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecosplash.ui.theme.EcosplashTheme
+
+val montserratFontFamily = FontFamily(
+    Font(R.font.montserrat, FontWeight.Normal)
+)
 
 class MainActivity1 : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -300,7 +307,7 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .offset(y = maxHeight * 0.08f),
-            style = TextStyle(fontSize = 70.sp)
+            style = TextStyle(fontSize = 70.sp), fontFamily = montserratFontFamily
         )
 
         LinearProgressIndicator(
@@ -338,7 +345,7 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
                         .padding((maxHeight * 0.01f))) {
                         Text(text = "20",
                             modifier = Modifier
-                                .align(Alignment.Center)
+                                .align(Alignment.Center), fontFamily = montserratFontFamily
                         )
                     }
 
@@ -356,7 +363,7 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
                         .padding((maxHeight * 0.01f))) {
                         Text(text = "20",
                             modifier = Modifier
-                                .align(Alignment.Center)
+                                .align(Alignment.Center), fontFamily = montserratFontFamily
                         )
                     }
 

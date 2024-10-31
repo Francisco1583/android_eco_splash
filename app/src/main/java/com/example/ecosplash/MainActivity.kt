@@ -50,11 +50,6 @@ class MainActivity : ComponentActivity() {
                 Surface {
                     Greeting()
                 }
-                //Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    //Greeting(
-                   //     modifier = Modifier.padding(innerPadding)
-                  //  )
-                //}
             }
         }
     }
