@@ -1,5 +1,6 @@
 package com.example.ecosplash
 
+import android.app.AlertDialog
 import android.os.Bundle
 import android.view.MotionEvent
 import android.view.RoundedCorner
@@ -27,16 +28,21 @@ import androidx.compose.foundation.layout.statusBarsPadding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.AlertDialogDefaults
 import androidx.compose.material3.Button
 import androidx.compose.material3.ButtonDefaults
 import androidx.compose.material3.Divider
 import androidx.compose.material3.HorizontalDivider
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
@@ -53,6 +59,8 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.input.pointer.pointerInteropFilter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalContext
+import androidx.compose.ui.platform.LocalSoftwareKeyboardController
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -63,6 +71,9 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecosplash.ui.theme.EcosplashTheme
+import kotlinx.coroutines.delay
+import java.util.Locale
+import java.util.concurrent.TimeUnit
 
 val montserratFontFamily = FontFamily(
     Font(R.font.montserrat, FontWeight.Normal)
@@ -75,23 +86,25 @@ class MainActivity1 : ComponentActivity() {
         setContent {
             EcosplashTheme {
                 val imagenes = listOf(
-                painterResource(id = R.drawable.fondogato),
-                painterResource(id = R.drawable.pecera),
-                painterResource(id = R.drawable.desk1),
-                painterResource(id = R.drawable.reloj1),
-                painterResource(id = R.drawable.stats),
-                painterResource(id = R.drawable.gancho),
-                painterResource(id = R.drawable.logopecera),
-                painterResource(id = R.drawable.sombrero_v2),
+                    painterResource(id = R.drawable.fondogato),
+                    painterResource(id = R.drawable.pecera),
+                    painterResource(id = R.drawable.desk1),
+                    painterResource(id = R.drawable.clock),
+                    painterResource(id = R.drawable.activity),
+                    painterResource(id = R.drawable.edit_button),
+                    painterResource(id = R.drawable.logopecera),
+                    painterResource(id = R.drawable.sombrero_v2),
                     painterResource(id = R.drawable.rachav2),
                     painterResource(id = R.drawable.info),
                     painterResource(id = R.drawable.award),
                     painterResource(id = R.drawable.dinero),
-                    painterResource(id = R.drawable.arrow_left)
+                    painterResource(id = R.drawable.arrow_left),
+                    painterResource(id = R.drawable.x)
                 )
                 Surface {
                     Greeting1(imagenes = imagenes)
                     //MainScreen()
+                    //TimerExample()
                 }
                 //Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                 //Greeting(
@@ -102,6 +115,61 @@ class MainActivity1 : ComponentActivity() {
         }
     }
 }
+@Composable
+fun TimerExample() {
+    var time by remember {
+        mutableStateOf(5000L)
+        //600000
+    }
+    var isRunning by remember {
+        mutableStateOf(false)
+    }
+    var startTime by remember {
+        mutableStateOf(0L)
+    }
+    //val context = LocalContext.current
+
+    //val keyboardController = LocalSoftwareKeyboardController.current
+
+    Column(modifier = Modifier
+        .fillMaxSize()
+        .padding(15.dp),
+        horizontalAlignment = Alignment.CenterHorizontally, verticalArrangement = Arrangement.Center) {
+
+        Text(text = formatTimer(timeMi = time), style = MaterialTheme.typography.headlineLarge, modifier = Modifier
+            .padding(9.dp))
+
+        Row {
+            Button(onClick = {
+                isRunning = !isRunning
+                if (!isRunning) {
+                    time = 5000
+                }
+            }) {
+                Text(text = if (isRunning) "cancelar" else "start", color = Color.White )
+            }
+        }
+    }
+    LaunchedEffect(isRunning) {
+        while (isRunning) {
+            delay(1000)
+            time -= 1000
+            if (time.toInt() == 0) {
+                isRunning = false
+                time = 5000
+            }
+        }
+    }
+}
+
+@Composable
+fun formatTimer(timeMi: Long): String {
+    val hours = TimeUnit.MICROSECONDS.toHours(timeMi)
+    val min = TimeUnit.MILLISECONDS.toMinutes(timeMi) % 60
+    val sec = TimeUnit.MILLISECONDS.toSeconds(timeMi) % 60
+
+    return String.format("%02d:%02d:%02d",hours,min,sec)
+}
 
 @Composable
 fun Menu1(onClick: (Int) -> Unit, bgColor: Color = Color.Red,imagenes: List<Painter>, maxHeight: Dp, modifier: Modifier = Modifier) {
@@ -110,7 +178,7 @@ fun Menu1(onClick: (Int) -> Unit, bgColor: Color = Color.Red,imagenes: List<Pain
         verticalAlignment = Alignment.CenterVertically
     ) {
 
-        IconButton(onClick = {onClick(2) },
+        IconButton(onClick = {onClick(3) },
             modifier = Modifier
                 //.height((maxHeight * 0.08f))
                 .align(Alignment.Top)
@@ -122,7 +190,7 @@ fun Menu1(onClick: (Int) -> Unit, bgColor: Color = Color.Red,imagenes: List<Pain
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Top)
-                    .padding(maxHeight*0.005f)
+                    .padding(maxHeight * 0.005f)
             )
         }
         IconButton(onClick = { /*TODO*/ },
@@ -185,7 +253,7 @@ fun Menu2(onClick: (Int) -> Unit, bgColor: Color = Color.Red,imagenes: List<Pain
                 modifier = Modifier
                     .fillMaxSize()
                     .align(Alignment.Top)
-                    .padding(maxHeight*0.005f)
+                    .padding(maxHeight * 0.005f)
             )
         }
         IconButton(onClick = { /*TODO*/ },
@@ -228,10 +296,161 @@ fun Menu2(onClick: (Int) -> Unit, bgColor: Color = Color.Red,imagenes: List<Pain
     }
 }
 
+@Composable
+fun Menu3(onClick: (Int) -> Unit, time:(Long)-> Unit, isRunning:(Boolean)-> Unit, startTime:(Long)-> Unit,isCurrentlyRunning: Boolean , currentTime: Long, bgColor: Color = Color.Red,imagenes: List<Painter>, maxHeight: Dp, modifier: Modifier = Modifier) {
+    Row(modifier = Modifier
+        .fillMaxWidth(),
+        verticalAlignment = Alignment.CenterVertically
+    ) {
+
+
+        IconButton(onClick = { onClick(1)},
+            modifier = Modifier
+                .height((maxHeight * 0.16f))
+                .weight(1f)
+                //.background(Color(0xFFCBE2FE), shape = RoundedCornerShape(40.dp))
+        )
+        {
+
+            Image(painter = imagenes[5],
+                contentDescription = "icono de personalización",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(maxHeight * 0.025f)
+
+            )
+        }
+        //Spacer(modifier = Modifier.width(maxHeight*0.05f))
+
+        IconButton(onClick = {
+            if (isCurrentlyRunning) {
+                isRunning(false)
+                time(600000)
+
+            }
+            else {
+                isRunning(true)
+                //keyboardController?.hide()
+            }
+        },
+            modifier = Modifier
+                .height((maxHeight * 0.16f))
+                .weight(1f)
+                //.background(Color(0xFFCBE2FE), shape = RoundedCornerShape(40.dp))
+        )
+        {
+
+            Image(painter = imagenes[3],
+                contentDescription = "icono de reloj",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxSize()
+                    //.padding(maxHeight * 0.02f)
+
+            )
+        }
+        //Spacer(modifier = Modifier.width(maxHeight*0.03f))
+        IconButton(onClick = { /*TODO*/ },
+            modifier = Modifier
+                .height((maxHeight * 0.16f))
+                .weight(1f)
+                //.background(Color(0xFFCBE2FE), shape = RoundedCornerShape(40.dp))
+        )
+        {
+
+            Image(painter = imagenes[4],
+                contentDescription = "icono de actividad",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxSize()
+                    .padding(maxHeight * 0.025f)
+
+            )
+        }
+    }
+}
+
+@Composable
+fun AlertDialog(onDismiss:()-> Unit,imagenes: List<Painter>, maxHeight: Dp) {
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest =  onDismiss,
+        confirmButton = { /*TODO*/ },
+        text = {
+            Column {
+                IconButton(onClick = onDismiss,
+                    modifier = Modifier
+                        .height((maxHeight * 0.06f))
+                ) {
+                    Image(painter = imagenes[13],
+                        contentDescription = "icono de personalización",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier
+                            .fillMaxSize()
+
+                    )
+                }
+                Text(
+                    text = "El objetivo de la aplicación es concientizar sobre el desperdicio y uso desmedido del agua, ya que este es un recurso limitado del cual todos debemos cuidar, generando una red de acción ciudadana. Para mas información visita el Facebook de @Eco Espacio Digital",
+                    modifier = Modifier.padding(16.dp),
+                    fontFamily = montserratFontFamily,
+                    color = Color.Black // Cambia el color del texto si es necesario
+                )
+            }
+
+        },
+        containerColor = Color(0xFFCBE2FE),
+        modifier = Modifier
+            .height(maxHeight * 0.39f)
+            .padding(8.dp)
+    )
+}
+
+@Composable
+fun AlertDialogONE(onDismiss:()-> Unit,imagenes: List<Painter>, maxHeight: Dp) {
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest =  onDismiss,
+        confirmButton = { /*TODO*/ },
+        text = {
+            Column {
+                IconButton(onClick = onDismiss,
+                    modifier = Modifier
+                        .height((maxHeight * 0.06f))
+                ) {
+                    Image(painter = imagenes[13],
+                        contentDescription = "icono de personalización",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier
+                            .fillMaxSize()
+
+                    )
+                }
+                Text(
+                    text = "El objetivo de la aplicación es concientizar sobre el desperdicio y uso desmedido del agua, ya que este es un recurso limitado del cual todos debemos cuidar, generando una red de acción ciudadana. Para mas información visita el Facebook de @Eco Espacio Digital",
+                    modifier = Modifier.padding(16.dp),
+                    fontFamily = montserratFontFamily,
+                    color = Color.Black // Cambia el color del texto si es necesario
+                )
+            }
+
+        },
+        containerColor = Color(0xFFCBE2FE),
+        modifier = Modifier
+            .height(maxHeight * 0.39f)
+            .padding(8.dp)
+    )
+}
 
 @Composable
 fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
-    var boxVisible by remember { mutableIntStateOf(1) }
+    // variable que se usa para el cambio de menus
+    var boxVisible by remember { mutableIntStateOf(3) }
+    // variable para mostrar o no el popup
+    var showDialog by remember { mutableStateOf(false)}
+    // variable para mostrar o no el popup1
+    var showDialogONE by remember { mutableStateOf(true)}
+
+
 
     val onClick = { newState : Int ->
         boxVisible = newState
@@ -240,6 +459,20 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
     val selected = remember { mutableStateOf(false) }
     var menu1Visible by remember { mutableStateOf(true) }
     //val scale = animateFloatAsState(if (selected.value) 2f else 1f)
+
+    //aquí empiezan las variables para el temporizador
+    var time by remember {
+        mutableStateOf(600000L)
+    }
+    val setTime: (Long) -> Unit = {newTime -> time = newTime}
+    var isRunning by remember {
+        mutableStateOf(false)
+    }
+    val setIsRunning: (Boolean) -> Unit = {running -> isRunning = running}
+    var startTime by remember {
+        mutableStateOf(0L)
+    }
+    val setStartTime: (Long) -> Unit = {newStartTime -> startTime = newStartTime}
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -247,6 +480,7 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
     ) {
         val maxWidth = maxWidth
         val maxHeight = maxHeight
+
         Image(painter = imagenes[0],
             contentDescription = "imagen del cuarto",
             contentScale = ContentScale.Crop,
@@ -284,7 +518,7 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
                             .height((maxHeight * 0.8f))
                     )
                 }
-                IconButton(onClick = { /*TODO*/ },
+                IconButton(onClick = { showDialog = true },
                     modifier = Modifier
                         .height((maxHeight * 0.07f))
                         .width(maxWidth * 0.14f)
@@ -383,10 +617,14 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
                 .align(Alignment.Center)
                 .offset(y = maxHeight * 0.07f)
         )
+        Text(text = formatTimer(timeMi = time), style = MaterialTheme.typography.headlineLarge, modifier = Modifier
+            .padding(9.dp)
+            .align(Alignment.Center)
+            .offset(y = maxHeight * 0.33f))
 
 
 
-            if (boxVisible == 1) {
+            if (boxVisible == 1 && !isRunning) {
                 Surface(color = Color(0xFFFFFFFF),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -397,7 +635,7 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
                     Menu1(imagenes = imagenes, maxHeight = maxHeight, onClick = onClick)
                 }
             }
-            else {
+            else if (boxVisible == 2 && !isRunning) {
                 Surface(color = Color(0xFFFFFFFF),
                     modifier = Modifier
                         .fillMaxWidth()
@@ -408,10 +646,37 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
                     Menu2(imagenes = imagenes, maxHeight = maxHeight, onClick = onClick)
                 }
             }
+            else if(boxVisible == 3){
+                Surface(color = Color(0xFFFFFFFF),
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .align(Alignment.BottomEnd)
+                        .height(maxHeight * 0.13f)
+                    //.height(maxHeight * 0.20f)
+                ) {
+                    Menu3(imagenes = imagenes, maxHeight = maxHeight, onClick = onClick, time = setTime, isRunning = setIsRunning, startTime = setStartTime, isCurrentlyRunning = isRunning, currentTime = time)
+                }
+            }
+            else {
+                boxVisible = 3
+            }
+            if (showDialog){
+                AlertDialog(onDismiss = {showDialog = false},imagenes = imagenes, maxHeight = maxHeight)
+            }
 
 
 
 
+    }
+    LaunchedEffect(isRunning) {
+        while (isRunning) {
+            delay(1000)
+            time -= 1000
+            if (time.toInt() == 0) {
+                isRunning = false
+                time = 600000
+            }
+        }
     }
 }
 
@@ -464,16 +729,17 @@ fun GreetingPreview1() {
                 painterResource(id = R.drawable.fondogato),
                 painterResource(id = R.drawable.pecera),
                 painterResource(id = R.drawable.desk1),
-                painterResource(id = R.drawable.reloj1),
-                painterResource(id = R.drawable.stats),
-                painterResource(id = R.drawable.gancho),
+                painterResource(id = R.drawable.clock),
+                painterResource(id = R.drawable.activity),
+                painterResource(id = R.drawable.edit_button),
                 painterResource(id = R.drawable.logopecera),
                 painterResource(id = R.drawable.sombrero_v2),
                 painterResource(id = R.drawable.rachav2),
                 painterResource(id = R.drawable.info),
                 painterResource(id = R.drawable.award),
                 painterResource(id = R.drawable.dinero),
-                painterResource(id = R.drawable.arrow_left)
+                painterResource(id = R.drawable.arrow_left),
+                painterResource(id = R.drawable.x)
             )
         Greeting1(imagenes = imagenes)
     }
