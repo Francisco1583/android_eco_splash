@@ -21,6 +21,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
 @Composable
+// editmenu es el menú que se despliega al darle al botón de editar
 fun EditMenu(onClick: (Int) -> Unit, bgColor: Color = Color.Red, imagenes: List<Painter>, maxHeight: Dp, modifier: Modifier = Modifier) {
     Row(modifier = Modifier
         .fillMaxWidth(),

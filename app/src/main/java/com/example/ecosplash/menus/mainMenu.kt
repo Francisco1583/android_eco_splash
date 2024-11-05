@@ -10,13 +10,13 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 
 @Composable
-fun MainMenu(onClick: (Int) -> Unit, time:(Long)-> Unit, isRunning:(Boolean)-> Unit, startTime:(Long)-> Unit, isCurrentlyRunning: Boolean, currentTime: Long, bgColor: Color = Color.Red, imagenes: List<Painter>, maxHeight: Dp, modifier: Modifier = Modifier) {
+// mainmenu es el botón principal
+fun MainMenu(onClick: (Int) -> Unit, time:(Long)-> Unit, isRunning:(Boolean)-> Unit, isCurrentlyRunning: Boolean, currentTime: Long, imagenes: List<Painter>, maxHeight: Dp) {
     Row(modifier = Modifier
         .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically

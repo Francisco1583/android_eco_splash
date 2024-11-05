@@ -83,11 +83,10 @@ class MainActivity1 : ComponentActivity() {
 
 @Composable
 fun formatTimer(timeMi: Long): String {
-    val hours = TimeUnit.MICROSECONDS.toHours(timeMi)
     val min = TimeUnit.MILLISECONDS.toMinutes(timeMi) % 60
     val sec = TimeUnit.MILLISECONDS.toSeconds(timeMi) % 60
 
-    return String.format(Locale.getDefault(),"%02d:%02d:%02d",hours,min,sec)
+    return String.format(Locale.getDefault(),"%02d:%02d",min,sec)
 }
 
 @Composable
@@ -149,10 +148,13 @@ fun Greeting1(imagenes: List<Painter>) {
                 .align(Alignment.Center)
                 .offset(y = maxHeight * 0.07f)
         )
-        Text(text = formatTimer(timeMi = time), style = MaterialTheme.typography.headlineLarge, modifier = Modifier
-            .padding(9.dp)
-            .align(Alignment.Center)
-            .offset(y = maxHeight * 0.33f))
+        if (isRunning) {
+            Text(text = formatTimer(timeMi = time), style = MaterialTheme.typography.headlineLarge, modifier = Modifier
+                .padding(9.dp)
+                .align(Alignment.Center)
+                .offset(y = maxHeight * 0.33f))
+        }
+
 
         if (boxVisible == 2 && !isRunning) {
             Surface(color = Color(0xFFFFFFFF),
@@ -173,7 +175,7 @@ fun Greeting1(imagenes: List<Painter>) {
                     .height(maxHeight * 0.13f)
                 //.height(maxHeight * 0.20f)
             ) {
-                MainMenu(imagenes = imagenes, maxHeight = maxHeight, onClick = onClick, time = setTime, isRunning = setIsRunning, startTime = setStartTime, isCurrentlyRunning = isRunning, currentTime = time)
+                MainMenu(imagenes = imagenes, maxHeight = maxHeight, onClick = onClick, time = setTime, isRunning = setIsRunning, isCurrentlyRunning = isRunning, currentTime = time)
             }
         }
         else {
