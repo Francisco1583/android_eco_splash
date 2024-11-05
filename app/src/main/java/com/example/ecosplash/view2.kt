@@ -537,7 +537,7 @@ fun Greeting1(modifier: Modifier = Modifier,imagenes: List<Painter>) {
 
         }
         
-        Text(text = "Nivel: 300",
+        Text(text = "Nivel: 500",
             modifier = Modifier
                 .align(Alignment.TopCenter)
                 .offset(y = maxHeight * 0.08f),
