@@ -54,27 +54,9 @@ class MainActivity1 : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EcosplashTheme {
-                val imagenes = listOf(
-                    painterResource(id = R.drawable.fondogato),
-                    painterResource(id = R.drawable.pecera),
-                    painterResource(id = R.drawable.desk1),
-                    painterResource(id = R.drawable.clock),
-                    painterResource(id = R.drawable.activity),
-                    painterResource(id = R.drawable.edit_button),
-                    painterResource(id = R.drawable.logopecera),
-                    painterResource(id = R.drawable.sombrero_v2),
-                    painterResource(id = R.drawable.rachav2),
-                    painterResource(id = R.drawable.info),
-                    painterResource(id = R.drawable.award),
-                    painterResource(id = R.drawable.dinero),
-                    painterResource(id = R.drawable.arrow_left),
-                    painterResource(id = R.drawable.x)
-                )
                 Surface {
-                    Greeting1(imagenes = imagenes)
-
+                    Greeting1(imagenes = images(), fishbowlanimation = fisbowlanimated(), ajoAnimated = ajoAnimated())
                 }
-
             }
         }
     }
@@ -90,7 +72,7 @@ fun formatTimer(timeMi: Long): String {
 }
 
 @Composable
-fun Greeting1(imagenes: List<Painter>) {
+fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnimated: List<Painter>) {
     // -------------DECLARACIÓN DE VARIABLES --------------------------
     // variable que se usa para el cambio de menus
     var boxVisible by remember { mutableIntStateOf(1) }
@@ -100,11 +82,21 @@ fun Greeting1(imagenes: List<Painter>) {
     //var showDialogONE by remember { mutableStateOf(true)}
     // variable que define el progreso de la barra de nivel
     var progress by remember { mutableFloatStateOf(0.5f) }
-
+    //variable que almacena la cantidad de monedas
+    var money by remember {mutableIntStateOf(0) }
+    // variable que almacena la cantidad de las rachas
+    var racha by remember {mutableIntStateOf(0)}
     //variable que almacena el tiempo del temporizador
     var time by remember { mutableLongStateOf(600000L) }
     //variable que sirve para identificar si el temporizadore está corriendo o no
     var isRunning by remember { mutableStateOf(false) }
+    //variable para animación de pecera
+    var isRunningFishbowl by remember { mutableStateOf(true)}
+    var isRunningAjoAnimated by remember { mutableStateOf(true) }
+    // variable que cambia de acuerdo al frame de la animación de la pecera
+    var fishbowlIndex by remember { mutableIntStateOf(0) }
+    //variable que cambia de acuerdo al frame de la animación del ajolote
+    var ajoIndex by remember { mutableIntStateOf(0) }
     // variable que probablemente la vaya a eliminar
     var startTime by remember { mutableLongStateOf(0L) }
 
@@ -118,8 +110,12 @@ fun Greeting1(imagenes: List<Painter>) {
     val setIsRunning: (Boolean) -> Unit = {running -> isRunning = running}
     // se modifica starTime, probablemente ya no se use
     val setStartTime: (Long) -> Unit = {newStartTime -> startTime = newStartTime}
-    //
+    // valor para cambiar la variable booleana con la que se decide si mostrar o no el popup de información
     val setInfoDialog: (Boolean) -> Unit = {newinfoDialog -> showDialog = newinfoDialog}
+    //valor para modificar lo del dinero
+    val setMoney: (Int) -> Unit = {moreMoney -> money = moreMoney}
+    // valor para modificar lo de la racha
+    val setRacha: (Int) -> Unit = {masRacha -> racha = masRacha}
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -137,22 +133,38 @@ fun Greeting1(imagenes: List<Painter>) {
 
         )
         Firstopart(maxWidth = maxWidth, maxHeight = maxHeight, imagenes = imagenes, setInfoDialog = setInfoDialog)
-        Secondtopart(progress = progress, maxWidth = maxWidth, maxHeight = maxHeight, imagenes = imagenes)
+        Secondtopart(progress = progress,
+            maxWidth = maxWidth,
+            maxHeight = maxHeight,
+            imagenes = imagenes,
+            money = money,
+            racha = racha)
 
-        Image(painter = imagenes[1],
+        Image(painter = fishbowlanimation[fishbowlIndex],
             contentDescription = "imagen de la pecera",
-            contentScale = ContentScale.Fit,
+            contentScale = ContentScale.Crop,
             modifier = Modifier
 
-                .height(maxHeight * 0.35f)
+                .height(maxHeight * 0.4f)
                 .align(Alignment.Center)
                 .offset(y = maxHeight * 0.07f)
+        )
+        Image(painter = ajoAnimated[ajoIndex],
+            contentDescription = "imagen del ajolote",
+            contentScale = ContentScale.Crop,
+            modifier = Modifier
+
+                .height(maxHeight * 0.25f)
+                .align(Alignment.Center)
+                .offset(y = maxHeight * 0.1f)
+                .offset(x = maxWidth * -0.1f)
         )
         if (isRunning) {
             Text(text = formatTimer(timeMi = time), style = MaterialTheme.typography.headlineLarge, modifier = Modifier
                 .padding(9.dp)
                 .align(Alignment.Center)
-                .offset(y = maxHeight * 0.33f))
+                .offset(y = maxHeight * 0.33f),
+                color = Color.Black)
         }
 
 
@@ -175,11 +187,20 @@ fun Greeting1(imagenes: List<Painter>) {
                     .height(maxHeight * 0.13f)
                 //.height(maxHeight * 0.20f)
             ) {
-                MainMenu(imagenes = imagenes, maxHeight = maxHeight, onClick = onClick, time = setTime, isRunning = setIsRunning, isCurrentlyRunning = isRunning, currentTime = time)
+                MainMenu(imagenes = imagenes,
+                    maxHeight = maxHeight,
+                    onClick = onClick, time = setTime,
+                    isRunning = setIsRunning,
+                    isCurrentlyRunning = isRunning,
+                    currentTime = time,
+                    setMoney = setMoney,
+                    money = money,
+                    setRacha = setRacha,
+                    racha = racha)
             }
         }
         else {
-            boxVisible = 3
+            boxVisible = 1
         }
         if (showDialog){
             MoreInfo(onDismiss = {showDialog = false},imagenes = imagenes, maxHeight = maxHeight)
@@ -195,30 +216,26 @@ fun Greeting1(imagenes: List<Painter>) {
             }
         }
     }
-}
+    LaunchedEffect(isRunningFishbowl) {
+        while (isRunningFishbowl) {
+            delay(40)
+            fishbowlIndex = (fishbowlIndex + 1) % 38
+        }
+    }
 
+    LaunchedEffect(isRunningAjoAnimated) {
+        while (isRunningAjoAnimated) {
+            delay(100)
+            ajoIndex = (ajoIndex + 1) % 14
+        }
+    }
+}
 
 
 @Preview(showBackground = true)
 @Composable
 fun GreetingPreview1() {
     EcosplashTheme {
-        val imagenes = listOf(
-            painterResource(id = R.drawable.fondogato),
-            painterResource(id = R.drawable.pecera),
-            painterResource(id = R.drawable.desk1),
-            painterResource(id = R.drawable.clock),
-            painterResource(id = R.drawable.activity),
-            painterResource(id = R.drawable.edit_button),
-            painterResource(id = R.drawable.logopecera),
-            painterResource(id = R.drawable.sombrero_v2),
-            painterResource(id = R.drawable.rachav2),
-            painterResource(id = R.drawable.info),
-            painterResource(id = R.drawable.award),
-            painterResource(id = R.drawable.dinero),
-            painterResource(id = R.drawable.arrow_left),
-            painterResource(id = R.drawable.x)
-        )
-        Greeting1(imagenes = imagenes)
+        Greeting1(imagenes = images(),fishbowlanimation = fisbowlanimated(), ajoAnimated = ajoAnimated())
     }
 }

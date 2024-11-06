@@ -46,7 +46,7 @@ fun MoreInfo(onDismiss:()-> Unit, imagenes: List<Painter>, maxHeight: Dp) {
         },
         containerColor = Color(0xFFCBE2FE),
         modifier = Modifier
-            .height(maxHeight * 0.39f)
+            .height(maxHeight * 0.5f)
             .padding(8.dp)
     )
 }

@@ -1,5 +1,6 @@
 package com.example.ecosplash.topInterfaces
 
+import androidx.annotation.IntegerRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -30,7 +31,7 @@ import com.example.ecosplash.montserratFontFamily
 
 @Composable
 // esta función es un surface que contiene el nivel, la barra de nivel, la racha y el dinero
-fun Secondtopart(imagenes: List<Painter>, progress: Float, maxWidth: Dp, maxHeight: Dp, modifier: Modifier = Modifier) {
+fun Secondtopart(imagenes: List<Painter>, progress: Float, maxWidth: Dp, maxHeight: Dp, modifier: Modifier = Modifier, money: Int, racha : Int) {
     Surface(color = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()
@@ -46,13 +47,12 @@ fun Secondtopart(imagenes: List<Painter>, progress: Float, maxWidth: Dp, maxHeig
             modifier = Modifier,
             //.align(Alignment.TopCenter)
             // .offset(y = maxHeight * 0.08f),
-            style = TextStyle(fontSize = 70.sp), fontFamily = montserratFontFamily
+            style = TextStyle(fontSize = 70.sp), fontFamily = montserratFontFamily,
+            color = Color.Black
         )
         LinearProgressIndicator(
             progress = { progress },
             modifier = Modifier
-                //.align(Alignment.TopCenter)
-                //.offset(y = maxHeight * 0.19f)
                 .height(maxHeight * 0.04f)
                 .width(maxWidth * 0.87f)
                 .clip(RoundedCornerShape(20.dp)),
@@ -79,9 +79,11 @@ fun Secondtopart(imagenes: List<Painter>, progress: Float, maxWidth: Dp, maxHeig
                     Box(modifier = Modifier
                         .fillMaxHeight()
                         .padding((maxHeight * 0.01f))) {
-                        Text(text = "20",
+                        Text(text = "$racha",
                             modifier = Modifier
-                                .align(Alignment.Center), fontFamily = montserratFontFamily
+                                .align(Alignment.Center), fontFamily = montserratFontFamily,
+                            color = Color.Black
+
                         )
                     }
 
@@ -97,9 +99,10 @@ fun Secondtopart(imagenes: List<Painter>, progress: Float, maxWidth: Dp, maxHeig
                     Box(modifier = Modifier
                         .fillMaxHeight()
                         .padding((maxHeight * 0.01f))) {
-                        Text(text = "20",
+                        Text(text = "$money",
                             modifier = Modifier
-                                .align(Alignment.Center), fontFamily = montserratFontFamily
+                                .align(Alignment.Center), fontFamily = montserratFontFamily,
+                            color = Color.Black
                         )
                     }
 
