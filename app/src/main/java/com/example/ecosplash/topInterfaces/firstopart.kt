@@ -24,10 +24,7 @@ fun Firstopart (setInfoDialog: (Boolean) -> Unit, imagenes: List<Painter>, maxWi
     Surface(color = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()
-            //.align(Alignment.TopCenter)
-            //.offset(y = maxHeight * 0.01f)
             .width(maxWidth * 0.9f)
-            //.height(maxHeight * 0.13f)
             .statusBarsPadding()
             .navigationBarsPadding()
 

@@ -31,7 +31,13 @@ import com.example.ecosplash.montserratFontFamily
 
 @Composable
 // esta función es un surface que contiene el nivel, la barra de nivel, la racha y el dinero
-fun Secondtopart(imagenes: List<Painter>, progress: Float, maxWidth: Dp, maxHeight: Dp, modifier: Modifier = Modifier, money: Int, racha : Int) {
+fun Secondtopart(imagenes: List<Painter>,
+                 progress: Float,
+                 maxWidth: Dp,
+                 maxHeight: Dp,
+                 modifier: Modifier = Modifier,
+                 money: Int, racha : Int
+) {
     Surface(color = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()

@@ -20,7 +20,27 @@ import androidx.compose.ui.unit.Dp
 
 @Composable
 // mainmenu es el botón principal
-fun MainMenu(onClick: (Int) -> Unit, time:(Long)-> Unit, isRunning:(Boolean)-> Unit, isCurrentlyRunning: Boolean, currentTime: Long, imagenes: List<Painter>, maxHeight: Dp, setMoney: (Int) -> Unit, money: Int, setRacha: (Int) -> Unit, racha: Int) {
+fun MainMenu(onClick: (Int) -> Unit,
+             time:(Long)-> Unit,
+             isRunning:(Boolean)-> Unit,
+             isCurrentlyRunning: Boolean,
+             currentTime: Long,
+             imagenes: List<Painter>,
+             maxHeight: Dp,
+             setMoney: (Int) -> Unit,
+             money: Int,
+             setRacha: (Int) -> Unit,
+             racha: Int,
+             progress: Float,
+             setProgress: (Float) -> Unit,
+             setStatsDialog: (Boolean) -> Unit,
+             showDialogStats: Boolean,
+             duchasMen5: Int,
+             duchasTotales: Int,
+             litrosAhorrados: Float,
+             setduchasMen5: (Int) -> Unit,
+             setduchasTotales: (Int) -> Unit,
+             setLitrosAhorrados: (Float) -> Unit) {
     var remainingTime by remember { mutableLongStateOf(0L) }
     Row(modifier = Modifier
         .fillMaxWidth(),
@@ -47,11 +67,15 @@ fun MainMenu(onClick: (Int) -> Unit, time:(Long)-> Unit, isRunning:(Boolean)-> U
         IconButton(onClick = {
             if (isCurrentlyRunning) {
                 isRunning(false)
-                if (currentTime.toInt() >= 300000 ) {
+                setduchasTotales(duchasTotales + 1)
+                setLitrosAhorrados(((currentTime.toInt())/1000).toFloat() * 0.2f)
+                if (currentTime.toInt() >= 900000 ) {
+                    setduchasMen5(duchasMen5 + 1)
                     setMoney(money + 10)
                     setRacha(racha + 1)
+
                 }
-                time(600000)
+                time(1200000)
 
             }
             else {
@@ -76,7 +100,7 @@ fun MainMenu(onClick: (Int) -> Unit, time:(Long)-> Unit, isRunning:(Boolean)-> U
             )
         }
         //Spacer(modifier = Modifier.width(maxHeight*0.03f))
-        IconButton(onClick = { /*TODO*/ },
+        IconButton(onClick = { setStatsDialog(!showDialogStats)},
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
