@@ -91,3 +91,26 @@ fun ajoAnimated(): List<Painter> {
     )
     return imagenes
 }
+
+@Composable
+fun backgroundsOptions(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.moyai),
+        painterResource(id = R.drawable.palmera),
+        painterResource(id = R.drawable.iglu),
+        painterResource(id = R.drawable.pineapple)
+    )
+    return imagenes
+}
+
+@Composable
+fun hatOptions(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.vikingo),
+        painterResource(id = R.drawable.lentes),
+        painterResource(id = R.drawable.mexican),
+        painterResource(id = R.drawable.flor)
+    )
+    return imagenes
+}
+

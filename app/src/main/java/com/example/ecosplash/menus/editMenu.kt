@@ -43,7 +43,7 @@ fun EditMenu(onClick: (Int) -> Unit, bgColor: Color = Color.Red, imagenes: List<
                     .padding(maxHeight * 0.005f)
             )
         }
-        IconButton(onClick = { /*TODO*/ },
+        IconButton(onClick = {onClick(3)},
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
@@ -62,7 +62,7 @@ fun EditMenu(onClick: (Int) -> Unit, bgColor: Color = Color.Red, imagenes: List<
         }
         Spacer(modifier = Modifier.width(maxHeight*0.05f))
 
-        IconButton(onClick = { /*TODO*/ },
+        IconButton(onClick ={onClick(4)},
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)

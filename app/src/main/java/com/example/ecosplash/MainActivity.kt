@@ -5,12 +5,21 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
+import androidx.compose.foundation.lazy.LazyRow
+import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
@@ -36,9 +45,14 @@ import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
+import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
+import com.example.ecosplash.menus.BackgroupsMenu
 import com.example.ecosplash.menus.EditMenu
+import com.example.ecosplash.menus.HatMenu
+//import com.example.ecosplash.menus.HatMenu
 import com.example.ecosplash.menus.MainMenu
 import com.example.ecosplash.popups.MoreInfo
 import com.example.ecosplash.popups.Stats
@@ -60,7 +74,7 @@ class MainActivity1 : ComponentActivity() {
         setContent {
             EcosplashTheme {
                 Surface {
-                    Greeting1(imagenes = images(), fishbowlanimation = fisbowlanimated(), ajoAnimated = ajoAnimated())
+                    Greeting1(imagenes = images(), fishbowlanimation = fisbowlanimated(), ajoAnimated = ajoAnimated(), hatOptions = hatOptions())
                 }
             }
         }
@@ -76,12 +90,14 @@ fun formatTimer(timeMi: Long): String {
     return String.format(Locale.getDefault(),"%02d:%02d",min,sec)
 }
 
+
+
 @Composable
-fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnimated: List<Painter>) {
+fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnimated: List<Painter>, hatOptions: List<Painter>) {
 
     // -------------DECLARACIÓN DE VARIABLES --------------------------
     // variable que se usa para el cambio de menus
-    var boxVisible by remember { mutableIntStateOf(1) }
+    var boxVisible by remember { mutableIntStateOf(3) }
     // variable para mostrar o no el popup
     var showDialog by remember { mutableStateOf(false)}
     // variable para mostrar o no el popup1
@@ -242,6 +258,36 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
                     litrosAhorrados = litrosAhorrados)
             }
         }
+        else if(boxVisible == 3) {
+            Surface(color = Color(0xFFFFFFFF),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomEnd)
+                    //.height(maxHeight * 0.13f)
+                    .height(maxHeight * 0.20f)
+            ) {
+                BackgroupsMenu(imagenes = imagenes,
+                    maxHeight = maxHeight,
+                    onClick = onClick,
+                    backgroundsOptions = backgroundsOptions()
+                )
+            }
+        }
+        else if(boxVisible == 4) {
+            Surface(color = Color(0xFFFFFFFF),
+                modifier = Modifier
+                    .fillMaxWidth()
+                    .align(Alignment.BottomEnd)
+                    //.height(maxHeight * 0.13f)
+                    .height(maxHeight * 0.20f)
+            ) {
+                HatMenu(imagenes = imagenes,
+                    maxHeight = maxHeight,
+                    onClick = onClick,
+                    hatOptions = hatOptions
+                )
+            }
+        }
         else {
             boxVisible = 1
         }
@@ -287,6 +333,10 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
 @Composable
 fun GreetingPreview1() {
     EcosplashTheme {
-        Greeting1(imagenes = images(),fishbowlanimation = fisbowlanimated(), ajoAnimated = ajoAnimated())
+        Greeting1(imagenes = images(),
+            fishbowlanimation = fisbowlanimated(),
+            ajoAnimated = ajoAnimated(),
+            hatOptions = hatOptions()
+        )
     }
 }
