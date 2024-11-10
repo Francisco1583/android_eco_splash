@@ -5,9 +5,11 @@ import androidx.activity.compose.setContent
 import androidx.activity.enableEdgeToEdge
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.border
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
+import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxHeight
@@ -19,6 +21,7 @@ import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.Button
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
@@ -44,16 +47,19 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
-import com.example.ecosplash.menus.BackgroupsMenu
+import com.example.ecosplash.classes.Sombrero
+//import com.example.ecosplash.menus.BackgroupsMenu
 import com.example.ecosplash.menus.EditMenu
 import com.example.ecosplash.menus.HatMenu
 //import com.example.ecosplash.menus.HatMenu
 import com.example.ecosplash.menus.MainMenu
+//import com.example.ecosplash.popups.ItemDetails
 import com.example.ecosplash.popups.MoreInfo
 import com.example.ecosplash.popups.Stats
 import com.example.ecosplash.topInterfaces.Firstopart
@@ -61,6 +67,7 @@ import com.example.ecosplash.topInterfaces.Secondtopart
 import com.example.ecosplash.ui.theme.EcosplashTheme
 import kotlinx.coroutines.delay
 import java.util.Locale
+import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.TimeUnit
 
 val montserratFontFamily = FontFamily(
@@ -74,7 +81,7 @@ class MainActivity1 : ComponentActivity() {
         setContent {
             EcosplashTheme {
                 Surface {
-                    Greeting1(imagenes = images(), fishbowlanimation = fisbowlanimated(), ajoAnimated = ajoAnimated(), hatOptions = hatOptions())
+                    Greeting1(imagenes = images(), fishbowlanimation = fisbowlanimated(), ajoAnimated = ajoAnimated(), hatOptions = hatOptions(), backgrounds = backgrounds())
                 }
             }
         }
@@ -90,14 +97,214 @@ fun formatTimer(timeMi: Long): String {
     return String.format(Locale.getDefault(),"%02d:%02d",min,sec)
 }
 
+@Composable
+fun ItemDetails(onDismiss:()-> Unit,
+                imagenes: List<Painter>,
+                maxHeight: Dp, accesorie: Sombrero,
+                money: Int,
+                setMoney: (Int) -> Unit
+                ) {
+    var noMoney by remember { mutableStateOf(false)}
+    androidx.compose.material3.AlertDialog(
+        onDismissRequest =  onDismiss,
+        confirmButton = { /*TODO*/ },
+        text = {
+            Column {
+                IconButton(onClick = onDismiss,
+                    modifier = Modifier
+                        .height((maxHeight * 0.07f))
+                ) {
+                    Image(
+                        painter = imagenes[13],
+                        contentDescription = "icono de X",
+                        contentScale = ContentScale.FillWidth,
+                        modifier = Modifier
+                            .fillMaxSize()
+                    )
+                }
+                Image(painter = accesorie.imagen,
+                    contentDescription = "icono del accesorio",
+                    contentScale = ContentScale.Fit,
+                    modifier = Modifier
+                        .height(maxHeight * 0.1f)
+                        .align(Alignment.CenterHorizontally)
+
+                )
+                Text(
+                    text = accesorie.descripcion,
+                    modifier = Modifier
+                        .padding(top = maxHeight*0.01f),
+                    textAlign = TextAlign.Center,
+                    fontFamily = montserratFontFamily,
+                    color = Color.Black
+                )
+                if(noMoney) {
+                    Text(
+                        text = "DINERO INSUFICIENTE",
+                        modifier = Modifier
+                            .padding(top = maxHeight*0.01f)
+                            .align(Alignment.CenterHorizontally),
+                        textAlign = TextAlign.Center,
+                        fontFamily = montserratFontFamily,
+                        color = Color.Red
+                    )
+                }
+
+
+                Row(horizontalArrangement = Arrangement.Center, verticalAlignment = Alignment.CenterVertically, modifier = Modifier
+                    .fillMaxSize()
+                    .padding(top = maxHeight * 0.01f)) {
+                    if(!accesorie.desbloqueado) {
+                        Button(onClick = { if(money >= accesorie.precio) {
+                            accesorie.desbloqueado = true
+                            setMoney(money-accesorie.precio)
+                            onDismiss()
+
+                        }
+
+                        else {
+                            noMoney = true
+                        }}, modifier = Modifier.weight(1f)) {
+                            Text(text = "comprar",
+                                fontFamily = montserratFontFamily,
+                                color = Color.Black)
+                        }
+                    }
+                    else {
+                        Text(text = "DESBLOQUEADO",
+                            fontFamily = montserratFontFamily,
+                            color = Color.Blue,
+                            modifier = Modifier
+                                .padding(top = maxHeight*0.02f))
+                    }
+
+                }
+            }
+
+        },
+        containerColor = Color(0xFFCBE2FE),
+        modifier = Modifier
+            .height(maxHeight * 0.5f)
+            .padding(8.dp)
+    )
+}
+
+@Composable
+// editmenu es el menú que se despliega al darle al botón de editar
+fun BackgroupsMenu(onClick: (Int) -> Unit,
+                   bgColor: Color = Color.Red,
+                   imagenes: List<Painter>,
+                   maxHeight: Dp,
+                   backgrounds: List<Sombrero>,
+                   fishbowlacc: Int,
+                   setFishBowlAcc: (Int) -> Unit,
+                   modifier: Modifier = Modifier,
+                   money: Int,
+                   setMoney: (Int) -> Unit) {
+    var showDialog by remember { mutableStateOf(false)}
+    val setInfoDialog: (Boolean) -> Unit = {newinfoDialog -> showDialog = newinfoDialog}
+    var prevfishbowlass by remember { mutableIntStateOf(0) }
+    var position by remember { mutableIntStateOf(fishbowlacc)}
+    Column() {
+        IconButton(onClick =
+        {onClick(2)
+            if (backgrounds[fishbowlacc].desbloqueado) {
+                setFishBowlAcc(position)
+            }
+            else if (backgrounds[prevfishbowlass].desbloqueado) {
+                setFishBowlAcc(prevfishbowlass)
+            }
+            else {
+                setFishBowlAcc(0)
+            }
+                             },
+            modifier = Modifier
+            //.height((maxHeight * 0.08f))
+            // .align(Alignment.Top)
+        )
+        {
+            Image(painter = imagenes[12],
+                contentDescription = "icono de flecha hacia atrás",
+                contentScale = ContentScale.Fit,
+                modifier = Modifier
+                    .fillMaxSize()
+                    //.align(Alignment.TopStart)
+                    .padding(maxHeight * 0.009f)
+            )
+        }
+        var selectedIndex by remember { mutableIntStateOf(fishbowlacc) }
+        LazyRow(//horizontalArrangement = Arrangement.spacedBy(8.dp),
+            modifier = Modifier.fillMaxHeight()) {
+            item { Spacer(modifier = Modifier.padding(10.dp)) }
+            items(backgrounds.size) { pos ->
+                // Spacer(modifier = Modifier.padding(10.dp))
+                IconButton(onClick = {
+                    showDialog = true
+                    selectedIndex = pos
+                    position = pos
+                    prevfishbowlass = fishbowlacc
+                    setFishBowlAcc(pos)
+                                     },
+                    modifier = Modifier
+                        .height((maxHeight * 0.16f))
+                        .width(maxHeight * 0.16f)
+                        .background(Color(0xFFCBE2FE), shape = RoundedCornerShape(20.dp))
+                        .border(
+                            width = if (selectedIndex == pos) 4.dp else 0.dp,
+                            color = if (selectedIndex == pos) Color.Green else Color.Transparent,
+                            shape = RoundedCornerShape(20.dp)
+                        )
+
+                )
+                {
+
+                    Image(painter = backgrounds[pos].imagen,
+                        contentDescription = "icono sombrero",
+                        contentScale = ContentScale.Fit,
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(maxHeight * 0.03f)
+
+                    )
+                    Row(modifier = Modifier.offset(y = maxHeight*0.065f)) {
+                        Text(
+                            text = if (!backgrounds[pos].desbloqueado) "$" + backgrounds[pos].precio else "lo tienes",
+                            fontFamily = montserratFontFamily,
+                            color = Color.Black
+                        )
+                    }
+
+                }
+                Spacer(modifier.padding(maxHeight*0.012f))
+            }
+
+        }
+    }
+        if (showDialog){
+            ItemDetails(onDismiss = {showDialog = false},
+                imagenes = imagenes,
+                maxHeight = maxHeight,
+                accesorie = backgrounds[position],
+                money = money,
+                setMoney = setMoney)
+        }
+
+
+}
+
 
 
 @Composable
-fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnimated: List<Painter>, hatOptions: List<Painter>) {
+fun Greeting1(imagenes: List<Painter>,
+              fishbowlanimation: List<Painter>,
+              ajoAnimated: List<Painter>,
+              hatOptions: List<Painter>,
+              backgrounds: List<Sombrero>,
+              hats: List<Sombrero> = hats()) {
 
     // -------------DECLARACIÓN DE VARIABLES --------------------------
     // variable que se usa para el cambio de menus
-    var boxVisible by remember { mutableIntStateOf(3) }
+    var boxVisible by remember { mutableIntStateOf(1) }
     // variable para mostrar o no el popup
     var showDialog by remember { mutableStateOf(false)}
     // variable para mostrar o no el popup1
@@ -125,6 +332,9 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
     var duchasTotales by remember { mutableIntStateOf(0) }
     var duchasMen5 by remember { mutableIntStateOf(0) }
     var litrosAhorrados by remember { mutableFloatStateOf(0.0f) }
+    //variable que indica que accesorio de la pecera está seleccionado
+    var fishbowlacc by remember { mutableIntStateOf(0) }
+    var hatAcc by remember { mutableIntStateOf(0) }
 
 
     // -----------------DECLARACIÓN DE VALORES PARA MODIFICAR LAS VARIABLES --------------
@@ -152,6 +362,9 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
     val setduchasMen5: (Int) -> Unit = {masduchasMen5 -> duchasMen5 = masduchasMen5}
     // actualiza la cantidad de litros ahorrados
     val setLitrosAhorrados: (Float) -> Unit = {masLitrosAhorrados -> litrosAhorrados = masLitrosAhorrados}
+    // valor para cambiar fishbowlacc
+    val setFishBowlAcc: (Int) -> Unit = {newFishBowlAcc -> fishbowlacc = newFishBowlAcc}
+    val setHatAcc: (Int) -> Unit = {newHat -> hatAcc = newHat}
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -178,8 +391,8 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
             imagenes = imagenes,
             money = money,
             racha = racha)
-
-        Image(painter = fishbowlanimation[fishbowlIndex],
+        //Image(painter = fishbowlanimation[fishbowlIndex],
+        Image(painter = backgrounds[fishbowlacc].frames[fishbowlIndex],
             contentDescription = "imagen de la pecera",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -188,7 +401,7 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
                 .align(Alignment.Center)
                 .offset(y = maxHeight * 0.07f)
         )
-        Image(painter = ajoAnimated[ajoIndex],
+        Image(painter = hats[hatAcc].frames[ajoIndex],
             contentDescription = "imagen del ajolote",
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -264,12 +477,16 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
                     .fillMaxWidth()
                     .align(Alignment.BottomEnd)
                     //.height(maxHeight * 0.13f)
-                    .height(maxHeight * 0.20f)
+                    .height(maxHeight * 0.24f)
             ) {
                 BackgroupsMenu(imagenes = imagenes,
                     maxHeight = maxHeight,
                     onClick = onClick,
-                    backgroundsOptions = backgroundsOptions()
+                    backgrounds = backgrounds,
+                    fishbowlacc = fishbowlacc,
+                    setFishBowlAcc = setFishBowlAcc,
+                    money = money,
+                    setMoney = setMoney
                 )
             }
         }
@@ -279,13 +496,22 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
                     .fillMaxWidth()
                     .align(Alignment.BottomEnd)
                     //.height(maxHeight * 0.13f)
-                    .height(maxHeight * 0.20f)
+                    .height(maxHeight * 0.24f)
             ) {
-                HatMenu(imagenes = imagenes,
+                BackgroupsMenu(imagenes = imagenes,
                     maxHeight = maxHeight,
                     onClick = onClick,
-                    hatOptions = hatOptions
+                    backgrounds = hats,
+                    fishbowlacc = hatAcc,
+                    setFishBowlAcc = setHatAcc,
+                    money = money,
+                    setMoney = setMoney
                 )
+//                HatMenu(imagenes = imagenes,
+//                    maxHeight = maxHeight,
+//                    onClick = onClick,
+//                    hatOptions = hatOptions
+//                )
             }
         }
         else {
@@ -315,8 +541,8 @@ fun Greeting1(imagenes: List<Painter>, fishbowlanimation: List<Painter>, ajoAnim
     }
     LaunchedEffect(isRunningFishbowl) {
         while (isRunningFishbowl) {
-            delay(40)
-            fishbowlIndex = (fishbowlIndex + 1) % 38
+            delay(85)
+            fishbowlIndex = (fishbowlIndex + 1) % 44
         }
     }
 
@@ -336,7 +562,8 @@ fun GreetingPreview1() {
         Greeting1(imagenes = images(),
             fishbowlanimation = fisbowlanimated(),
             ajoAnimated = ajoAnimated(),
-            hatOptions = hatOptions()
+            hatOptions = hatOptions(),
+            backgrounds = backgrounds()
         )
     }
 }

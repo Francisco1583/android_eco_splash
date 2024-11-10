@@ -24,61 +24,6 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 
-@Composable
-// editmenu es el menú que se despliega al darle al botón de editar
-fun BackgroupsMenu(onClick: (Int) -> Unit,
-                   bgColor: Color = Color.Red,
-                   imagenes: List<Painter>,
-                   maxHeight: Dp,
-                   backgroundsOptions: List<Painter>,
-                   modifier: Modifier = Modifier) {
-    Row(modifier = Modifier.padding(top = maxHeight*0.02f)) {
-        IconButton(onClick = {onClick(2) },
-            modifier = Modifier
-            //.height((maxHeight * 0.08f))
-            // .align(Alignment.Top)
-        )
-        {
-            Image(painter = imagenes[12],
-                contentDescription = "icono de flecha hacia atrás",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxSize()
-                    //.align(Alignment.TopStart)
-                    .padding(maxHeight * 0.009f)
-            )
-        }
-        LazyRow(//horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxHeight()) {
-            item {
-                // Spacer(modifier.padding(maxHeight*0.024f))
-
-            }
-            items(backgroundsOptions.size) { pos ->
-                // Spacer(modifier = Modifier.padding(10.dp))
-                IconButton(onClick = {onClick(3)},
-                    modifier = Modifier
-                        .height((maxHeight * 0.16f))
-                        .width(maxHeight*0.16f)
-                        .background(Color(0xFFCBE2FE), shape = RoundedCornerShape(40.dp))
-
-                )
-                {
-
-                    Image(painter = backgroundsOptions[pos],
-                        contentDescription = "icono sombrero",
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(maxHeight * 0.02f)
-
-                    )
-                }
-                Spacer(modifier.padding(maxHeight*0.012f))
-            }
-        }
-    }
-}
 
 @Composable
 // editmenu es el menú que se despliega al darle al botón de editar
