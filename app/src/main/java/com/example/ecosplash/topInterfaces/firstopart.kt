@@ -20,7 +20,11 @@ import androidx.compose.ui.unit.Dp
 
 @Composable
 //esta función son los botones de logros e información
-fun Firstopart (setInfoDialog: (Boolean) -> Unit, imagenes: List<Painter>, maxWidth: Dp, maxHeight: Dp, modifier: Modifier = Modifier) {
+fun Firstopart (setInfoDialog: (Boolean) -> Unit,
+                setAchivmentDialig: (Boolean) -> Unit,
+                imagenes: List<Painter>,
+                maxWidth: Dp, maxHeight: Dp,
+                modifier: Modifier = Modifier) {
     Surface(color = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()
@@ -35,7 +39,7 @@ fun Firstopart (setInfoDialog: (Boolean) -> Unit, imagenes: List<Painter>, maxWi
             horizontalArrangement = Arrangement.SpaceBetween
 
         ) {
-            IconButton(onClick = { /*TODO*/ },
+            IconButton(onClick = { setAchivmentDialig(true)},
                 modifier = Modifier
                     .height((maxHeight * 0.07f))
 

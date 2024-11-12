@@ -36,7 +36,8 @@ fun Secondtopart(imagenes: List<Painter>,
                  maxWidth: Dp,
                  maxHeight: Dp,
                  modifier: Modifier = Modifier,
-                 money: Int, racha : Int
+                 money: Int, racha : Int,
+                 level: Int
 ) {
     Surface(color = Color.Transparent,
         modifier = Modifier
@@ -49,7 +50,7 @@ fun Secondtopart(imagenes: List<Painter>,
         .fillMaxWidth(),
         horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Nivel: 500",
+        Text(text = "Nivel: $level",
             modifier = Modifier,
             //.align(Alignment.TopCenter)
             // .offset(y = maxHeight * 0.08f),

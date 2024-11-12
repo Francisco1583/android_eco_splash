@@ -5,6 +5,10 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
 import com.example.ecosplash.classes.Sombrero
 
+//iglu 20
+// playa 25
+//piña 35
+//moyai 100
 @Composable
     fun backgrounds(backgroundImages: List<Painter> = backgroundsOptions()): List<Sombrero> {
     var imagenes = listOf(
@@ -16,7 +20,10 @@ import com.example.ecosplash.classes.Sombrero
     )
     return imagenes
 }
-
+//flor 15
+//mexicano 20
+// lentes 45
+// vikingo 50
 @Composable
 fun hats(hatImages: List<Painter> = hatOptions()): List<Sombrero> {
     var imagenes = listOf(

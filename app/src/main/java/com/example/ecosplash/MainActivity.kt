@@ -1,4 +1,5 @@
 package com.example.ecosplash
+import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -42,6 +43,7 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.res.fontResource
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
@@ -72,6 +74,9 @@ import java.util.concurrent.TimeUnit
 
 val montserratFontFamily = FontFamily(
     Font(R.font.montserrat, FontWeight.Normal)
+)
+val tekoFontFamily = FontFamily(
+    Font(R.font.teko, FontWeight.Normal)
 )
 
 class MainActivity1 : ComponentActivity() {
@@ -110,18 +115,21 @@ fun ItemDetails(onDismiss:()-> Unit,
         confirmButton = { /*TODO*/ },
         text = {
             Column {
-                IconButton(onClick = onDismiss,
-                    modifier = Modifier
-                        .height((maxHeight * 0.07f))
-                ) {
-                    Image(
-                        painter = imagenes[13],
-                        contentDescription = "icono de X",
-                        contentScale = ContentScale.FillWidth,
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    IconButton(onClick = onDismiss,
                         modifier = Modifier
-                            .fillMaxSize()
-                    )
+                            .height((maxHeight * 0.07f))
+                    ) {
+                        Image(
+                            painter = imagenes[13],
+                            contentDescription = "icono de X",
+                            contentScale = ContentScale.FillWidth,
+                            modifier = Modifier
+                                .fillMaxSize()
+                        )
+                    }
                 }
+
                 Image(painter = accesorie.imagen,
                     contentDescription = "icono del accesorio",
                     contentScale = ContentScale.Fit,
@@ -201,6 +209,7 @@ fun BackgroupsMenu(onClick: (Int) -> Unit,
                    modifier: Modifier = Modifier,
                    money: Int,
                    setMoney: (Int) -> Unit) {
+    var clicks by remember { mutableIntStateOf(0) }
     var showDialog by remember { mutableStateOf(false)}
     val setInfoDialog: (Boolean) -> Unit = {newinfoDialog -> showDialog = newinfoDialog}
     var prevfishbowlass by remember { mutableIntStateOf(0) }
@@ -239,7 +248,15 @@ fun BackgroupsMenu(onClick: (Int) -> Unit,
             items(backgrounds.size) { pos ->
                 // Spacer(modifier = Modifier.padding(10.dp))
                 IconButton(onClick = {
-                    showDialog = true
+                    if (selectedIndex != pos) {
+                        clicks = 0
+                        clicks += 1
+                    }
+                    else {
+                        clicks += 1
+                    }
+
+                    if (clicks == 2) {showDialog = true}
                     selectedIndex = pos
                     position = pos
                     prevfishbowlass = fishbowlacc
@@ -281,6 +298,7 @@ fun BackgroupsMenu(onClick: (Int) -> Unit,
         }
     }
         if (showDialog){
+            clicks = 0
             ItemDetails(onDismiss = {showDialog = false},
                 imagenes = imagenes,
                 maxHeight = maxHeight,
@@ -307,10 +325,18 @@ fun Greeting1(imagenes: List<Painter>,
     var boxVisible by remember { mutableIntStateOf(1) }
     // variable para mostrar o no el popup
     var showDialog by remember { mutableStateOf(false)}
+    // mostrar dialogo de logros
+    var showAchivments by remember { mutableStateOf(false)}
     // variable para mostrar o no el popup1
     var showDialogStats by remember { mutableStateOf(false)}
     // variable que define el progreso de la barra de nivel
-    var progress by remember { mutableFloatStateOf(0.5f) }
+    var progress by remember { mutableFloatStateOf(0.0f) }
+    // nivel actual
+    var level by remember {mutableIntStateOf(0)}
+    // experiencia
+    var experience by remember { mutableIntStateOf(0)}
+    // experiencia total para el siguiente nivel
+    var totalExperience by remember { mutableIntStateOf(400)}
     //variable que almacena la cantidad de monedas
     var money by remember {mutableIntStateOf(0) }
     // variable que almacena la cantidad de las rachas
@@ -350,6 +376,8 @@ fun Greeting1(imagenes: List<Painter>,
     val setInfoDialog: (Boolean) -> Unit = {newinfoDialog -> showDialog = newinfoDialog}
     //valor para modificar el booleano del popup de las estadisticas
     val setStatsDialog: (Boolean) -> Unit = {newinfoDialog -> showDialogStats = newinfoDialog}
+    //para modificar el booleano del popup de las logros
+    val setAchivmentDialig: (Boolean) -> Unit = {newAchivmentD -> showAchivments = newAchivmentD}
     //valor para modificar lo del dinero
     val setMoney: (Int) -> Unit = {moreMoney -> money = moreMoney}
     // valor para modificar lo de la racha
@@ -365,6 +393,12 @@ fun Greeting1(imagenes: List<Painter>,
     // valor para cambiar fishbowlacc
     val setFishBowlAcc: (Int) -> Unit = {newFishBowlAcc -> fishbowlacc = newFishBowlAcc}
     val setHatAcc: (Int) -> Unit = {newHat -> hatAcc = newHat}
+    // valor para cambiar la variable de experiencia
+    val setExperience: (Int) -> Unit = {newExperience -> experience = newExperience}
+    // valor para cambiar el nivel
+    val setLevel: (Int) -> Unit = {newLevel -> level = newLevel}
+    // valor para cambiar la experiencia necesaria para el siguiente nivel
+    val setTotalExperience: (Int) -> Unit = {newTotal -> totalExperience = newTotal}
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -384,13 +418,16 @@ fun Greeting1(imagenes: List<Painter>,
         Firstopart(maxWidth = maxWidth,
             maxHeight = maxHeight,
             imagenes = imagenes,
-            setInfoDialog = setInfoDialog)
+            setInfoDialog = setInfoDialog,
+            setAchivmentDialig = setAchivmentDialig
+            )
         Secondtopart(progress = progress,
             maxWidth = maxWidth,
             maxHeight = maxHeight,
             imagenes = imagenes,
             money = money,
-            racha = racha)
+            racha = racha,
+            level = level)
         //Image(painter = fishbowlanimation[fishbowlIndex],
         Image(painter = backgrounds[fishbowlacc].frames[fishbowlIndex],
             contentDescription = "imagen de la pecera",
@@ -423,7 +460,7 @@ fun Greeting1(imagenes: List<Painter>,
                     .height(maxHeight * 0.1f)
 
             )
-            Text(text = formatTimer(timeMi = time), style = TextStyle(fontSize = 40.sp), fontFamily = montserratFontFamily, modifier = Modifier
+            Text(text = formatTimer(timeMi = time), style = TextStyle(fontSize = 40.sp), fontFamily =tekoFontFamily, modifier = Modifier
                 .padding(9.dp)
                 .align(Alignment.Center)
                 .offset(y = maxHeight * 0.33f),
@@ -468,7 +505,14 @@ fun Greeting1(imagenes: List<Painter>,
                     setduchasMen5 = setduchasMen5,
                     duchasTotales = duchasTotales,
                     duchasMen5 = duchasMen5,
-                    litrosAhorrados = litrosAhorrados)
+                    litrosAhorrados = litrosAhorrados,
+                    level = level,
+                    setLevel = setLevel,
+                    experience = experience,
+                    setExperience = setExperience,
+                    totalExperience = totalExperience,
+                    setTotalExperience = setTotalExperience)
+
             }
         }
         else if(boxVisible == 3) {
@@ -527,6 +571,11 @@ fun Greeting1(imagenes: List<Painter>,
                 duchasTotales = duchasTotales,
                 duchasMen5 = duchasMen5,
                 litrosAhorrados = litrosAhorrados)
+        }
+        if (showAchivments) {
+            MoreInfo(onDismiss = {showAchivments = false},
+                imagenes = imagenes,
+                maxHeight = maxHeight)
         }
     }
     LaunchedEffect(isRunning) {

@@ -33,6 +33,12 @@ fun MainMenu(onClick: (Int) -> Unit,
              racha: Int,
              progress: Float,
              setProgress: (Float) -> Unit,
+             level: Int,
+             setLevel: (Int) -> Unit,
+             experience: Int,
+             setExperience: (Int) -> Unit,
+             totalExperience: Int,
+             setTotalExperience: (Int) -> Unit,
              setStatsDialog: (Boolean) -> Unit,
              showDialogStats: Boolean,
              duchasMen5: Int,
@@ -68,7 +74,8 @@ fun MainMenu(onClick: (Int) -> Unit,
             if (isCurrentlyRunning) {
                 isRunning(false)
                 setduchasTotales(duchasTotales + 1)
-                setLitrosAhorrados(((currentTime.toInt())/1000).toFloat() * 0.2f)
+                setLitrosAhorrados((((currentTime.toInt())/1000).toFloat() * 0.2f) + litrosAhorrados)
+                val actLitrosahorrados = (((currentTime.toInt())/1000).toFloat() * 0.2f) + litrosAhorrados
                 if (currentTime.toInt() >= 900000 ) {
                     setduchasMen5(duchasMen5 + 1)
                     setMoney(money + 10)
@@ -76,6 +83,9 @@ fun MainMenu(onClick: (Int) -> Unit,
 
                 }
                 time(1200000)
+                
+
+
 
             }
             else {
