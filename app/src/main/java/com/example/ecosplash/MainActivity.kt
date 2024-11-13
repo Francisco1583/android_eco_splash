@@ -1,7 +1,6 @@
 package com.example.ecosplash
 
 import android.app.Application
-import android.graphics.Paint
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -9,25 +8,12 @@ import androidx.activity.enableEdgeToEdge
 import androidx.activity.viewModels
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.layout.Arrangement
-import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.BoxWithConstraints
-import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.Row
-import androidx.compose.foundation.layout.Spacer
-import androidx.compose.foundation.layout.fillMaxHeight
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
-import androidx.compose.foundation.layout.width
-import androidx.compose.foundation.lazy.LazyRow
-import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material3.Button
-import androidx.compose.material3.IconButton
-import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -42,26 +28,18 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.graphics.BlendMode
 import androidx.compose.ui.graphics.Color
-import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
-import androidx.compose.ui.res.fontResource
-import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
 import androidx.compose.ui.text.font.FontWeight
-import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.tooling.preview.Preview
-import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.unit.max
 import androidx.compose.ui.unit.sp
 import com.example.ecosplash.classes.Sombrero
 import com.example.ecosplash.menus.EditMenu
-import com.example.ecosplash.menus.HatMenu
 import com.example.ecosplash.menus.MainMenu
 import com.example.ecosplash.model.CoinManager
 import com.example.ecosplash.model.InventoryManager
@@ -72,9 +50,9 @@ import com.example.ecosplash.popups.Stats
 import com.example.ecosplash.topInterfaces.Firstopart
 import com.example.ecosplash.topInterfaces.Secondtopart
 import com.example.ecosplash.ui.theme.EcosplashTheme
+import com.example.ecosplash.view.BackgroupsMenu
 import kotlinx.coroutines.delay
 import java.util.Locale
-import java.util.concurrent.ArrayBlockingQueue
 import java.util.concurrent.TimeUnit
 
 val montserratFontFamily = FontFamily(
@@ -103,9 +81,6 @@ class MainActivity1 : ComponentActivity() {
                         strikeManager = strikeManager,
                         inventoryManager = inventoryManager,
                         imagenes = images(),
-                        fishbowlanimation = fisbowlanimated(),
-                        ajoAnimated = ajoAnimated(),
-                        hatOptions = hatOptions(),
                         backgrounds = backgrounds()
                     )
                 }
@@ -124,267 +99,12 @@ fun formatTimer(timeMi: Long): String {
 }
 
 @Composable
-fun ItemDetails(
-    coinManager: CoinManager,
-    inventoryManager: InventoryManager,
-    onDismiss: () -> Unit,
-    imagenes: List<Painter>,
-    maxHeight: Dp,
-    accesorie: Sombrero,
-    index: Int,
-    switchMode: Int,
-    setMoney: (Int) -> Unit
-) {
-    var noMoney by remember { mutableStateOf(false) }
-    val coins by coinManager.coins.observeAsState(initial = 0)
-    val tanks by inventoryManager.tanks.observeAsState()
-    val skins by inventoryManager.skins.observeAsState()
-
-    androidx.compose.material3.AlertDialog(
-        onDismissRequest = onDismiss,
-        confirmButton = { /*TODO*/ },
-        text = {
-            Column {
-                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
-                    IconButton(
-                        onClick = onDismiss,
-                        modifier = Modifier
-                            .height((maxHeight * 0.07f))
-                    ) {
-                        Image(
-                            painter = imagenes[13],
-                            contentDescription = "icono de X",
-                            contentScale = ContentScale.FillWidth,
-                            modifier = Modifier
-                                .fillMaxSize()
-                        )
-                    }
-                }
-
-                Image(
-                    painter = accesorie.imagen,
-                    contentDescription = "icono del accesorio",
-                    contentScale = ContentScale.Fit,
-                    modifier = Modifier
-                        .height(maxHeight * 0.1f)
-                        .align(Alignment.CenterHorizontally)
-
-                )
-                Text(
-                    text = accesorie.descripcion,
-                    modifier = Modifier
-                        .padding(top = maxHeight * 0.01f),
-                    textAlign = TextAlign.Center,
-                    fontFamily = montserratFontFamily,
-                    color = Color.Black
-                )
-                if (noMoney) {
-                    Text(
-                        text = "DINERO INSUFICIENTE",
-                        modifier = Modifier
-                            .padding(top = maxHeight * 0.01f)
-                            .align(Alignment.CenterHorizontally),
-                        textAlign = TextAlign.Center,
-                        fontFamily = montserratFontFamily,
-                        color = Color.Red
-                    )
-                }
-
-
-                Row(
-                    horizontalArrangement = Arrangement.Center,
-                    verticalAlignment = Alignment.CenterVertically,
-                    modifier = Modifier
-                        .fillMaxSize()
-                        .padding(top = maxHeight * 0.01f)
-                ) {
-                    if (!inventoryManager.getItemObtained(index, switchMode)) {
-                        Button(onClick = {
-                            if (coins >= accesorie.precio) {
-                                inventoryManager.unlockItem(index, switchMode)
-                                coinManager.substractCoins(accesorie.precio)
-                                onDismiss()
-
-                            } else {
-                                noMoney = true
-                            }
-                        }, modifier = Modifier.weight(1f)) {
-                            Text(
-                                text = "comprar",
-                                fontFamily = montserratFontFamily,
-                                color = Color.Black
-                            )
-                        }
-                    } else {
-                        Text(
-                            text = "DESBLOQUEADO",
-                            fontFamily = montserratFontFamily,
-                            color = Color.Blue,
-                            modifier = Modifier
-                                .padding(top = maxHeight * 0.02f)
-                        )
-                    }
-
-                }
-            }
-
-        },
-        containerColor = Color(0xFFCBE2FE),
-        modifier = Modifier
-            .height(maxHeight * 0.5f)
-            .padding(8.dp)
-    )
-}
-
-@Composable
-// editmenu es el menú que se despliega al darle al botón de editar
-fun BackgroupsMenu(
-    userData: UserData,
-    coinManager: CoinManager,
-    inventoryManager: InventoryManager,
-    onClick: (Int) -> Unit,
-    bgColor: Color = Color.Red,
-    imagenes: List<Painter>,
-    maxHeight: Dp,
-    backgrounds: List<Sombrero>,
-    fishbowlacc: Int,
-    setFishBowlAcc: (Int) -> Unit,
-    modifier: Modifier = Modifier,
-    money: Int,
-    switchMode: Int,
-    setMoney: (Int) -> Unit,
-    currentImage: Int
-) {
-
-    val coins by coinManager.coins.observeAsState()
-    val tanks by inventoryManager.tanks.observeAsState()
-    val skins by inventoryManager.skins.observeAsState()
-
-    var clicks by remember { mutableIntStateOf(0) }
-    var showDialog by remember { mutableStateOf(false) }
-    val setInfoDialog: (Boolean) -> Unit = { newinfoDialog -> showDialog = newinfoDialog }
-    var prevfishbowlass by remember { mutableIntStateOf(0) }
-    var position by remember { mutableIntStateOf(currentImage) }
-    Column() {
-        IconButton(
-            onClick =
-            {
-                onClick(2)
-                if (inventoryManager.getItemObtained(currentImage, switchMode)) {
-                    userData.setCurrentImage(position, switchMode)
-                } else if (!inventoryManager.getItemObtained(prevfishbowlass, switchMode)) {
-                    userData.setCurrentImage(prevfishbowlass, switchMode)
-                } else {
-                    userData.setCurrentImage(0, switchMode)
-                }
-            },
-            modifier = Modifier
-            //.height((maxHeight * 0.08f))
-            // .align(Alignment.Top)
-        )
-        {
-            Image(
-                painter = imagenes[12],
-                contentDescription = "icono de flecha hacia atrás",
-                contentScale = ContentScale.Fit,
-                modifier = Modifier
-                    .fillMaxSize()
-                    //.align(Alignment.TopStart)
-                    .padding(maxHeight * 0.009f)
-            )
-        }
-        var selectedIndex by remember { mutableIntStateOf(currentImage) }
-        LazyRow(//horizontalArrangement = Arrangement.spacedBy(8.dp),
-            modifier = Modifier.fillMaxHeight()
-        ) {
-            item { Spacer(modifier = Modifier.padding(10.dp)) }
-            items(backgrounds.size) { pos ->
-                // Spacer(modifier = Modifier.padding(10.dp))
-                IconButton(
-                    onClick = {
-                        if (selectedIndex != pos) {
-                            clicks = 0
-                            clicks += 1
-                        } else {
-                            clicks += 1
-                        }
-
-                        if (clicks == 2) {
-                            showDialog = true
-                        }
-                        selectedIndex = pos
-                        position = pos
-                        prevfishbowlass = currentImage
-                        userData.setCurrentImage(pos, switchMode)
-                    },
-                    modifier = Modifier
-                        .height((maxHeight * 0.16f))
-                        .width(maxHeight * 0.16f)
-                        .background(Color(0xFFCBE2FE), shape = RoundedCornerShape(20.dp))
-                        .border(
-                            width = if (selectedIndex == pos) 4.dp else 0.dp,
-                            color = if (selectedIndex == pos) Color.Green else Color.Transparent,
-                            shape = RoundedCornerShape(20.dp)
-                        )
-
-                )
-                {
-
-                    Image(
-                        painter = backgrounds[pos].imagen,
-                        contentDescription = "icono sombrero",
-                        contentScale = ContentScale.Fit,
-                        modifier = Modifier
-                            .fillMaxSize()
-                            .padding(maxHeight * 0.03f)
-
-                    )
-                    Row(modifier = Modifier.offset(y = maxHeight * 0.065f)) {
-                        if (!inventoryManager.getItemObtained(pos, switchMode)) {
-                            Text(
-                                text = "$" + backgrounds[pos].precio,
-                                fontFamily = montserratFontFamily,
-                                color = Color.Black
-                            )
-                        }
-
-                    }
-
-                }
-                Spacer(modifier.padding(maxHeight * 0.012f))
-            }
-
-        }
-    }
-    if (showDialog) {
-        clicks = 0
-        ItemDetails(
-            coinManager = coinManager,
-            inventoryManager = inventoryManager,
-            onDismiss = { showDialog = false },
-            imagenes = imagenes,
-            maxHeight = maxHeight,
-            accesorie = backgrounds[position],
-            index = position,
-            setMoney = setMoney,
-            switchMode = switchMode,
-        )
-    }
-
-
-}
-
-
-@Composable
 fun Greeting1(
     userData: UserData,
     coinManager: CoinManager,
     strikeManager: StrikeManager,
     inventoryManager: InventoryManager,
     imagenes: List<Painter>,
-    fishbowlanimation: List<Painter>,
-    ajoAnimated: List<Painter>,
-    hatOptions: List<Painter>,
     backgrounds: List<Sombrero>,
     hats: List<Sombrero> = hats()
 ) {
@@ -415,22 +135,16 @@ fun Greeting1(
     //variable que sirve para identificar si el temporizadore está corriendo o no
     var isRunning by remember { mutableStateOf(false) }
     //variable para animación de pecera
-    var isRunningFishbowl by remember { mutableStateOf(true) }
-    var isRunningAjoAnimated by remember { mutableStateOf(true) }
+    val isRunningFishbowl by remember { mutableStateOf(true) }
+    val isRunningAjoAnimated by remember { mutableStateOf(true) }
     // variable que cambia de acuerdo al frame de la animación de la pecera
     var fishbowlIndex by remember { mutableIntStateOf(0) }
     //variable que cambia de acuerdo al frame de la animación del ajolote
     var ajoIndex by remember { mutableIntStateOf(0) }
-    // variable que probablemente la vaya a eliminar
-    var startTime by remember { mutableLongStateOf(0L) }
     // variable que almacenará las duchas totales
     var duchasTotales by remember { mutableIntStateOf(0) }
     var duchasMen5 by remember { mutableIntStateOf(0) }
     var litrosAhorrados by remember { mutableFloatStateOf(0.0f) }
-    //variable que indica que accesorio de la pecera está seleccionado
-    var fishbowlacc by remember { mutableIntStateOf(0) }
-    var hatAcc by remember { mutableIntStateOf(0) }
-
 
     // -----------------DECLARACIÓN DE VALORES PARA MODIFICAR LAS VARIABLES --------------
     // con esta variable es posible cambiar el valor de boxvisible
@@ -439,8 +153,6 @@ fun Greeting1(
     val setTime: (Long) -> Unit = { newTime -> time = newTime }
     // con este valor es posible modificar isRunning
     val setIsRunning: (Boolean) -> Unit = { running -> isRunning = running }
-    // se modifica starTime, probablemente ya no se use
-    val setStartTime: (Long) -> Unit = { newStartTime -> startTime = newStartTime }
     // valor para cambiar la variable booleana con la que se decide si mostrar o no el popup de información
     val setInfoDialog: (Boolean) -> Unit = { newinfoDialog -> showDialog = newinfoDialog }
     //valor para modificar el booleano del popup de las estadisticas
@@ -460,9 +172,6 @@ fun Greeting1(
     // actualiza la cantidad de litros ahorrados
     val setLitrosAhorrados: (Float) -> Unit =
         { masLitrosAhorrados -> litrosAhorrados = masLitrosAhorrados }
-    // valor para cambiar fishbowlacc
-    val setFishBowlAcc: (Int) -> Unit = { newFishBowlAcc -> fishbowlacc = newFishBowlAcc }
-    val setHatAcc: (Int) -> Unit = { newHat -> hatAcc = newHat }
     // valor para cambiar la variable de experiencia
     val setExperience: (Int) -> Unit = { newExperience -> experience = newExperience }
     // valor para cambiar el nivel
@@ -622,10 +331,6 @@ fun Greeting1(
                     maxHeight = maxHeight,
                     onClick = onClick,
                     backgrounds = backgrounds,
-                    fishbowlacc = fishbowlacc,
-                    setFishBowlAcc = setFishBowlAcc,
-                    money = money,
-                    setMoney = setMoney,
                     switchMode = 0,
                     currentImage = currentTank
                 )
@@ -647,18 +352,9 @@ fun Greeting1(
                     maxHeight = maxHeight,
                     onClick = onClick,
                     backgrounds = hats,
-                    fishbowlacc = hatAcc,
-                    setFishBowlAcc = setHatAcc,
-                    money = money,
-                    setMoney = setMoney,
                     switchMode = 1,
                     currentImage = currentSkin
                 )
-//                HatMenu(imagenes = imagenes,
-//                    maxHeight = maxHeight,
-//                    onClick = onClick,
-//                    hatOptions = hatOptions
-//                )
             }
         } else {
             boxVisible = 1
@@ -721,9 +417,6 @@ fun GreetingPreview1() {
             strikeManager = StrikeManager(Application()),
             inventoryManager = InventoryManager(Application()),
             imagenes = images(),
-            fishbowlanimation = fisbowlanimated(),
-            ajoAnimated = ajoAnimated(),
-            hatOptions = hatOptions(),
             backgrounds = backgrounds()
         )
     }
