@@ -17,6 +17,8 @@ import androidx.compose.material3.LinearProgressIndicator
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
@@ -27,11 +29,12 @@ import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ecosplash.model.CoinManager
 import com.example.ecosplash.montserratFontFamily
 
 @Composable
 // esta función es un surface que contiene el nivel, la barra de nivel, la racha y el dinero
-fun Secondtopart(imagenes: List<Painter>,
+fun Secondtopart(coinManager: CoinManager, imagenes: List<Painter>,
                  progress: Float,
                  maxWidth: Dp,
                  maxHeight: Dp,
@@ -39,6 +42,7 @@ fun Secondtopart(imagenes: List<Painter>,
                  money: Int, racha : Int,
                  level: Int
 ) {
+    val coins by coinManager.coins.observeAsState(initial = 0)
     Surface(color = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()
@@ -106,7 +110,7 @@ fun Secondtopart(imagenes: List<Painter>,
                     Box(modifier = Modifier
                         .fillMaxHeight()
                         .padding((maxHeight * 0.01f))) {
-                        Text(text = "$money",
+                        Text(text = "$coins",
                             modifier = Modifier
                                 .align(Alignment.Center), fontFamily = montserratFontFamily,
                             color = Color.Black
