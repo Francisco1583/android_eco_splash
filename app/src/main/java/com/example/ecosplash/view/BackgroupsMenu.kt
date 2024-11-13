@@ -60,11 +60,12 @@ fun BackgroupsMenu(
                 onClick(2)
                 if (inventoryManager.getItemObtained(currentImage, switchMode)) {
                     userData.setCurrentImage(position, switchMode)
-                } else if (!inventoryManager.getItemObtained(prevfishbowlass, switchMode)) {
+                } else if (inventoryManager.getItemObtained(prevfishbowlass, switchMode)) {
                     userData.setCurrentImage(prevfishbowlass, switchMode)
                 } else {
                     userData.setCurrentImage(0, switchMode)
                 }
+
             },
             modifier = Modifier
             //.height((maxHeight * 0.08f))
@@ -93,6 +94,7 @@ fun BackgroupsMenu(
                         if (selectedIndex != pos) {
                             clicks = 0
                             clicks += 1
+                            prevfishbowlass = currentImage
                         } else {
                             clicks += 1
                         }
@@ -102,7 +104,7 @@ fun BackgroupsMenu(
                         }
                         selectedIndex = pos
                         position = pos
-                        prevfishbowlass = currentImage
+
                         userData.setCurrentImage(pos, switchMode)
                     },
                     modifier = Modifier

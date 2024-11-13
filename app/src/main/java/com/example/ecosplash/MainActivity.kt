@@ -242,7 +242,7 @@ fun Greeting1(
         if (isRunning) {
             Image(
                 painter = imagenes[14],
-                contentDescription = "imagen del cuarto",
+                contentDescription = "imagen del reloj",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxWidth()

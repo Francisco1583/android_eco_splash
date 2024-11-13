@@ -136,7 +136,7 @@ fun ItemDetails(
         },
         containerColor = Color(0xFFCBE2FE),
         modifier = Modifier
-            .height(maxHeight * 0.5f)
+            .height(maxHeight * 0.6f)
             .padding(8.dp)
     )
 }
