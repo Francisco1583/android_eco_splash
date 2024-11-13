@@ -19,50 +19,58 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import com.example.ecosplash.model.CoinManager
+import com.example.ecosplash.model.StrikeManager
 
 @Composable
 // mainmenu es el botón principal
-fun MainMenu(coinManager: CoinManager, onClick: (Int) -> Unit,
-             time:(Long)-> Unit,
-             isRunning:(Boolean)-> Unit,
-             isCurrentlyRunning: Boolean,
-             currentTime: Long,
-             imagenes: List<Painter>,
-             maxHeight: Dp,
-             setMoney: (Int) -> Unit,
-             money: Int,
-             setRacha: (Int) -> Unit,
-             racha: Int,
-             progress: Float,
-             setProgress: (Float) -> Unit,
-             level: Int,
-             setLevel: (Int) -> Unit,
-             experience: Int,
-             setExperience: (Int) -> Unit,
-             totalExperience: Int,
-             setTotalExperience: (Int) -> Unit,
-             setStatsDialog: (Boolean) -> Unit,
-             showDialogStats: Boolean,
-             duchasMen5: Int,
-             duchasTotales: Int,
-             litrosAhorrados: Float,
-             setduchasMen5: (Int) -> Unit,
-             setduchasTotales: (Int) -> Unit,
-             setLitrosAhorrados: (Float) -> Unit) {
+fun MainMenu(
+    coinManager: CoinManager,
+    strikeManager: StrikeManager,
+    onClick: (Int) -> Unit,
+    time: (Long) -> Unit,
+    isRunning: (Boolean) -> Unit,
+    isCurrentlyRunning: Boolean,
+    currentTime: Long,
+    imagenes: List<Painter>,
+    maxHeight: Dp,
+    setMoney: (Int) -> Unit,
+    money: Int,
+    setRacha: (Int) -> Unit,
+    racha: Int,
+    progress: Float,
+    setProgress: (Float) -> Unit,
+    level: Int,
+    setLevel: (Int) -> Unit,
+    experience: Int,
+    setExperience: (Int) -> Unit,
+    totalExperience: Int,
+    setTotalExperience: (Int) -> Unit,
+    setStatsDialog: (Boolean) -> Unit,
+    showDialogStats: Boolean,
+    duchasMen5: Int,
+    duchasTotales: Int,
+    litrosAhorrados: Float,
+    setduchasMen5: (Int) -> Unit,
+    setduchasTotales: (Int) -> Unit,
+    setLitrosAhorrados: (Float) -> Unit
+) {
     var remainingTime by remember { mutableLongStateOf(0L) }
     val value by coinManager.coins.observeAsState(initial = 0)
-    Row(modifier = Modifier
-        .fillMaxWidth(),
+    Row(
+        modifier = Modifier
+            .fillMaxWidth(),
         verticalAlignment = Alignment.CenterVertically
     ) {
-        IconButton(onClick = { onClick(2)},
+        IconButton(
+            onClick = { onClick(2) },
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
         )
         {
 
-            Image(painter = imagenes[5],
+            Image(
+                painter = imagenes[5],
                 contentDescription = "icono de personalización",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -73,29 +81,27 @@ fun MainMenu(coinManager: CoinManager, onClick: (Int) -> Unit,
         }
         //Spacer(modifier = Modifier.width(maxHeight*0.05f))
 
-        IconButton(onClick = {
-            if (isCurrentlyRunning) {
-                isRunning(false)
-                setduchasTotales(duchasTotales + 1)
-                setLitrosAhorrados((((currentTime.toInt())/1000).toFloat() * 0.2f) + litrosAhorrados)
-                val actLitrosahorrados = (((currentTime.toInt())/1000).toFloat() * 0.2f) + litrosAhorrados
-                if (currentTime.toInt() >= 900000 ) {
-                    setduchasMen5(duchasMen5 + 1)
-                    coinManager.addCoins(10)
-                    setRacha(racha + 1)
+        IconButton(
+            onClick = {
+                if (isCurrentlyRunning) {
+                    isRunning(false)
+                    setduchasTotales(duchasTotales + 1)
+                    setLitrosAhorrados((((currentTime.toInt()) / 1000).toFloat() * 0.2f) + litrosAhorrados)
+                    val actLitrosahorrados =
+                        (((currentTime.toInt()) / 1000).toFloat() * 0.2f) + litrosAhorrados
+                    if (currentTime.toInt() >= 900000) {
+                        setduchasMen5(duchasMen5 + 1)
+                        coinManager.addCoins(10)
+                        strikeManager.addStrikes()
+                    }
+                    time(1200000)
 
+
+                } else {
+                    isRunning(true)
+                    //keyboardController?.hide()
                 }
-                time(1200000)
-                
-
-
-
-            }
-            else {
-                isRunning(true)
-                //keyboardController?.hide()
-            }
-        },
+            },
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
@@ -103,7 +109,8 @@ fun MainMenu(coinManager: CoinManager, onClick: (Int) -> Unit,
         )
         {
 
-            Image(painter = imagenes[3],
+            Image(
+                painter = imagenes[3],
                 contentDescription = "icono de reloj",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
@@ -113,7 +120,8 @@ fun MainMenu(coinManager: CoinManager, onClick: (Int) -> Unit,
             )
         }
         //Spacer(modifier = Modifier.width(maxHeight*0.03f))
-        IconButton(onClick = { setStatsDialog(!showDialogStats)},
+        IconButton(
+            onClick = { setStatsDialog(!showDialogStats) },
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
@@ -121,7 +129,8 @@ fun MainMenu(coinManager: CoinManager, onClick: (Int) -> Unit,
         )
         {
 
-            Image(painter = imagenes[4],
+            Image(
+                painter = imagenes[4],
                 contentDescription = "icono de actividad",
                 contentScale = ContentScale.Fit,
                 modifier = Modifier

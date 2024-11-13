@@ -33,6 +33,7 @@ import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
+import androidx.compose.runtime.livedata.observeAsState
 import androidx.compose.runtime.mutableFloatStateOf
 import androidx.compose.runtime.mutableIntStateOf
 import androidx.compose.runtime.mutableLongStateOf
@@ -63,6 +64,9 @@ import com.example.ecosplash.menus.EditMenu
 import com.example.ecosplash.menus.HatMenu
 import com.example.ecosplash.menus.MainMenu
 import com.example.ecosplash.model.CoinManager
+import com.example.ecosplash.model.InventoryManager
+import com.example.ecosplash.model.StrikeManager
+import com.example.ecosplash.model.UserData
 import com.example.ecosplash.popups.MoreInfo
 import com.example.ecosplash.popups.Stats
 import com.example.ecosplash.topInterfaces.Firstopart
@@ -81,7 +85,12 @@ val tekoFontFamily = FontFamily(
 )
 
 class MainActivity1 : ComponentActivity() {
+
+    private val userData: UserData by viewModels()
     private val coinManager: CoinManager by viewModels()
+    private val strikeManager: StrikeManager by viewModels()
+    private val inventoryManager: InventoryManager by viewModels()
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
@@ -89,7 +98,10 @@ class MainActivity1 : ComponentActivity() {
             EcosplashTheme {
                 Surface {
                     Greeting1(
+                        userData = userData,
                         coinManager = coinManager,
+                        strikeManager = strikeManager,
+                        inventoryManager = inventoryManager,
                         imagenes = images(),
                         fishbowlanimation = fisbowlanimated(),
                         ajoAnimated = ajoAnimated(),
@@ -113,13 +125,21 @@ fun formatTimer(timeMi: Long): String {
 
 @Composable
 fun ItemDetails(
+    coinManager: CoinManager,
+    inventoryManager: InventoryManager,
     onDismiss: () -> Unit,
     imagenes: List<Painter>,
-    maxHeight: Dp, accesorie: Sombrero,
-    money: Int,
+    maxHeight: Dp,
+    accesorie: Sombrero,
+    index: Int,
+    switchMode: Int,
     setMoney: (Int) -> Unit
 ) {
     var noMoney by remember { mutableStateOf(false) }
+    val coins by coinManager.coins.observeAsState(initial = 0)
+    val tanks by inventoryManager.tanks.observeAsState()
+    val skins by inventoryManager.skins.observeAsState()
+
     androidx.compose.material3.AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = { /*TODO*/ },
@@ -178,11 +198,11 @@ fun ItemDetails(
                         .fillMaxSize()
                         .padding(top = maxHeight * 0.01f)
                 ) {
-                    if (!accesorie.desbloqueado) {
+                    if (!inventoryManager.getItemObtained(index, switchMode)) {
                         Button(onClick = {
-                            if (money >= accesorie.precio) {
-                                accesorie.desbloqueado = true
-                                setMoney(money - accesorie.precio)
+                            if (coins >= accesorie.precio) {
+                                inventoryManager.unlockItem(index, switchMode)
+                                coinManager.substractCoins(accesorie.precio)
                                 onDismiss()
 
                             } else {
@@ -219,6 +239,9 @@ fun ItemDetails(
 @Composable
 // editmenu es el menú que se despliega al darle al botón de editar
 fun BackgroupsMenu(
+    userData: UserData,
+    coinManager: CoinManager,
+    inventoryManager: InventoryManager,
     onClick: (Int) -> Unit,
     bgColor: Color = Color.Red,
     imagenes: List<Painter>,
@@ -228,24 +251,31 @@ fun BackgroupsMenu(
     setFishBowlAcc: (Int) -> Unit,
     modifier: Modifier = Modifier,
     money: Int,
-    setMoney: (Int) -> Unit
+    switchMode: Int,
+    setMoney: (Int) -> Unit,
+    currentImage: Int
 ) {
+
+    val coins by coinManager.coins.observeAsState()
+    val tanks by inventoryManager.tanks.observeAsState()
+    val skins by inventoryManager.skins.observeAsState()
+
     var clicks by remember { mutableIntStateOf(0) }
     var showDialog by remember { mutableStateOf(false) }
     val setInfoDialog: (Boolean) -> Unit = { newinfoDialog -> showDialog = newinfoDialog }
     var prevfishbowlass by remember { mutableIntStateOf(0) }
-    var position by remember { mutableIntStateOf(fishbowlacc) }
+    var position by remember { mutableIntStateOf(currentImage) }
     Column() {
         IconButton(
             onClick =
             {
                 onClick(2)
-                if (backgrounds[fishbowlacc].desbloqueado) {
-                    setFishBowlAcc(position)
-                } else if (backgrounds[prevfishbowlass].desbloqueado) {
-                    setFishBowlAcc(prevfishbowlass)
+                if (inventoryManager.getItemObtained(currentImage, switchMode)) {
+                    userData.setCurrentImage(position, switchMode)
+                } else if (!inventoryManager.getItemObtained(prevfishbowlass, switchMode)) {
+                    userData.setCurrentImage(prevfishbowlass, switchMode)
                 } else {
-                    setFishBowlAcc(0)
+                    userData.setCurrentImage(0, switchMode)
                 }
             },
             modifier = Modifier
@@ -263,7 +293,7 @@ fun BackgroupsMenu(
                     .padding(maxHeight * 0.009f)
             )
         }
-        var selectedIndex by remember { mutableIntStateOf(fishbowlacc) }
+        var selectedIndex by remember { mutableIntStateOf(currentImage) }
         LazyRow(//horizontalArrangement = Arrangement.spacedBy(8.dp),
             modifier = Modifier.fillMaxHeight()
         ) {
@@ -284,8 +314,8 @@ fun BackgroupsMenu(
                         }
                         selectedIndex = pos
                         position = pos
-                        prevfishbowlass = fishbowlacc
-                        setFishBowlAcc(pos)
+                        prevfishbowlass = currentImage
+                        userData.setCurrentImage(pos, switchMode)
                     },
                     modifier = Modifier
                         .height((maxHeight * 0.16f))
@@ -310,11 +340,14 @@ fun BackgroupsMenu(
 
                     )
                     Row(modifier = Modifier.offset(y = maxHeight * 0.065f)) {
-                        Text(
-                            text = if (!backgrounds[pos].desbloqueado) "$" + backgrounds[pos].precio else "lo tienes",
-                            fontFamily = montserratFontFamily,
-                            color = Color.Black
-                        )
+                        if (!inventoryManager.getItemObtained(pos, switchMode)) {
+                            Text(
+                                text = "$" + backgrounds[pos].precio,
+                                fontFamily = montserratFontFamily,
+                                color = Color.Black
+                            )
+                        }
+
                     }
 
                 }
@@ -326,12 +359,15 @@ fun BackgroupsMenu(
     if (showDialog) {
         clicks = 0
         ItemDetails(
+            coinManager = coinManager,
+            inventoryManager = inventoryManager,
             onDismiss = { showDialog = false },
             imagenes = imagenes,
             maxHeight = maxHeight,
             accesorie = backgrounds[position],
-            money = money,
-            setMoney = setMoney
+            index = position,
+            setMoney = setMoney,
+            switchMode = switchMode,
         )
     }
 
@@ -341,7 +377,10 @@ fun BackgroupsMenu(
 
 @Composable
 fun Greeting1(
+    userData: UserData,
     coinManager: CoinManager,
+    strikeManager: StrikeManager,
+    inventoryManager: InventoryManager,
     imagenes: List<Painter>,
     fishbowlanimation: List<Painter>,
     ajoAnimated: List<Painter>,
@@ -430,6 +469,10 @@ fun Greeting1(
     val setLevel: (Int) -> Unit = { newLevel -> level = newLevel }
     // valor para cambiar la experiencia necesaria para el siguiente nivel
     val setTotalExperience: (Int) -> Unit = { newTotal -> totalExperience = newTotal }
+
+    val currentTank by userData.currentTank.observeAsState(initial = 0)
+    val currentSkin by userData.currentSkin.observeAsState(initial = 0)
+
     BoxWithConstraints(
         modifier = Modifier
             .fillMaxSize()
@@ -455,18 +498,17 @@ fun Greeting1(
             setAchivmentDialig = setAchivmentDialig
         )
         Secondtopart(
+            coinManager = coinManager,
+            strikeManager = strikeManager,
             progress = progress,
             maxWidth = maxWidth,
             maxHeight = maxHeight,
             imagenes = imagenes,
-            money = money,
-            racha = racha,
-            level = level,
-            coinManager = coinManager
+            level = level
         )
         //Image(painter = fishbowlanimation[fishbowlIndex],
         Image(
-            painter = backgrounds[fishbowlacc].frames[fishbowlIndex],
+            painter = backgrounds[currentTank].frames[fishbowlIndex],
             contentDescription = "imagen de la pecera",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -476,7 +518,7 @@ fun Greeting1(
                 .offset(y = maxHeight * 0.07f)
         )
         Image(
-            painter = hats[hatAcc].frames[ajoIndex],
+            painter = hats[currentSkin].frames[ajoIndex],
             contentDescription = "imagen del ajolote",
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -533,6 +575,7 @@ fun Greeting1(
             ) {
                 MainMenu(
                     coinManager = coinManager,
+                    strikeManager = strikeManager,
                     imagenes = imagenes,
                     maxHeight = maxHeight,
                     onClick = onClick, time = setTime,
@@ -572,6 +615,9 @@ fun Greeting1(
                     .height(maxHeight * 0.24f)
             ) {
                 BackgroupsMenu(
+                    userData = userData,
+                    coinManager = coinManager,
+                    inventoryManager = inventoryManager,
                     imagenes = imagenes,
                     maxHeight = maxHeight,
                     onClick = onClick,
@@ -579,7 +625,9 @@ fun Greeting1(
                     fishbowlacc = fishbowlacc,
                     setFishBowlAcc = setFishBowlAcc,
                     money = money,
-                    setMoney = setMoney
+                    setMoney = setMoney,
+                    switchMode = 0,
+                    currentImage = currentTank
                 )
             }
         } else if (boxVisible == 4) {
@@ -592,6 +640,9 @@ fun Greeting1(
                     .height(maxHeight * 0.24f)
             ) {
                 BackgroupsMenu(
+                    userData = userData,
+                    coinManager = coinManager,
+                    inventoryManager = inventoryManager,
                     imagenes = imagenes,
                     maxHeight = maxHeight,
                     onClick = onClick,
@@ -599,7 +650,9 @@ fun Greeting1(
                     fishbowlacc = hatAcc,
                     setFishBowlAcc = setHatAcc,
                     money = money,
-                    setMoney = setMoney
+                    setMoney = setMoney,
+                    switchMode = 1,
+                    currentImage = currentSkin
                 )
 //                HatMenu(imagenes = imagenes,
 //                    maxHeight = maxHeight,
@@ -663,7 +716,10 @@ fun GreetingPreview1() {
     EcosplashTheme {
 
         Greeting1(
+            userData = UserData(Application()),
             coinManager = CoinManager(Application()),
+            strikeManager = StrikeManager(Application()),
+            inventoryManager = InventoryManager(Application()),
             imagenes = images(),
             fishbowlanimation = fisbowlanimated(),
             ajoAnimated = ajoAnimated(),

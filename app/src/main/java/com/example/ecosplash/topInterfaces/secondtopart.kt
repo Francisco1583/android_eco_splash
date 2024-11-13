@@ -30,98 +30,117 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecosplash.model.CoinManager
+import com.example.ecosplash.model.StrikeManager
 import com.example.ecosplash.montserratFontFamily
 
 @Composable
 // esta función es un surface que contiene el nivel, la barra de nivel, la racha y el dinero
-fun Secondtopart(coinManager: CoinManager, imagenes: List<Painter>,
-                 progress: Float,
-                 maxWidth: Dp,
-                 maxHeight: Dp,
-                 modifier: Modifier = Modifier,
-                 money: Int, racha : Int,
-                 level: Int
+fun Secondtopart(
+    coinManager: CoinManager,
+    strikeManager: StrikeManager,
+    imagenes: List<Painter>,
+    progress: Float,
+    maxWidth: Dp,
+    maxHeight: Dp,
+    modifier: Modifier = Modifier,
+    level: Int
 ) {
     val coins by coinManager.coins.observeAsState(initial = 0)
-    Surface(color = Color.Transparent,
+    val strikes by strikeManager.strikes.observeAsState(initial = 0)
+    Surface(
+        color = Color.Transparent,
         modifier = Modifier
             .fillMaxWidth()
 
             .height(maxHeight * 0.25f)
             .offset(y = maxHeight * 0.13f)
         //.height(maxHeight * 0.20f)
-    ) { Column(modifier = Modifier
-        .fillMaxWidth(),
-        horizontalAlignment = Alignment.CenterHorizontally
     ) {
-        Text(text = "Nivel: $level",
-            modifier = Modifier,
-            //.align(Alignment.TopCenter)
-            // .offset(y = maxHeight * 0.08f),
-            style = TextStyle(fontSize = 70.sp), fontFamily = montserratFontFamily,
-            color = Color.Black
-        )
-        LinearProgressIndicator(
-            progress = { progress },
+        Column(
             modifier = Modifier
-                .height(maxHeight * 0.04f)
-                .width(maxWidth * 0.87f)
-                .clip(RoundedCornerShape(20.dp)),
-        )
-        Surface(color = Color.Transparent,
-            modifier = Modifier
+                .fillMaxWidth(),
+            horizontalAlignment = Alignment.CenterHorizontally
+        ) {
+            Text(
+                text = "Nivel: $level",
+                modifier = Modifier,
                 //.align(Alignment.TopCenter)
-                .height(maxHeight * 0.08f)
-                .width(maxWidth * 0.6f)
-        )
-        {
-            Row(modifier = Modifier
-                .fillMaxWidth()
-                .padding((maxHeight * 0.01f)),
-                horizontalArrangement = Arrangement.SpaceBetween)
+                // .offset(y = maxHeight * 0.08f),
+                style = TextStyle(fontSize = 70.sp), fontFamily = montserratFontFamily,
+                color = Color.Black
+            )
+            LinearProgressIndicator(
+                progress = { progress },
+                modifier = Modifier
+                    .height(maxHeight * 0.04f)
+                    .width(maxWidth * 0.87f)
+                    .clip(RoundedCornerShape(20.dp)),
+            )
+            Surface(
+                color = Color.Transparent,
+                modifier = Modifier
+                    //.align(Alignment.TopCenter)
+                    .height(maxHeight * 0.08f)
+                    .width(maxWidth * 0.6f)
+            )
             {
-                Row {
-                    Image(painter = imagenes[8],
-                        contentDescription = "icono de racha",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                    )
-                    Box(modifier = Modifier
-                        .fillMaxHeight()
-                        .padding((maxHeight * 0.01f))) {
-                        Text(text = "$racha",
+                Row(
+                    modifier = Modifier
+                        .fillMaxWidth()
+                        .padding((maxHeight * 0.01f)),
+                    horizontalArrangement = Arrangement.SpaceBetween
+                )
+                {
+                    Row {
+                        Image(
+                            painter = imagenes[8],
+                            contentDescription = "icono de racha",
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
-                                .align(Alignment.Center), fontFamily = montserratFontFamily,
-                            color = Color.Black
-
+                                .fillMaxHeight()
                         )
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .padding((maxHeight * 0.01f))
+                        ) {
+                            Text(
+                                text = "$strikes",
+                                modifier = Modifier
+                                    .align(Alignment.Center), fontFamily = montserratFontFamily,
+                                color = Color.Black
+
+                            )
+                        }
+
                     }
 
-                }
-
-                Row {
-                    Image(painter = imagenes[11],
-                        contentDescription = "icono del diner",
-                        contentScale = ContentScale.Crop,
-                        modifier = Modifier
-                            .fillMaxHeight()
-                    )
-                    Box(modifier = Modifier
-                        .fillMaxHeight()
-                        .padding((maxHeight * 0.01f))) {
-                        Text(text = "$coins",
+                    Row {
+                        Image(
+                            painter = imagenes[11],
+                            contentDescription = "icono del diner",
+                            contentScale = ContentScale.Crop,
                             modifier = Modifier
-                                .align(Alignment.Center), fontFamily = montserratFontFamily,
-                            color = Color.Black
+                                .fillMaxHeight()
                         )
-                    }
+                        Box(
+                            modifier = Modifier
+                                .fillMaxHeight()
+                                .padding((maxHeight * 0.01f))
+                        ) {
+                            Text(
+                                text = "$coins",
+                                modifier = Modifier
+                                    .align(Alignment.Center), fontFamily = montserratFontFamily,
+                                color = Color.Black
+                            )
+                        }
 
+                    }
                 }
+
             }
-
         }
-    }
 
     }
 }
