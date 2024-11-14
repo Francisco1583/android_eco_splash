@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import com.example.ecosplash.model.CoinManager
+import com.example.ecosplash.model.StatisticsManager
 import com.example.ecosplash.model.StrikeManager
 
 @Composable
@@ -26,6 +27,7 @@ import com.example.ecosplash.model.StrikeManager
 fun MainMenu(
     coinManager: CoinManager,
     strikeManager: StrikeManager,
+    statisticsManager: StatisticsManager,
     onClick: (Int) -> Unit,
     time: (Long) -> Unit,
     isRunning: (Boolean) -> Unit,
@@ -33,18 +35,6 @@ fun MainMenu(
     currentTime: Long,
     imagenes: List<Painter>,
     maxHeight: Dp,
-    setMoney: (Int) -> Unit,
-    money: Int,
-    setRacha: (Int) -> Unit,
-    racha: Int,
-    progress: Float,
-    setProgress: (Float) -> Unit,
-    level: Int,
-    setLevel: (Int) -> Unit,
-    experience: Int,
-    setExperience: (Int) -> Unit,
-    totalExperience: Int,
-    setTotalExperience: (Int) -> Unit,
     setStatsDialog: (Boolean) -> Unit,
     showDialogStats: Boolean,
     duchasMen5: Int,
@@ -84,28 +74,28 @@ fun MainMenu(
         IconButton(
             onClick = {
                 if (isCurrentlyRunning) {
+
                     isRunning(false)
-                    setduchasTotales(duchasTotales + 1)
+                    statisticsManager.addShowers()
                     setLitrosAhorrados((((currentTime.toInt()) / 1000).toFloat() * 0.2f) + litrosAhorrados)
-                    val actLitrosahorrados =
-                        (((currentTime.toInt()) / 1000).toFloat() * 0.2f) + litrosAhorrados
+                    val actLitrosahorrados = (((currentTime.toInt()) / 1000).toFloat() * 0.2f) + litrosAhorrados
+                    statisticsManager.addLitersSaved(actLitrosahorrados)
                     if (currentTime.toInt() >= 900000) {
-                        setduchasMen5(duchasMen5 + 1)
+                        statisticsManager.addQuickShowers()
                         coinManager.addCoins(10)
                         strikeManager.addStrikes()
+                    } else {
+                        strikeManager.resetStrikes()
                     }
                     time(1200000)
 
-
                 } else {
                     isRunning(true)
-                    //keyboardController?.hide()
                 }
             },
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
-            //.background(Color(0xFFCBE2FE), shape = RoundedCornerShape(40.dp))
         )
         {
 
@@ -115,17 +105,14 @@ fun MainMenu(
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxSize()
-                //.padding(maxHeight * 0.02f)
 
             )
         }
-        //Spacer(modifier = Modifier.width(maxHeight*0.03f))
         IconButton(
             onClick = { setStatsDialog(!showDialogStats) },
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
-            //.background(Color(0xFFCBE2FE), shape = RoundedCornerShape(40.dp))
         )
         {
 

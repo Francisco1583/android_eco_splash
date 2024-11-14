@@ -38,11 +38,13 @@ import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
+import com.example.ecosplash.classes.Achievements
 import com.example.ecosplash.classes.Sombrero
 import com.example.ecosplash.menus.EditMenu
 import com.example.ecosplash.menus.MainMenu
 import com.example.ecosplash.model.CoinManager
 import com.example.ecosplash.model.InventoryManager
+import com.example.ecosplash.model.LevelManager
 import com.example.ecosplash.model.StatisticsManager
 import com.example.ecosplash.model.StrikeManager
 import com.example.ecosplash.model.UserData
@@ -51,6 +53,7 @@ import com.example.ecosplash.topInterfaces.FirstTopPart
 import com.example.ecosplash.topInterfaces.SecondTopPart
 import com.example.ecosplash.ui.theme.EcosplashTheme
 import com.example.ecosplash.view.BackgroupsMenu
+import com.example.ecosplash.view.popup.PopAchivement
 import com.example.ecosplash.view.popup.Statistics
 import kotlinx.coroutines.delay
 import java.util.Locale
@@ -70,6 +73,7 @@ class MainActivity1 : ComponentActivity() {
     private val strikeManager: StrikeManager by viewModels()
     private val inventoryManager: InventoryManager by viewModels()
     private val statisticsManager: StatisticsManager by viewModels()
+    private val levelManager: LevelManager by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -83,6 +87,7 @@ class MainActivity1 : ComponentActivity() {
                         strikeManager = strikeManager,
                         inventoryManager = inventoryManager,
                         statisticsManager = statisticsManager,
+                        levelManager = levelManager,
                         imagenes = images(),
                         backgrounds = backgrounds()
                     )
@@ -108,9 +113,11 @@ fun Greeting1(
     strikeManager: StrikeManager,
     inventoryManager: InventoryManager,
     statisticsManager: StatisticsManager,
+    levelManager: LevelManager,
     imagenes: List<Painter>,
     backgrounds: List<Sombrero>,
-    hats: List<Sombrero> = hats()
+    hats: List<Sombrero> = hats(),
+    achievements:   List<Achievements> = achivements()
 ) {
 
     // -------------DECLARACIÓN DE VARIABLES --------------------------
@@ -119,7 +126,7 @@ fun Greeting1(
     // variable para mostrar o no el popup
     var showDialog by remember { mutableStateOf(false) }
     // mostrar dialogo de logros
-    var showAchivments by remember { mutableStateOf(false) }
+    var showAchivments by remember { mutableStateOf(true) }
     // variable para mostrar o no el popup1
     var showDialogStats by remember { mutableStateOf(false) }
     // variable que define el progreso de la barra de nivel
@@ -203,6 +210,7 @@ fun Greeting1(
         SecondTopPart(
             coinManager = coinManager,
             strikeManager = strikeManager,
+            levelManager = levelManager,
             progress = progress,
             maxWidth = maxWidth,
             maxHeight = maxHeight,
@@ -277,18 +285,13 @@ fun Greeting1(
                 MainMenu(
                     coinManager = coinManager,
                     strikeManager = strikeManager,
+                    statisticsManager = statisticsManager,
                     imagenes = imagenes,
                     maxHeight = maxHeight,
                     onClick = onClick, time = setTime,
                     isRunning = setIsRunning,
                     isCurrentlyRunning = isRunning,
                     currentTime = time,
-                    setMoney = setMoney,
-                    money = money,
-                    setRacha = setRacha,
-                    racha = racha,
-                    progress = progress,
-                    setProgress = setProgress,
                     setStatsDialog = setStatsDialog,
                     showDialogStats = showDialogStats,
                     setduchasTotales = setduchasTotales,
@@ -296,13 +299,7 @@ fun Greeting1(
                     setduchasMen5 = setduchasMen5,
                     duchasTotales = duchasTotales,
                     duchasMen5 = duchasMen5,
-                    litrosAhorrados = litrosAhorrados,
-                    level = level,
-                    setLevel = setLevel,
-                    experience = experience,
-                    setExperience = setExperience,
-                    totalExperience = totalExperience,
-                    setTotalExperience = setTotalExperience
+                    litrosAhorrados = litrosAhorrados
                 )
 
             }
@@ -361,10 +358,12 @@ fun Greeting1(
             )
         }
         if (showAchivments) {
-            MoreInfo(
+            PopAchivement(
                 onDismiss = { showAchivments = false },
+                statisticsManager = statisticsManager,
                 imagenes = imagenes,
-                maxHeight = maxHeight
+                maxHeight = maxHeight,
+                achivements = achievements
             )
         }
     }
@@ -405,6 +404,7 @@ fun GreetingPreview1() {
             strikeManager = StrikeManager(Application()),
             inventoryManager = InventoryManager(Application()),
             statisticsManager = StatisticsManager(Application()),
+            levelManager = LevelManager(Application()),
             imagenes = images(),
             backgrounds = backgrounds()
         )

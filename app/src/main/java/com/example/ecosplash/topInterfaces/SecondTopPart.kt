@@ -29,6 +29,7 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.example.ecosplash.model.CoinManager
+import com.example.ecosplash.model.LevelManager
 import com.example.ecosplash.model.StrikeManager
 import com.example.ecosplash.montserratFontFamily
 
@@ -37,6 +38,7 @@ import com.example.ecosplash.montserratFontFamily
 fun SecondTopPart(
     coinManager: CoinManager,
     strikeManager: StrikeManager,
+    levelManager: LevelManager,
     imagenes: List<Painter>,
     progress: Float,
     maxWidth: Dp,
@@ -46,6 +48,11 @@ fun SecondTopPart(
 ) {
     val coins by coinManager.coins.observeAsState(initial = 0)
     val strikes by strikeManager.strikes.observeAsState(initial = 0)
+
+    val userLevel by levelManager.level.observeAsState(initial = 0)
+    val currentExperience by levelManager.currentExperience.observeAsState(initial = 0)
+    val experienceToNextLevel by levelManager.experienceToNextLevel.observeAsState(initial = 0)
+
     Surface(
         color = Color.Transparent,
         modifier = Modifier

@@ -3,6 +3,7 @@ package com.example.ecosplash
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.res.painterResource
+import com.example.ecosplash.classes.Achievements
 import com.example.ecosplash.classes.Sombrero
 
 //iglu 20
@@ -32,6 +33,16 @@ fun hats(hatImages: List<Painter> = hatOptions()): List<Sombrero> {
         Sombrero(nombre = "lentes", precio = 150, imagen = hatImages[2],descripcion = "No lo sé, solo estaba nadando por hawai, alguien se me acerco con uno de estos y me dijo 'MONDONGO', y se alejó lentamente .",frames = ajoLentesAnimated(),desbloqueado = false),
         Sombrero(nombre = "mexicano", precio = 150, imagen = hatImages[3],descripcion = "No lo sé, solo estaba nadando por hawai, alguien se me acerco con uno de estos y me dijo 'MONDONGO', y se alejó lentamente .",frames = ajoMexAnimated(),desbloqueado = false),
          Sombrero(nombre = "flor", precio = 150, imagen = hatImages[4],descripcion = "No lo sé, solo estaba nadando por hawai, alguien se me acerco con uno de estos y me dijo 'MONDONGO', y se alejó lentamente .",frames =  ajoFlorAnimated(),desbloqueado = false)
+    )
+    return imagenes
+}
+
+@Composable
+fun achivements(achivemntsImages: List<Painter> = achivemntsImages()): List<Achievements> {
+    var imagenes = listOf(
+        Achievements(nombre = "ducha rapida",id = 0, imagen =achivemntsImages[0], descripcion = "Toma 30 duchas rapidas", goal = 30, progress = 0, completed = false),
+        Achievements(nombre = "super ahorrador",id = 1, imagen =achivemntsImages[1], descripcion = "Ahorra más de 10,000 litros de agua", goal = 10000, progress = 0, completed = false),
+        Achievements(nombre = "ahorro semanal",id = 2, imagen =achivemntsImages[2], descripcion = "Compra todos los objetos de la tienda", goal = 10, progress = 0, completed = false)
     )
     return imagenes
 }

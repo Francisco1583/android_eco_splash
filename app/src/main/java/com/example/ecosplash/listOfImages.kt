@@ -366,3 +366,12 @@ fun hatOptions(): List<Painter> {
     return imagenes
 }
 
+@Composable
+fun achivemntsImages(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.logro1),
+        painterResource(id = R.drawable.logro2),
+        painterResource(id = R.drawable.logro3)
+    )
+    return imagenes
+}
