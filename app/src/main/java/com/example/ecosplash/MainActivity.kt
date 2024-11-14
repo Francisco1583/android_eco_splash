@@ -43,14 +43,15 @@ import com.example.ecosplash.menus.EditMenu
 import com.example.ecosplash.menus.MainMenu
 import com.example.ecosplash.model.CoinManager
 import com.example.ecosplash.model.InventoryManager
+import com.example.ecosplash.model.StatisticsManager
 import com.example.ecosplash.model.StrikeManager
 import com.example.ecosplash.model.UserData
 import com.example.ecosplash.popups.MoreInfo
-import com.example.ecosplash.popups.Stats
-import com.example.ecosplash.topInterfaces.Firstopart
-import com.example.ecosplash.topInterfaces.Secondtopart
+import com.example.ecosplash.topInterfaces.FirstTopPart
+import com.example.ecosplash.topInterfaces.SecondTopPart
 import com.example.ecosplash.ui.theme.EcosplashTheme
 import com.example.ecosplash.view.BackgroupsMenu
+import com.example.ecosplash.view.popup.Statistics
 import kotlinx.coroutines.delay
 import java.util.Locale
 import java.util.concurrent.TimeUnit
@@ -68,6 +69,7 @@ class MainActivity1 : ComponentActivity() {
     private val coinManager: CoinManager by viewModels()
     private val strikeManager: StrikeManager by viewModels()
     private val inventoryManager: InventoryManager by viewModels()
+    private val statisticsManager: StatisticsManager by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -80,6 +82,7 @@ class MainActivity1 : ComponentActivity() {
                         coinManager = coinManager,
                         strikeManager = strikeManager,
                         inventoryManager = inventoryManager,
+                        statisticsManager = statisticsManager,
                         imagenes = images(),
                         backgrounds = backgrounds()
                     )
@@ -104,6 +107,7 @@ fun Greeting1(
     coinManager: CoinManager,
     strikeManager: StrikeManager,
     inventoryManager: InventoryManager,
+    statisticsManager: StatisticsManager,
     imagenes: List<Painter>,
     backgrounds: List<Sombrero>,
     hats: List<Sombrero> = hats()
@@ -159,24 +163,14 @@ fun Greeting1(
     val setStatsDialog: (Boolean) -> Unit = { newinfoDialog -> showDialogStats = newinfoDialog }
     //para modificar el booleano del popup de las logros
     val setAchivmentDialig: (Boolean) -> Unit = { newAchivmentD -> showAchivments = newAchivmentD }
-    //valor para modificar lo del dinero
     val setMoney: (Int) -> Unit = { moreMoney -> money = moreMoney }
-    // valor para modificar lo de la racha
     val setRacha: (Int) -> Unit = { masRacha -> racha = masRacha }
-    // modifica el progreso de la barra
     val setProgress: (Float) -> Unit = { newProgress -> progress = newProgress }
-    // actualiza la variable de las duchas totales
     val setduchasTotales: (Int) -> Unit = { masduchasT -> duchasTotales = masduchasT }
-    // actializa la variable de las duchas menores a 5 minutos
     val setduchasMen5: (Int) -> Unit = { masduchasMen5 -> duchasMen5 = masduchasMen5 }
-    // actualiza la cantidad de litros ahorrados
-    val setLitrosAhorrados: (Float) -> Unit =
-        { masLitrosAhorrados -> litrosAhorrados = masLitrosAhorrados }
-    // valor para cambiar la variable de experiencia
+    val setLitrosAhorrados: (Float) -> Unit = { masLitrosAhorrados -> litrosAhorrados = masLitrosAhorrados }
     val setExperience: (Int) -> Unit = { newExperience -> experience = newExperience }
-    // valor para cambiar el nivel
     val setLevel: (Int) -> Unit = { newLevel -> level = newLevel }
-    // valor para cambiar la experiencia necesaria para el siguiente nivel
     val setTotalExperience: (Int) -> Unit = { newTotal -> totalExperience = newTotal }
 
     val currentTank by userData.currentTank.observeAsState(initial = 0)
@@ -199,14 +193,14 @@ fun Greeting1(
                 .offset(y = maxHeight * 0.25f)
 
         )
-        Firstopart(
+        FirstTopPart(
             maxWidth = maxWidth,
             maxHeight = maxHeight,
             imagenes = imagenes,
             setInfoDialog = setInfoDialog,
             setAchivmentDialig = setAchivmentDialig
         )
-        Secondtopart(
+        SecondTopPart(
             coinManager = coinManager,
             strikeManager = strikeManager,
             progress = progress,
@@ -215,7 +209,6 @@ fun Greeting1(
             imagenes = imagenes,
             level = level
         )
-        //Image(painter = fishbowlanimation[fishbowlIndex],
         Image(
             painter = backgrounds[currentTank].frames[fishbowlIndex],
             contentDescription = "imagen de la pecera",
@@ -269,7 +262,6 @@ fun Greeting1(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomEnd)
-                    //.height(maxHeight * 0.13f)
                     .height(maxHeight * 0.20f)
             ) {
                 EditMenu(imagenes = imagenes, maxHeight = maxHeight, onClick = onClick)
@@ -320,7 +312,6 @@ fun Greeting1(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomEnd)
-                    //.height(maxHeight * 0.13f)
                     .height(maxHeight * 0.24f)
             ) {
                 BackgroupsMenu(
@@ -341,7 +332,6 @@ fun Greeting1(
                 modifier = Modifier
                     .fillMaxWidth()
                     .align(Alignment.BottomEnd)
-                    //.height(maxHeight * 0.13f)
                     .height(maxHeight * 0.24f)
             ) {
                 BackgroupsMenu(
@@ -363,13 +353,11 @@ fun Greeting1(
             MoreInfo(onDismiss = { showDialog = false }, imagenes = imagenes, maxHeight = maxHeight)
         }
         if (showDialogStats) {
-            Stats(
+            Statistics(
+                statisticsManager = statisticsManager,
                 onDismiss = { showDialogStats = false },
                 imagenes = imagenes,
-                maxHeight = maxHeight,
-                duchasTotales = duchasTotales,
-                duchasMen5 = duchasMen5,
-                litrosAhorrados = litrosAhorrados
+                maxHeight = maxHeight
             )
         }
         if (showAchivments) {
@@ -416,6 +404,7 @@ fun GreetingPreview1() {
             coinManager = CoinManager(Application()),
             strikeManager = StrikeManager(Application()),
             inventoryManager = InventoryManager(Application()),
+            statisticsManager = StatisticsManager(Application()),
             imagenes = images(),
             backgrounds = backgrounds()
         )

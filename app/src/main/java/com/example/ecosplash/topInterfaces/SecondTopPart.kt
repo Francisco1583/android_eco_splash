@@ -1,6 +1,5 @@
 package com.example.ecosplash.topInterfaces
 
-import androidx.annotation.IntegerRes
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
@@ -35,7 +34,7 @@ import com.example.ecosplash.montserratFontFamily
 
 @Composable
 // esta función es un surface que contiene el nivel, la barra de nivel, la racha y el dinero
-fun Secondtopart(
+fun SecondTopPart(
     coinManager: CoinManager,
     strikeManager: StrikeManager,
     imagenes: List<Painter>,
