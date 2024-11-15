@@ -85,15 +85,24 @@ fun PopAchivement(
                                     if(quickShowers >= achivements[index].goal) {
                                         achievementsManager.unlockAchievement(index)
                                     }
+                                    else {
+                                        achivements[index].progress = quickShowers
+                                    }
                                 }
                                 if (achivements[index].id == 1) {
                                     if(litersSaved.toInt() >= achivements[index].goal) {
                                         achievementsManager.unlockAchievement(index)
                                     }
+                                    else {
+                                        achivements[index].progress = litersSaved.toInt()
+                                    }
                                 }
                                 if (achivements[index].id == 2) {
                                     if(purchasedItems >= achivements[index].goal) {
                                         achievementsManager.unlockAchievement(index)
+                                    }
+                                    else {
+                                        achivements[index].progress = purchasedItems
                                     }
                                 }
                             }
@@ -126,7 +135,8 @@ fun PopAchivement(
                         )
                     )
                     LinearProgressIndicator(
-                        progress = { 0.5f },
+                        progress = {if(!achievementsManager.isUnlocked(selection)) achivements[selection].progress.toFloat()/achivements[selection].goal.toFloat() else 1.0f},
+                        color = if(achievementsManager.isUnlocked(selection)) Color.Green else Color(0xFF6483B9),
                         modifier = Modifier
                             .height(maxHeight * 0.04f)
                             .clip(RoundedCornerShape(20.dp)),

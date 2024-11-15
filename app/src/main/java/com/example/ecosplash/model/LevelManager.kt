@@ -49,7 +49,7 @@ class LevelManager(application: Application): AndroidViewModel(application) {
     private fun loadExperienceToNextLevel() {
         viewModelScope.launch {
             val preferences = getApplication<Application>().dataStore.data.first()
-            val storedExperienceToNextLevel = preferences[experienceToNextLevelKey] ?: 0
+            val storedExperienceToNextLevel = preferences[experienceToNextLevelKey] ?: 400
             _experienceToNextLevel.value = storedExperienceToNextLevel
         }
     }
@@ -76,7 +76,7 @@ class LevelManager(application: Application): AndroidViewModel(application) {
         }
     }
 
-    fun levelUp() {
+    private fun levelUp() {
         val newLevel = (_level.value ?: 0) + 1
         _level.value = newLevel
         increaseExperienceToNextLevel()
@@ -88,6 +88,9 @@ class LevelManager(application: Application): AndroidViewModel(application) {
         val newExperience = (_currentExperience.value ?: 0) + value
         _currentExperience.value = newExperience
         saveLevel(newExperience)
+        if ((_currentExperience.value ?: 0) > (_experienceToNextLevel.value ?: 0)) {
+            levelUp()
+        }
     }
 
     private fun increaseExperienceToNextLevel() {

@@ -280,7 +280,8 @@ fun Greeting1(
                     setStatsDialog = setStatsDialog,
                     showDialogStats = showDialogStats,
                     setLitrosAhorrados = setLitrosAhorrados,
-                    litrosAhorrados = litrosAhorrados
+                    litrosAhorrados = litrosAhorrados,
+                    levelManager = levelManager,
                 )
 
             }

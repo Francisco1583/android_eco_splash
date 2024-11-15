@@ -68,7 +68,7 @@ fun SecondTopPart(
             horizontalAlignment = Alignment.CenterHorizontally
         ) {
             Text(
-                text = "Nivel: $level",
+                text = "Nivel: $userLevel",
                 modifier = Modifier,
                 //.align(Alignment.TopCenter)
                 // .offset(y = maxHeight * 0.08f),
@@ -76,7 +76,8 @@ fun SecondTopPart(
                 color = Color.Black
             )
             LinearProgressIndicator(
-                progress = { progress },
+                progress = {currentExperience.toFloat()/experienceToNextLevel.toFloat()},
+                color = Color(0xFF6483B9),
                 modifier = Modifier
                     .height(maxHeight * 0.04f)
                     .width(maxWidth * 0.87f)

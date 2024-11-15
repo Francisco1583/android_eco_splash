@@ -19,6 +19,7 @@ import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import com.example.ecosplash.model.CoinManager
+import com.example.ecosplash.model.LevelManager
 import com.example.ecosplash.model.StatisticsManager
 import com.example.ecosplash.model.StrikeManager
 
@@ -38,10 +39,12 @@ fun MainMenu(
     setStatsDialog: (Boolean) -> Unit,
     showDialogStats: Boolean,
     litrosAhorrados: Float,
+    levelManager: LevelManager,
     setLitrosAhorrados: (Float) -> Unit
 ) {
     var remainingTime by remember { mutableLongStateOf(0L) }
     val value by coinManager.coins.observeAsState(initial = 0)
+    val litersSaved by statisticsManager.litersSaved.observeAsState(initial = 0)
     Row(
         modifier = Modifier
             .fillMaxWidth(),
@@ -70,13 +73,12 @@ fun MainMenu(
         IconButton(
             onClick = {
                 if (isCurrentlyRunning) {
-
                     isRunning(false)
                     statisticsManager.addShowers()
-                    setLitrosAhorrados((((currentTime.toInt()) / 1000).toFloat() * 0.2f) + litrosAhorrados)
-                    val actLitrosahorrados = (((currentTime.toInt()) / 1000).toFloat() * 0.2f) + litrosAhorrados
+                    val actLitrosahorrados = (((currentTime.toInt()) / 1000).toFloat() * 0.2f)
                     statisticsManager.addLitersSaved(actLitrosahorrados)
                     if (currentTime.toInt() >= 900000) {
+                        levelManager.addExperience(actLitrosahorrados.toInt())
                         statisticsManager.addQuickShowers()
                         coinManager.addCoins(10)
                         strikeManager.addStrikes()
