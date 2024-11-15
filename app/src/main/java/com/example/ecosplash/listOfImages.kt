@@ -79,6 +79,110 @@ fun fisbowlanimated(): List<Painter> {
 }
 
 @Composable
+fun fisbowlMIdanimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.basic_tank_half_1),
+        painterResource(id = R.drawable.basic_tank_half_2),
+        painterResource(id = R.drawable.basic_tank_half_3),
+        painterResource(id = R.drawable.basic_tank_half_4),
+        painterResource(id = R.drawable.basic_tank_half_5),
+        painterResource(id = R.drawable.basic_tank_half_6),
+        painterResource(id = R.drawable.basic_tank_half_7),
+        painterResource(id = R.drawable.basic_tank_half_8),
+        painterResource(id = R.drawable.basic_tank_half_9),
+        painterResource(id = R.drawable.basic_tank_half_10),
+        painterResource(id = R.drawable.basic_tank_half_11),
+        painterResource(id = R.drawable.basic_tank_half_12),
+        painterResource(id = R.drawable.basic_tank_half_13),
+        painterResource(id = R.drawable.basic_tank_half_14),
+        painterResource(id = R.drawable.basic_tank_half_15),
+        painterResource(id = R.drawable.basic_tank_half_16),
+        painterResource(id = R.drawable.basic_tank_half_17),
+        painterResource(id = R.drawable.basic_tank_half_18),
+        painterResource(id = R.drawable.basic_tank_half_19),
+        painterResource(id = R.drawable.basic_tank_half_20),
+        painterResource(id = R.drawable.basic_tank_half_21),
+        painterResource(id = R.drawable.basic_tank_half_22),
+        painterResource(id = R.drawable.basic_tank_half_23),
+        painterResource(id = R.drawable.basic_tank_half_24),
+        painterResource(id = R.drawable.basic_tank_half_25),
+        painterResource(id = R.drawable.basic_tank_half_26),
+        painterResource(id = R.drawable.basic_tank_half_27),
+        painterResource(id = R.drawable.basic_tank_half_28),
+        painterResource(id = R.drawable.basic_tank_half_29),
+        painterResource(id = R.drawable.basic_tank_half_30),
+        painterResource(id = R.drawable.basic_tank_half_31),
+        painterResource(id = R.drawable.basic_tank_half_32),
+        painterResource(id = R.drawable.basic_tank_half_33),
+        painterResource(id = R.drawable.basic_tank_half_34),
+        painterResource(id = R.drawable.basic_tank_half_35),
+        painterResource(id = R.drawable.basic_tank_half_36),
+        painterResource(id = R.drawable.basic_tank_half_37),
+        painterResource(id = R.drawable.basic_tank_half_38),
+        painterResource(id = R.drawable.basic_tank_half_39),
+        painterResource(id = R.drawable.basic_tank_half_40),
+        painterResource(id = R.drawable.basic_tank_half_41),
+        painterResource(id = R.drawable.basic_tank_half_42),
+        painterResource(id = R.drawable.basic_tank_half_43),
+        painterResource(id = R.drawable.basic_tank_half_44),
+    )
+    return imagenes
+}
+
+@Composable
+fun fisbowlEmptyanimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.basic_tank_empty_1),
+        painterResource(id = R.drawable.basic_tank_empty_2),
+        painterResource(id = R.drawable.basic_tank_empty_3),
+        painterResource(id = R.drawable.basic_tank_empty_4),
+        painterResource(id = R.drawable.basic_tank_empty_5),
+        painterResource(id = R.drawable.basic_tank_empty_6),
+        painterResource(id = R.drawable.basic_tank_empty_7),
+        painterResource(id = R.drawable.basic_tank_empty_8),
+        painterResource(id = R.drawable.basic_tank_empty_9),
+        painterResource(id = R.drawable.basic_tank_empty_10),
+        painterResource(id = R.drawable.basic_tank_empty_11),
+        painterResource(id = R.drawable.basic_tank_empty_12),
+        painterResource(id = R.drawable.basic_tank_empty_13),
+        painterResource(id = R.drawable.basic_tank_empty_14),
+        painterResource(id = R.drawable.basic_tank_empty_15),
+        painterResource(id = R.drawable.basic_tank_empty_16),
+        painterResource(id = R.drawable.basic_tank_empty_17),
+        painterResource(id = R.drawable.basic_tank_empty_18),
+        painterResource(id = R.drawable.basic_tank_empty_19),
+        painterResource(id = R.drawable.basic_tank_empty_20),
+        painterResource(id = R.drawable.basic_tank_empty_21),
+        painterResource(id = R.drawable.basic_tank_empty_22),
+        painterResource(id = R.drawable.basic_tank_empty_23),
+        painterResource(id = R.drawable.basic_tank_empty_24),
+        painterResource(id = R.drawable.basic_tank_empty_25),
+        painterResource(id = R.drawable.basic_tank_empty_26),
+        painterResource(id = R.drawable.basic_tank_empty_27),
+        painterResource(id = R.drawable.basic_tank_empty_28),
+        painterResource(id = R.drawable.basic_tank_empty_29),
+        painterResource(id = R.drawable.basic_tank_empty_30),
+        painterResource(id = R.drawable.basic_tank_empty_31),
+        painterResource(id = R.drawable.basic_tank_empty_32),
+        painterResource(id = R.drawable.basic_tank_empty_33),
+        painterResource(id = R.drawable.basic_tank_empty_34),
+        painterResource(id = R.drawable.basic_tank_empty_35),
+        painterResource(id = R.drawable.basic_tank_empty_36),
+        painterResource(id = R.drawable.basic_tank_empty_37),
+        painterResource(id = R.drawable.basic_tank_empty_38),
+        painterResource(id = R.drawable.basic_tank_empty_39),
+        painterResource(id = R.drawable.basic_tank_empty_40),
+        painterResource(id = R.drawable.basic_tank_empty_41),
+        painterResource(id = R.drawable.basic_tank_empty_42),
+        painterResource(id = R.drawable.basic_tank_empty_43),
+        painterResource(id = R.drawable.basic_tank_empty_44),
+
+        )
+    return imagenes
+}
+
+
+@Composable
 fun fisbowlMoyaiAnimated(): List<Painter> {
     val imagenes = listOf(
         painterResource(id = R.drawable.moyai1),
@@ -132,6 +236,109 @@ fun fisbowlMoyaiAnimated(): List<Painter> {
 }
 
 @Composable
+fun fisbowlMoyaiMidAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.moai_tank_half_1),
+        painterResource(id = R.drawable.moai_tank_half_2),
+        painterResource(id = R.drawable.moai_tank_half_3),
+        painterResource(id = R.drawable.moai_tank_half_4),
+        painterResource(id = R.drawable.moai_tank_half_5),
+        painterResource(id = R.drawable.moai_tank_half_6),
+        painterResource(id = R.drawable.moai_tank_half_7),
+        painterResource(id = R.drawable.moai_tank_half_8),
+        painterResource(id = R.drawable.moai_tank_half_9),
+        painterResource(id = R.drawable.moai_tank_half_10),
+        painterResource(id = R.drawable.moai_tank_half_11),
+        painterResource(id = R.drawable.moai_tank_half_12),
+        painterResource(id = R.drawable.moai_tank_half_13),
+        painterResource(id = R.drawable.moai_tank_half_14),
+        painterResource(id = R.drawable.moai_tank_half_15),
+        painterResource(id = R.drawable.moai_tank_half_16),
+        painterResource(id = R.drawable.moai_tank_half_17),
+        painterResource(id = R.drawable.moai_tank_half_18),
+        painterResource(id = R.drawable.moai_tank_half_19),
+        painterResource(id = R.drawable.moai_tank_half_20),
+        painterResource(id = R.drawable.moai_tank_half_21),
+        painterResource(id = R.drawable.moai_tank_half_22),
+        painterResource(id = R.drawable.moai_tank_half_23),
+        painterResource(id = R.drawable.moai_tank_half_24),
+        painterResource(id = R.drawable.moai_tank_half_25),
+        painterResource(id = R.drawable.moai_tank_half_26),
+        painterResource(id = R.drawable.moai_tank_half_27),
+        painterResource(id = R.drawable.moai_tank_half_28),
+        painterResource(id = R.drawable.moai_tank_half_29),
+        painterResource(id = R.drawable.moai_tank_half_30),
+        painterResource(id = R.drawable.moai_tank_half_31),
+        painterResource(id = R.drawable.moai_tank_half_32),
+        painterResource(id = R.drawable.moai_tank_half_33),
+        painterResource(id = R.drawable.moai_tank_half_34),
+        painterResource(id = R.drawable.moai_tank_half_35),
+        painterResource(id = R.drawable.moai_tank_half_36),
+        painterResource(id = R.drawable.moai_tank_half_37),
+        painterResource(id = R.drawable.moai_tank_half_38),
+        painterResource(id = R.drawable.moai_tank_half_39),
+        painterResource(id = R.drawable.moai_tank_half_40),
+        painterResource(id = R.drawable.moai_tank_half_41),
+        painterResource(id = R.drawable.moai_tank_half_42),
+        painterResource(id = R.drawable.moai_tank_half_43),
+        painterResource(id = R.drawable.moai_tank_half_44),
+
+        )
+    return imagenes
+}
+
+@Composable
+fun fisbowlMoyaiEmptyAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.moai_tank_empty_1),
+        painterResource(id = R.drawable.moai_tank_empty_2),
+        painterResource(id = R.drawable.moai_tank_empty_3),
+        painterResource(id = R.drawable.moai_tank_empty_4),
+        painterResource(id = R.drawable.moai_tank_empty_5),
+        painterResource(id = R.drawable.moai_tank_empty_6),
+        painterResource(id = R.drawable.moai_tank_empty_7),
+        painterResource(id = R.drawable.moai_tank_empty_8),
+        painterResource(id = R.drawable.moai_tank_empty_9),
+        painterResource(id = R.drawable.moai_tank_empty_10),
+        painterResource(id = R.drawable.moai_tank_empty_11),
+        painterResource(id = R.drawable.moai_tank_empty_12),
+        painterResource(id = R.drawable.moai_tank_empty_13),
+        painterResource(id = R.drawable.moai_tank_empty_14),
+        painterResource(id = R.drawable.moai_tank_empty_15),
+        painterResource(id = R.drawable.moai_tank_empty_16),
+        painterResource(id = R.drawable.moai_tank_empty_17),
+        painterResource(id = R.drawable.moai_tank_empty_18),
+        painterResource(id = R.drawable.moai_tank_empty_19),
+        painterResource(id = R.drawable.moai_tank_empty_20),
+        painterResource(id = R.drawable.moai_tank_empty_21),
+        painterResource(id = R.drawable.moai_tank_empty_22),
+        painterResource(id = R.drawable.moai_tank_empty_23),
+        painterResource(id = R.drawable.moai_tank_empty_24),
+        painterResource(id = R.drawable.moai_tank_empty_25),
+        painterResource(id = R.drawable.moai_tank_empty_26),
+        painterResource(id = R.drawable.moai_tank_empty_27),
+        painterResource(id = R.drawable.moai_tank_empty_28),
+        painterResource(id = R.drawable.moai_tank_empty_29),
+        painterResource(id = R.drawable.moai_tank_empty_30),
+        painterResource(id = R.drawable.moai_tank_empty_31),
+        painterResource(id = R.drawable.moai_tank_empty_32),
+        painterResource(id = R.drawable.moai_tank_empty_33),
+        painterResource(id = R.drawable.moai_tank_empty_34),
+        painterResource(id = R.drawable.moai_tank_empty_35),
+        painterResource(id = R.drawable.moai_tank_empty_36),
+        painterResource(id = R.drawable.moai_tank_empty_37),
+        painterResource(id = R.drawable.moai_tank_empty_38),
+        painterResource(id = R.drawable.moai_tank_empty_39),
+        painterResource(id = R.drawable.moai_tank_empty_40),
+        painterResource(id = R.drawable.moai_tank_empty_41),
+        painterResource(id = R.drawable.moai_tank_empty_42),
+        painterResource(id = R.drawable.moai_tank_empty_43),
+        painterResource(id = R.drawable.moai_tank_empty_44),
+        )
+    return imagenes
+}
+
+@Composable
 fun fisbowlIgluAnimated(): List<Painter> {
     val imagenes = listOf(
         painterResource(id = R.drawable.iglu1),
@@ -178,6 +385,109 @@ fun fisbowlIgluAnimated(): List<Painter> {
         painterResource(id = R.drawable.iglu42),
         painterResource(id = R.drawable.iglu43),
         painterResource(id = R.drawable.iglu44),
+        )
+    return imagenes
+}
+
+@Composable
+fun fisbowlIgluMidAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.igloo_tank_half_1),
+        painterResource(id = R.drawable.igloo_tank_half_2),
+        painterResource(id = R.drawable.igloo_tank_half_3),
+        painterResource(id = R.drawable.igloo_tank_half_4),
+        painterResource(id = R.drawable.igloo_tank_half_5),
+        painterResource(id = R.drawable.igloo_tank_half_6),
+        painterResource(id = R.drawable.igloo_tank_half_7),
+        painterResource(id = R.drawable.igloo_tank_half_8),
+        painterResource(id = R.drawable.igloo_tank_half_9),
+        painterResource(id = R.drawable.igloo_tank_half_10),
+        painterResource(id = R.drawable.igloo_tank_half_11),
+        painterResource(id = R.drawable.igloo_tank_half_12),
+        painterResource(id = R.drawable.igloo_tank_half_13),
+        painterResource(id = R.drawable.igloo_tank_half_14),
+        painterResource(id = R.drawable.igloo_tank_half_15),
+        painterResource(id = R.drawable.igloo_tank_half_16),
+        painterResource(id = R.drawable.igloo_tank_half_17),
+        painterResource(id = R.drawable.igloo_tank_half_18),
+        painterResource(id = R.drawable.igloo_tank_half_19),
+        painterResource(id = R.drawable.igloo_tank_half_20),
+        painterResource(id = R.drawable.igloo_tank_half_21),
+        painterResource(id = R.drawable.igloo_tank_half_22),
+        painterResource(id = R.drawable.igloo_tank_half_23),
+        painterResource(id = R.drawable.igloo_tank_half_24),
+        painterResource(id = R.drawable.igloo_tank_half_25),
+        painterResource(id = R.drawable.igloo_tank_half_26),
+        painterResource(id = R.drawable.igloo_tank_half_27),
+        painterResource(id = R.drawable.igloo_tank_half_28),
+        painterResource(id = R.drawable.igloo_tank_half_29),
+        painterResource(id = R.drawable.igloo_tank_half_30),
+        painterResource(id = R.drawable.igloo_tank_half_31),
+        painterResource(id = R.drawable.igloo_tank_half_32),
+        painterResource(id = R.drawable.igloo_tank_half_33),
+        painterResource(id = R.drawable.igloo_tank_half_34),
+        painterResource(id = R.drawable.igloo_tank_half_35),
+        painterResource(id = R.drawable.igloo_tank_half_36),
+        painterResource(id = R.drawable.igloo_tank_half_37),
+        painterResource(id = R.drawable.igloo_tank_half_38),
+        painterResource(id = R.drawable.igloo_tank_half_39),
+        painterResource(id = R.drawable.igloo_tank_half_40),
+        painterResource(id = R.drawable.igloo_tank_half_41),
+        painterResource(id = R.drawable.igloo_tank_half_42),
+        painterResource(id = R.drawable.igloo_tank_half_43),
+        painterResource(id = R.drawable.igloo_tank_half_44),
+
+        )
+    return imagenes
+}
+
+@Composable
+fun fisbowlIgluEmptyAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.igloo_tank_empty_1),
+        painterResource(id = R.drawable.igloo_tank_empty_2),
+        painterResource(id = R.drawable.igloo_tank_empty_3),
+        painterResource(id = R.drawable.igloo_tank_empty_4),
+        painterResource(id = R.drawable.igloo_tank_empty_5),
+        painterResource(id = R.drawable.igloo_tank_empty_6),
+        painterResource(id = R.drawable.igloo_tank_empty_7),
+        painterResource(id = R.drawable.igloo_tank_empty_8),
+        painterResource(id = R.drawable.igloo_tank_empty_9),
+        painterResource(id = R.drawable.igloo_tank_empty_10),
+        painterResource(id = R.drawable.igloo_tank_empty_11),
+        painterResource(id = R.drawable.igloo_tank_empty_12),
+        painterResource(id = R.drawable.igloo_tank_empty_13),
+        painterResource(id = R.drawable.igloo_tank_empty_14),
+        painterResource(id = R.drawable.igloo_tank_empty_15),
+        painterResource(id = R.drawable.igloo_tank_empty_16),
+        painterResource(id = R.drawable.igloo_tank_empty_17),
+        painterResource(id = R.drawable.igloo_tank_empty_18),
+        painterResource(id = R.drawable.igloo_tank_empty_19),
+        painterResource(id = R.drawable.igloo_tank_empty_20),
+        painterResource(id = R.drawable.igloo_tank_empty_21),
+        painterResource(id = R.drawable.igloo_tank_empty_22),
+        painterResource(id = R.drawable.igloo_tank_empty_23),
+        painterResource(id = R.drawable.igloo_tank_empty_24),
+        painterResource(id = R.drawable.igloo_tank_empty_25),
+        painterResource(id = R.drawable.igloo_tank_empty_26),
+        painterResource(id = R.drawable.igloo_tank_empty_27),
+        painterResource(id = R.drawable.igloo_tank_empty_28),
+        painterResource(id = R.drawable.igloo_tank_empty_29),
+        painterResource(id = R.drawable.igloo_tank_empty_30),
+        painterResource(id = R.drawable.igloo_tank_empty_31),
+        painterResource(id = R.drawable.igloo_tank_empty_32),
+        painterResource(id = R.drawable.igloo_tank_empty_33),
+        painterResource(id = R.drawable.igloo_tank_empty_34),
+        painterResource(id = R.drawable.igloo_tank_empty_35),
+        painterResource(id = R.drawable.igloo_tank_empty_36),
+        painterResource(id = R.drawable.igloo_tank_empty_37),
+        painterResource(id = R.drawable.igloo_tank_empty_38),
+        painterResource(id = R.drawable.igloo_tank_empty_39),
+        painterResource(id = R.drawable.igloo_tank_empty_40),
+        painterResource(id = R.drawable.igloo_tank_empty_41),
+        painterResource(id = R.drawable.igloo_tank_empty_42),
+        painterResource(id = R.drawable.igloo_tank_empty_43),
+        painterResource(id = R.drawable.igloo_tank_empty_44),
         )
     return imagenes
 }
@@ -234,7 +544,108 @@ fun fisbowlPlayaAnimated(): List<Painter> {
 }
 
 @Composable
+fun fisbowlMidPlayaAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.palm_tank_half_1),
+        painterResource(id = R.drawable.palm_tank_half_2),
+        painterResource(id = R.drawable.palm_tank_half_3),
+        painterResource(id = R.drawable.palm_tank_half_4),
+        painterResource(id = R.drawable.palm_tank_half_5),
+        painterResource(id = R.drawable.palm_tank_half_6),
+        painterResource(id = R.drawable.palm_tank_half_7),
+        painterResource(id = R.drawable.palm_tank_half_8),
+        painterResource(id = R.drawable.palm_tank_half_9),
+        painterResource(id = R.drawable.palm_tank_half_10),
+        painterResource(id = R.drawable.palm_tank_half_11),
+        painterResource(id = R.drawable.palm_tank_half_12),
+        painterResource(id = R.drawable.palm_tank_half_13),
+        painterResource(id = R.drawable.palm_tank_half_14),
+        painterResource(id = R.drawable.palm_tank_half_15),
+        painterResource(id = R.drawable.palm_tank_half_16),
+        painterResource(id = R.drawable.palm_tank_half_17),
+        painterResource(id = R.drawable.palm_tank_half_18),
+        painterResource(id = R.drawable.palm_tank_half_19),
+        painterResource(id = R.drawable.palm_tank_half_20),
+        painterResource(id = R.drawable.palm_tank_half_21),
+        painterResource(id = R.drawable.palm_tank_half_22),
+        painterResource(id = R.drawable.palm_tank_half_23),
+        painterResource(id = R.drawable.palm_tank_half_24),
+        painterResource(id = R.drawable.palm_tank_half_25),
+        painterResource(id = R.drawable.palm_tank_half_26),
+        painterResource(id = R.drawable.palm_tank_half_27),
+        painterResource(id = R.drawable.palm_tank_half_28),
+        painterResource(id = R.drawable.palm_tank_half_29),
+        painterResource(id = R.drawable.palm_tank_half_30),
+        painterResource(id = R.drawable.palm_tank_half_31),
+        painterResource(id = R.drawable.palm_tank_half_32),
+        painterResource(id = R.drawable.palm_tank_half_33),
+        painterResource(id = R.drawable.palm_tank_half_34),
+        painterResource(id = R.drawable.palm_tank_half_35),
+        painterResource(id = R.drawable.palm_tank_half_36),
+        painterResource(id = R.drawable.palm_tank_half_37),
+        painterResource(id = R.drawable.palm_tank_half_38),
+        painterResource(id = R.drawable.palm_tank_half_39),
+        painterResource(id = R.drawable.palm_tank_half_40),
+        painterResource(id = R.drawable.palm_tank_half_41),
+        painterResource(id = R.drawable.palm_tank_half_42),
+        painterResource(id = R.drawable.palm_tank_half_43),
+        painterResource(id = R.drawable.palm_tank_half_44),
+        )
+    return imagenes
+}
 
+@Composable
+fun fishBowlEmptyPlaya(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.palm_tank_empty_1),
+        painterResource(id = R.drawable.palm_tank_empty_2),
+        painterResource(id = R.drawable.palm_tank_empty_3),
+        painterResource(id = R.drawable.palm_tank_empty_4),
+        painterResource(id = R.drawable.palm_tank_empty_5),
+        painterResource(id = R.drawable.palm_tank_empty_6),
+        painterResource(id = R.drawable.palm_tank_empty_7),
+        painterResource(id = R.drawable.palm_tank_empty_8),
+        painterResource(id = R.drawable.palm_tank_empty_9),
+        painterResource(id = R.drawable.palm_tank_empty_10),
+        painterResource(id = R.drawable.palm_tank_empty_11),
+        painterResource(id = R.drawable.palm_tank_empty_12),
+        painterResource(id = R.drawable.palm_tank_empty_13),
+        painterResource(id = R.drawable.palm_tank_empty_14),
+        painterResource(id = R.drawable.palm_tank_empty_15),
+        painterResource(id = R.drawable.palm_tank_empty_16),
+        painterResource(id = R.drawable.palm_tank_empty_17),
+        painterResource(id = R.drawable.palm_tank_empty_18),
+        painterResource(id = R.drawable.palm_tank_empty_19),
+        painterResource(id = R.drawable.palm_tank_empty_20),
+        painterResource(id = R.drawable.palm_tank_empty_21),
+        painterResource(id = R.drawable.palm_tank_empty_22),
+        painterResource(id = R.drawable.palm_tank_empty_23),
+        painterResource(id = R.drawable.palm_tank_empty_24),
+        painterResource(id = R.drawable.palm_tank_empty_25),
+        painterResource(id = R.drawable.palm_tank_empty_26),
+        painterResource(id = R.drawable.palm_tank_empty_27),
+        painterResource(id = R.drawable.palm_tank_empty_28),
+        painterResource(id = R.drawable.palm_tank_empty_29),
+        painterResource(id = R.drawable.palm_tank_empty_30),
+        painterResource(id = R.drawable.palm_tank_empty_31),
+        painterResource(id = R.drawable.palm_tank_empty_32),
+        painterResource(id = R.drawable.palm_tank_empty_33),
+        painterResource(id = R.drawable.palm_tank_empty_34),
+        painterResource(id = R.drawable.palm_tank_empty_35),
+        painterResource(id = R.drawable.palm_tank_empty_36),
+        painterResource(id = R.drawable.palm_tank_empty_37),
+        painterResource(id = R.drawable.palm_tank_empty_38),
+        painterResource(id = R.drawable.palm_tank_empty_39),
+        painterResource(id = R.drawable.palm_tank_empty_40),
+        painterResource(id = R.drawable.palm_tank_empty_41),
+        painterResource(id = R.drawable.palm_tank_empty_42),
+        painterResource(id = R.drawable.palm_tank_empty_43),
+        painterResource(id = R.drawable.palm_tank_empty_44),
+
+        )
+    return imagenes
+}
+@Composable
 fun fishBowlPineapple(): List<Painter> {
     val imagenes = listOf(
         painterResource(id = R.drawable.pineapple_tank_full_1),
@@ -286,6 +697,112 @@ fun fishBowlPineapple(): List<Painter> {
 }
 
 @Composable
+fun fishBowlMidPineapple(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.pineapple_tank_half_1),
+        painterResource(id = R.drawable.pineapple_tank_half_2),
+        painterResource(id = R.drawable.pineapple_tank_half_3),
+        painterResource(id = R.drawable.pineapple_tank_half_4),
+        painterResource(id = R.drawable.pineapple_tank_half_5),
+        painterResource(id = R.drawable.pineapple_tank_half_6),
+        painterResource(id = R.drawable.pineapple_tank_half_7),
+        painterResource(id = R.drawable.pineapple_tank_half_8),
+        painterResource(id = R.drawable.pineapple_tank_half_9),
+        painterResource(id = R.drawable.pineapple_tank_half_10),
+        painterResource(id = R.drawable.pineapple_tank_half_11),
+        painterResource(id = R.drawable.pineapple_tank_half_12),
+        painterResource(id = R.drawable.pineapple_tank_half_13),
+        painterResource(id = R.drawable.pineapple_tank_half_14),
+        painterResource(id = R.drawable.pineapple_tank_half_15),
+        painterResource(id = R.drawable.pineapple_tank_half_16),
+        painterResource(id = R.drawable.pineapple_tank_half_17),
+        painterResource(id = R.drawable.pineapple_tank_half_18),
+        painterResource(id = R.drawable.pineapple_tank_half_19),
+        painterResource(id = R.drawable.pineapple_tank_half_20),
+        painterResource(id = R.drawable.pineapple_tank_half_21),
+        painterResource(id = R.drawable.pineapple_tank_half_22),
+        painterResource(id = R.drawable.pineapple_tank_half_23),
+        painterResource(id = R.drawable.pineapple_tank_half_24),
+        painterResource(id = R.drawable.pineapple_tank_half_25),
+        painterResource(id = R.drawable.pineapple_tank_half_26),
+        painterResource(id = R.drawable.pineapple_tank_half_27),
+        painterResource(id = R.drawable.pineapple_tank_half_28),
+        painterResource(id = R.drawable.pineapple_tank_half_29),
+        painterResource(id = R.drawable.pineapple_tank_half_30),
+        painterResource(id = R.drawable.pineapple_tank_half_31),
+        painterResource(id = R.drawable.pineapple_tank_half_32),
+        painterResource(id = R.drawable.pineapple_tank_half_33),
+        painterResource(id = R.drawable.pineapple_tank_half_34),
+        painterResource(id = R.drawable.pineapple_tank_half_35),
+        painterResource(id = R.drawable.pineapple_tank_half_36),
+        painterResource(id = R.drawable.pineapple_tank_half_37),
+        painterResource(id = R.drawable.pineapple_tank_half_38),
+        painterResource(id = R.drawable.pineapple_tank_half_39),
+        painterResource(id = R.drawable.pineapple_tank_half_40),
+        painterResource(id = R.drawable.pineapple_tank_half_41),
+        painterResource(id = R.drawable.pineapple_tank_half_42),
+        painterResource(id = R.drawable.pineapple_tank_half_43),
+        painterResource(id = R.drawable.pineapple_tank_half_44),
+
+        )
+    return imagenes
+}
+
+@Composable
+fun fishBowlEmptyPineapple(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.pineapple_tank_empty_1),
+        painterResource(id = R.drawable.pineapple_tank_empty_2),
+        painterResource(id = R.drawable.pineapple_tank_empty_3),
+        painterResource(id = R.drawable.pineapple_tank_empty_4),
+        painterResource(id = R.drawable.pineapple_tank_empty_5),
+        painterResource(id = R.drawable.pineapple_tank_empty_6),
+        painterResource(id = R.drawable.pineapple_tank_empty_7),
+        painterResource(id = R.drawable.pineapple_tank_empty_8),
+        painterResource(id = R.drawable.pineapple_tank_empty_9),
+        painterResource(id = R.drawable.pineapple_tank_empty_10),
+        painterResource(id = R.drawable.pineapple_tank_empty_11),
+        painterResource(id = R.drawable.pineapple_tank_empty_12),
+        painterResource(id = R.drawable.pineapple_tank_empty_13),
+        painterResource(id = R.drawable.pineapple_tank_empty_14),
+        painterResource(id = R.drawable.pineapple_tank_empty_15),
+        painterResource(id = R.drawable.pineapple_tank_empty_16),
+        painterResource(id = R.drawable.pineapple_tank_empty_17),
+        painterResource(id = R.drawable.pineapple_tank_empty_18),
+        painterResource(id = R.drawable.pineapple_tank_empty_19),
+        painterResource(id = R.drawable.pineapple_tank_empty_20),
+        painterResource(id = R.drawable.pineapple_tank_empty_21),
+        painterResource(id = R.drawable.pineapple_tank_empty_22),
+        painterResource(id = R.drawable.pineapple_tank_empty_23),
+        painterResource(id = R.drawable.pineapple_tank_empty_24),
+        painterResource(id = R.drawable.pineapple_tank_empty_25),
+        painterResource(id = R.drawable.pineapple_tank_empty_26),
+        painterResource(id = R.drawable.pineapple_tank_empty_27),
+        painterResource(id = R.drawable.pineapple_tank_empty_28),
+        painterResource(id = R.drawable.pineapple_tank_empty_29),
+        painterResource(id = R.drawable.pineapple_tank_empty_30),
+        painterResource(id = R.drawable.pineapple_tank_empty_31),
+        painterResource(id = R.drawable.pineapple_tank_empty_32),
+        painterResource(id = R.drawable.pineapple_tank_empty_33),
+        painterResource(id = R.drawable.pineapple_tank_empty_34),
+        painterResource(id = R.drawable.pineapple_tank_empty_35),
+        painterResource(id = R.drawable.pineapple_tank_empty_36),
+        painterResource(id = R.drawable.pineapple_tank_empty_37),
+        painterResource(id = R.drawable.pineapple_tank_empty_38),
+        painterResource(id = R.drawable.pineapple_tank_empty_39),
+        painterResource(id = R.drawable.pineapple_tank_empty_40),
+        painterResource(id = R.drawable.pineapple_tank_empty_41),
+        painterResource(id = R.drawable.pineapple_tank_empty_42),
+        painterResource(id = R.drawable.pineapple_tank_empty_43),
+        painterResource(id = R.drawable.pineapple_tank_empty_44),
+
+
+        )
+    return imagenes
+}
+
+
+@Composable
 fun ajoAnimated(): List<Painter> {
     val imagenes = listOf(
         painterResource(id = R.drawable.ajo1),
@@ -305,6 +822,50 @@ fun ajoAnimated(): List<Painter> {
     )
     return imagenes
 }
+
+@Composable
+fun ajoSadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.basic_axolote_sad_1),
+        painterResource(id = R.drawable.basic_axolote_sad_2),
+        painterResource(id = R.drawable.basic_axolote_sad_3),
+        painterResource(id = R.drawable.basic_axolote_sad_4),
+        painterResource(id = R.drawable.basic_axolote_sad_5),
+        painterResource(id = R.drawable.basic_axolote_sad_6),
+        painterResource(id = R.drawable.basic_axolote_sad_7),
+        painterResource(id = R.drawable.basic_axolote_sad_8),
+        painterResource(id = R.drawable.basic_axolote_sad_9),
+        painterResource(id = R.drawable.basic_axolote_sad_10),
+        painterResource(id = R.drawable.basic_axolote_sad_11),
+        painterResource(id = R.drawable.basic_axolote_sad_12),
+        painterResource(id = R.drawable.basic_axolote_sad_13),
+        painterResource(id = R.drawable.basic_axolote_sad_14),
+
+        )
+    return imagenes
+}
+
+@Composable
+fun ajoVerySadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.basic_axolote_verysad_1),
+        painterResource(id = R.drawable.basic_axolote_verysad_2),
+        painterResource(id = R.drawable.basic_axolote_verysad_3),
+        painterResource(id = R.drawable.basic_axolote_verysad_4),
+        painterResource(id = R.drawable.basic_axolote_verysad_5),
+        painterResource(id = R.drawable.basic_axolote_verysad_6),
+        painterResource(id = R.drawable.basic_axolote_verysad_7),
+        painterResource(id = R.drawable.basic_axolote_verysad_8),
+        painterResource(id = R.drawable.basic_axolote_verysad_9),
+        painterResource(id = R.drawable.basic_axolote_verysad_10),
+        painterResource(id = R.drawable.basic_axolote_verysad_11),
+        painterResource(id = R.drawable.basic_axolote_verysad_12),
+        painterResource(id = R.drawable.basic_axolote_verysad_13),
+        painterResource(id = R.drawable.basic_axolote_verysad_14),
+        )
+    return imagenes
+}
+
 
 @Composable
 fun ajoVikingoAnimated(): List<Painter> {
@@ -327,23 +888,47 @@ fun ajoVikingoAnimated(): List<Painter> {
     )
     return imagenes
 }
+
 @Composable
-fun ajoLentesAnimated(): List<Painter> {
+fun ajoVikingoSadAnimated(): List<Painter> {
     val imagenes = listOf(
-        painterResource(id = R.drawable.ajlentes1),
-        painterResource(id = R.drawable.ajlentes2),
-        painterResource(id = R.drawable.ajlentes3),
-        painterResource(id = R.drawable.ajlentes4),
-        painterResource(id = R.drawable.ajlentes5),
-        painterResource(id = R.drawable.ajlentes6),
-        painterResource(id = R.drawable.ajlentes7),
-        painterResource(id = R.drawable.ajlentes8),
-        painterResource(id = R.drawable.ajlentes9),
-        painterResource(id = R.drawable.ajlentes10),
-        painterResource(id = R.drawable.ajlentes11),
-        painterResource(id = R.drawable.ajlentes12),
-        painterResource(id = R.drawable.ajlentes13),
-        painterResource(id = R.drawable.ajlentes14),
+        painterResource(id = R.drawable.viking_axolote_sad_1),
+        painterResource(id = R.drawable.viking_axolote_sad_2),
+        painterResource(id = R.drawable.viking_axolote_sad_3),
+        painterResource(id = R.drawable.viking_axolote_sad_4),
+        painterResource(id = R.drawable.viking_axolote_sad_5),
+        painterResource(id = R.drawable.viking_axolote_sad_6),
+        painterResource(id = R.drawable.viking_axolote_sad_7),
+        painterResource(id = R.drawable.viking_axolote_sad_8),
+        painterResource(id = R.drawable.viking_axolote_sad_9),
+        painterResource(id = R.drawable.viking_axolote_sad_10),
+        painterResource(id = R.drawable.viking_axolote_sad_11),
+        painterResource(id = R.drawable.viking_axolote_sad_12),
+        painterResource(id = R.drawable.viking_axolote_sad_13),
+        painterResource(id = R.drawable.viking_axolote_sad_14),
+        )
+    return imagenes
+}
+
+
+@Composable
+fun ajoVikingoVerySadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.viking_axolote_verysad_1),
+        painterResource(id = R.drawable.viking_axolote_verysad_2),
+        painterResource(id = R.drawable.viking_axolote_verysad_3),
+        painterResource(id = R.drawable.viking_axolote_verysad_4),
+        painterResource(id = R.drawable.viking_axolote_verysad_5),
+        painterResource(id = R.drawable.viking_axolote_verysad_6),
+        painterResource(id = R.drawable.viking_axolote_verysad_7),
+        painterResource(id = R.drawable.viking_axolote_verysad_8),
+        painterResource(id = R.drawable.viking_axolote_verysad_9),
+        painterResource(id = R.drawable.viking_axolote_verysad_10),
+        painterResource(id = R.drawable.viking_axolote_verysad_11),
+        painterResource(id = R.drawable.viking_axolote_verysad_12),
+        painterResource(id = R.drawable.viking_axolote_verysad_13),
+        painterResource(id = R.drawable.viking_axolote_verysad_14),
+
         )
     return imagenes
 }
@@ -370,6 +955,49 @@ fun ajoMexAnimated(): List<Painter> {
 }
 
 @Composable
+fun ajoMexSadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.mexican_axolote_sad_1),
+        painterResource(id = R.drawable.mexican_axolote_sad_2),
+        painterResource(id = R.drawable.mexican_axolote_sad_3),
+        painterResource(id = R.drawable.mexican_axolote_sad_4),
+        painterResource(id = R.drawable.mexican_axolote_sad_5),
+        painterResource(id = R.drawable.mexican_axolote_sad_6),
+        painterResource(id = R.drawable.mexican_axolote_sad_7),
+        painterResource(id = R.drawable.mexican_axolote_sad_8),
+        painterResource(id = R.drawable.mexican_axolote_sad_9),
+        painterResource(id = R.drawable.mexican_axolote_sad_10),
+        painterResource(id = R.drawable.mexican_axolote_sad_11),
+        painterResource(id = R.drawable.mexican_axolote_sad_12),
+        painterResource(id = R.drawable.mexican_axolote_sad_13),
+        painterResource(id = R.drawable.mexican_axolote_sad_14),
+
+        )
+    return imagenes
+}
+
+@Composable
+fun ajoMexVerySadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.mexican_axolote_verysad_1),
+        painterResource(id = R.drawable.mexican_axolote_verysad_2),
+        painterResource(id = R.drawable.mexican_axolote_verysad_3),
+        painterResource(id = R.drawable.mexican_axolote_verysad_4),
+        painterResource(id = R.drawable.mexican_axolote_verysad_5),
+        painterResource(id = R.drawable.mexican_axolote_verysad_6),
+        painterResource(id = R.drawable.mexican_axolote_verysad_7),
+        painterResource(id = R.drawable.mexican_axolote_verysad_8),
+        painterResource(id = R.drawable.mexican_axolote_verysad_9),
+        painterResource(id = R.drawable.mexican_axolote_verysad_10),
+        painterResource(id = R.drawable.mexican_axolote_verysad_11),
+        painterResource(id = R.drawable.mexican_axolote_verysad_12),
+        painterResource(id = R.drawable.mexican_axolote_verysad_13),
+        painterResource(id = R.drawable.mexican_axolote_verysad_14),
+        )
+    return imagenes
+}
+
+@Composable
 fun ajoFlorAnimated(): List<Painter> {
     val imagenes = listOf(
         painterResource(id = R.drawable.ajflor1),
@@ -390,6 +1018,117 @@ fun ajoFlorAnimated(): List<Painter> {
     )
     return imagenes
 
+}
+
+@Composable
+fun ajoFlorSadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.flower_axolote_sad_1),
+        painterResource(id = R.drawable.flower_axolote_sad_2),
+        painterResource(id = R.drawable.flower_axolote_sad_3),
+        painterResource(id = R.drawable.flower_axolote_sad_4),
+        painterResource(id = R.drawable.flower_axolote_sad_5),
+        painterResource(id = R.drawable.flower_axolote_sad_6),
+        painterResource(id = R.drawable.flower_axolote_sad_7),
+        painterResource(id = R.drawable.flower_axolote_sad_8),
+        painterResource(id = R.drawable.flower_axolote_sad_9),
+        painterResource(id = R.drawable.flower_axolote_sad_10),
+        painterResource(id = R.drawable.flower_axolote_sad_11),
+        painterResource(id = R.drawable.flower_axolote_sad_12),
+        painterResource(id = R.drawable.flower_axolote_sad_13),
+        painterResource(id = R.drawable.flower_axolote_sad_14),
+
+        )
+    return imagenes
+
+}
+
+@Composable
+fun ajoFlorVerySadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.flower_axolote_verysad_1),
+        painterResource(id = R.drawable.flower_axolote_verysad_2),
+        painterResource(id = R.drawable.flower_axolote_verysad_3),
+        painterResource(id = R.drawable.flower_axolote_verysad_4),
+        painterResource(id = R.drawable.flower_axolote_verysad_5),
+        painterResource(id = R.drawable.flower_axolote_verysad_6),
+        painterResource(id = R.drawable.flower_axolote_verysad_7),
+        painterResource(id = R.drawable.flower_axolote_verysad_8),
+        painterResource(id = R.drawable.flower_axolote_verysad_9),
+        painterResource(id = R.drawable.flower_axolote_verysad_10),
+        painterResource(id = R.drawable.flower_axolote_verysad_11),
+        painterResource(id = R.drawable.flower_axolote_verysad_12),
+        painterResource(id = R.drawable.flower_axolote_verysad_13),
+        painterResource(id = R.drawable.flower_axolote_verysad_14),
+        )
+    return imagenes
+
+}
+
+@Composable
+fun ajoLentesAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.ajlentes1),
+        painterResource(id = R.drawable.ajlentes2),
+        painterResource(id = R.drawable.ajlentes3),
+        painterResource(id = R.drawable.ajlentes4),
+        painterResource(id = R.drawable.ajlentes5),
+        painterResource(id = R.drawable.ajlentes6),
+        painterResource(id = R.drawable.ajlentes7),
+        painterResource(id = R.drawable.ajlentes8),
+        painterResource(id = R.drawable.ajlentes9),
+        painterResource(id = R.drawable.ajlentes10),
+        painterResource(id = R.drawable.ajlentes11),
+        painterResource(id = R.drawable.ajlentes12),
+        painterResource(id = R.drawable.ajlentes13),
+        painterResource(id = R.drawable.ajlentes14),
+
+        )
+    return imagenes
+
+}
+
+@Composable
+fun ajoLentesSadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.sunglasses_axolote_sad_1),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_2),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_3),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_4),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_5),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_6),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_7),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_8),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_9),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_10),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_11),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_12),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_13),
+        painterResource(id = R.drawable.sunglasses_axolote_sad_14),
+
+        )
+    return imagenes
+}
+
+@Composable
+fun ajoLentesVerySadAnimated(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_1),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_2),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_3),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_4),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_5),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_6),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_7),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_8),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_9),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_10),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_11),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_12),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_13),
+        painterResource(id = R.drawable.sunglasses_axolote_verysad_14),
+        )
+    return imagenes
 }
 
 

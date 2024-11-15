@@ -202,8 +202,15 @@ fun Greeting1(
             imagenes = imagenes,
             level = level
         )
+        val fishbolwframe = if (time > 1195000L) {
+            backgrounds[currentTank].frames[fishbowlIndex]
+        } else if (time > 1190000L) {
+            backgrounds[currentTank].halframes[fishbowlIndex]
+        } else {
+            backgrounds[currentTank].emptyFrames[fishbowlIndex]
+        }
         Image(
-            painter = backgrounds[currentTank].frames[fishbowlIndex],
+            painter = fishbolwframe,
             contentDescription = "imagen de la pecera",
             contentScale = ContentScale.Crop,
             modifier = Modifier
@@ -212,8 +219,26 @@ fun Greeting1(
                 .align(Alignment.Center)
                 .offset(y = maxHeight * 0.07f)
         )
+
+        val frame = if (time > 1195000L) {
+            hats[currentSkin].frames[ajoIndex]
+        } else if (time > 1190000L) {
+            hats[currentSkin].halframes[ajoIndex]
+        } else {
+            hats[currentSkin].emptyFrames[ajoIndex]
+        }
         Image(
-            painter = hats[currentSkin].frames[ajoIndex],
+            //painter = hats[currentSkin].frames[ajoIndex],
+//            if (time.toInt() >1195000L) {
+//                val frame = hats[currentSkin].frames[ajoIndex]
+//            }
+//            else if (time > 1190000L) {
+//                val frame = hats[currentSkin].halframes[ajoIndex]
+//            }
+//            else {
+//                val frame = hats[currentSkin].emptyFrames[ajoIndex]
+//            }
+            painter = frame,
             contentDescription = "imagen del ajolote",
             contentScale = ContentScale.Fit,
             modifier = Modifier
@@ -357,7 +382,7 @@ fun Greeting1(
             time -= 1000
             if (time.toInt() == 0) {
                 isRunning = false
-                time = 600000
+                time = 1200000
             }
         }
     }
