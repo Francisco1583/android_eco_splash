@@ -2,6 +2,7 @@ package com.example.ecosplash.model
 
 import android.app.Application
 import androidx.datastore.preferences.core.edit
+import androidx.datastore.preferences.core.intPreferencesKey
 import androidx.datastore.preferences.core.stringPreferencesKey
 import androidx.lifecycle.AndroidViewModel
 import androidx.lifecycle.LiveData
@@ -14,14 +15,20 @@ class InventoryManager(application: Application) : AndroidViewModel(application)
 
     private val tanksKey = stringPreferencesKey("tanks")
     private val skinsKey = stringPreferencesKey("skins")
+    private val purchasedItemsKey = intPreferencesKey("purchasedItems")
+
     private val _tanks = MutableLiveData<BooleanArray>()
     private val _skins = MutableLiveData<BooleanArray>()
+    private val _purchasedItems = MutableLiveData<Int>()
+
     val tanks: LiveData<BooleanArray> get() = _tanks
     val skins: LiveData<BooleanArray> get() = _skins
+    val purchasedItems: LiveData<Int> get() = _purchasedItems
 
     init {
         loadTanks()
         loadSkins()
+        loadPurchasedItems()
     }
 
     private fun loadTanks() {
@@ -54,6 +61,14 @@ class InventoryManager(application: Application) : AndroidViewModel(application)
         }
     }
 
+    private fun loadPurchasedItems() {
+        viewModelScope.launch {
+            val preferences = getApplication<Application>().dataStore.data.first()
+            val storedPurchasedItems = preferences[purchasedItemsKey] ?: 0
+            _purchasedItems.value = storedPurchasedItems
+        }
+    }
+
     private fun saveTanks(newVal: BooleanArray) {
         viewModelScope.launch {
             val tanksList = newVal.map { if (it) 1 else 0 }
@@ -70,6 +85,14 @@ class InventoryManager(application: Application) : AndroidViewModel(application)
 
             getApplication<Application>().dataStore.edit { preferences ->
                 preferences[skinsKey] = skinsList.joinToString(",")
+            }
+        }
+    }
+
+    private fun savePurchasedItems(newVal: Int) {
+        viewModelScope.launch {
+            getApplication<Application>().dataStore.edit { preferences ->
+                preferences[purchasedItemsKey] = newVal
             }
         }
     }
@@ -104,6 +127,12 @@ class InventoryManager(application: Application) : AndroidViewModel(application)
             _skins.value?.get(index) ?: false
         }
 
+    }
+
+    fun addPurchasedItems() {
+        val newAmount = (_purchasedItems.value ?: 0) + 1
+        _purchasedItems.value = newAmount
+        savePurchasedItems(newAmount)
     }
 
 }

@@ -37,11 +37,7 @@ fun MainMenu(
     maxHeight: Dp,
     setStatsDialog: (Boolean) -> Unit,
     showDialogStats: Boolean,
-    duchasMen5: Int,
-    duchasTotales: Int,
     litrosAhorrados: Float,
-    setduchasMen5: (Int) -> Unit,
-    setduchasTotales: (Int) -> Unit,
     setLitrosAhorrados: (Float) -> Unit
 ) {
     var remainingTime by remember { mutableLongStateOf(0L) }

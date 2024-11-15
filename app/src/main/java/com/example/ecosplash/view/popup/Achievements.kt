@@ -30,22 +30,27 @@ import androidx.compose.ui.layout.ContentScale
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.ecosplash.classes.Achievements
+import com.example.ecosplash.model.AchievementsManager
+import com.example.ecosplash.model.InventoryManager
 import com.example.ecosplash.model.StatisticsManager
 
 @Composable
 fun PopAchivement(
     onDismiss: () -> Unit,
     statisticsManager: StatisticsManager,
+    inventoryManager: InventoryManager,
+    achievementsManager: AchievementsManager,
     imagenes: List<Painter>,
     maxHeight: Dp,
     achivements: List<Achievements>,
 
-) {
+    ) {
     var selection by remember { mutableIntStateOf(0) }
 
-    val totalShowers by statisticsManager.totalShowers.observeAsState(initial = 0)
     val quickShowers by statisticsManager.totalShowers.observeAsState(initial = 0)
     val litersSaved by statisticsManager.litersSaved.observeAsState(initial = 0)
+
+    val purchasedItems by inventoryManager.purchasedItems.observeAsState(initial = 0)
 
     androidx.compose.material3.AlertDialog(
         onDismissRequest = onDismiss,
@@ -75,15 +80,20 @@ fun PopAchivement(
                     ) {
                         items(achivements.size) { index ->
 
-                            if(!achivements[index].completed) {
+                            if(!achievementsManager.isUnlocked(index)) {
                                 if (achivements[index].id == 0) {
                                     if(quickShowers >= achivements[index].goal) {
-                                        achivements[index].completed = true
+                                        achievementsManager.unlockAchievement(index)
                                     }
                                 }
                                 if (achivements[index].id == 1) {
                                     if(litersSaved.toInt() >= achivements[index].goal) {
-                                        achivements[index].completed = true
+                                        achievementsManager.unlockAchievement(index)
+                                    }
+                                }
+                                if (achivements[index].id == 2) {
+                                    if(purchasedItems >= achivements[index].goal) {
+                                        achievementsManager.unlockAchievement(index)
                                     }
                                 }
                             }
@@ -92,7 +102,6 @@ fun PopAchivement(
                                 { selection = index },
                                 modifier = Modifier
                                     .height((maxHeight * 0.13f))
-                                // .align(Alignment.Top)
                             )
                             {
                                 val matrix = ColorMatrix()
@@ -104,13 +113,14 @@ fun PopAchivement(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(maxHeight * 0.0f),
-                                    colorFilter = if (!achivements[index].completed) ColorFilter.colorMatrix(matrix) else null
+                                    colorFilter = if (!achievementsManager.isUnlocked(index)) ColorFilter.colorMatrix(matrix) else null
                                 )
                             }
                         }
                     }
 
                     Text(
+
                         text = achivements[selection].descripcion, modifier = Modifier.align(
                             Alignment.CenterHorizontally
                         )
@@ -119,7 +129,6 @@ fun PopAchivement(
                         progress = { 0.5f },
                         modifier = Modifier
                             .height(maxHeight * 0.04f)
-                            //.width(maxWidth * 0.87f)
                             .clip(RoundedCornerShape(20.dp)),
                     )
 

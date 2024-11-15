@@ -233,6 +233,57 @@ fun fisbowlPlayaAnimated(): List<Painter> {
     return imagenes
 }
 
+@Composable
+
+fun fishBowlPineapple(): List<Painter> {
+    val imagenes = listOf(
+        painterResource(id = R.drawable.pineapple_tank_full_1),
+        painterResource(id = R.drawable.pineapple_tank_full_2),
+        painterResource(id = R.drawable.pineapple_tank_full_3),
+        painterResource(id = R.drawable.pineapple_tank_full_4),
+        painterResource(id = R.drawable.pineapple_tank_full_5),
+        painterResource(id = R.drawable.pineapple_tank_full_6),
+        painterResource(id = R.drawable.pineapple_tank_full_7),
+        painterResource(id = R.drawable.pineapple_tank_full_8),
+        painterResource(id = R.drawable.pineapple_tank_full_9),
+        painterResource(id = R.drawable.pineapple_tank_full_10),
+        painterResource(id = R.drawable.pineapple_tank_full_11),
+        painterResource(id = R.drawable.pineapple_tank_full_12),
+        painterResource(id = R.drawable.pineapple_tank_full_13),
+        painterResource(id = R.drawable.pineapple_tank_full_14),
+        painterResource(id = R.drawable.pineapple_tank_full_15),
+        painterResource(id = R.drawable.pineapple_tank_full_16),
+        painterResource(id = R.drawable.pineapple_tank_full_17),
+        painterResource(id = R.drawable.pineapple_tank_full_18),
+        painterResource(id = R.drawable.pineapple_tank_full_19),
+        painterResource(id = R.drawable.pineapple_tank_full_20),
+        painterResource(id = R.drawable.pineapple_tank_full_21),
+        painterResource(id = R.drawable.pineapple_tank_full_22),
+        painterResource(id = R.drawable.pineapple_tank_full_23),
+        painterResource(id = R.drawable.pineapple_tank_full_24),
+        painterResource(id = R.drawable.pineapple_tank_full_25),
+        painterResource(id = R.drawable.pineapple_tank_full_26),
+        painterResource(id = R.drawable.pineapple_tank_full_27),
+        painterResource(id = R.drawable.pineapple_tank_full_28),
+        painterResource(id = R.drawable.pineapple_tank_full_29),
+        painterResource(id = R.drawable.pineapple_tank_full_30),
+        painterResource(id = R.drawable.pineapple_tank_full_31),
+        painterResource(id = R.drawable.pineapple_tank_full_32),
+        painterResource(id = R.drawable.pineapple_tank_full_33),
+        painterResource(id = R.drawable.pineapple_tank_full_34),
+        painterResource(id = R.drawable.pineapple_tank_full_35),
+        painterResource(id = R.drawable.pineapple_tank_full_36),
+        painterResource(id = R.drawable.pineapple_tank_full_37),
+        painterResource(id = R.drawable.pineapple_tank_full_38),
+        painterResource(id = R.drawable.pineapple_tank_full_39),
+        painterResource(id = R.drawable.pineapple_tank_full_40),
+        painterResource(id = R.drawable.pineapple_tank_full_41),
+        painterResource(id = R.drawable.pineapple_tank_full_42),
+        painterResource(id = R.drawable.pineapple_tank_full_43),
+        painterResource(id = R.drawable.pineapple_tank_full_44),
+    )
+    return imagenes
+}
 
 @Composable
 fun ajoAnimated(): List<Painter> {

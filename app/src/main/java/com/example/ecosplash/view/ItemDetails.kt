@@ -108,6 +108,7 @@ fun ItemDetails(
                             if (coins >= accesorie.precio) {
                                 inventoryManager.unlockItem(index, switchMode)
                                 coinManager.substractCoins(accesorie.precio)
+                                inventoryManager.addPurchasedItems()
                                 onDismiss()
 
                             } else {

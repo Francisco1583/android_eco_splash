@@ -42,6 +42,7 @@ import com.example.ecosplash.classes.Achievements
 import com.example.ecosplash.classes.Sombrero
 import com.example.ecosplash.menus.EditMenu
 import com.example.ecosplash.menus.MainMenu
+import com.example.ecosplash.model.AchievementsManager
 import com.example.ecosplash.model.CoinManager
 import com.example.ecosplash.model.InventoryManager
 import com.example.ecosplash.model.LevelManager
@@ -74,6 +75,7 @@ class MainActivity1 : ComponentActivity() {
     private val inventoryManager: InventoryManager by viewModels()
     private val statisticsManager: StatisticsManager by viewModels()
     private val levelManager: LevelManager by viewModels()
+    private val achievementsManager: AchievementsManager by viewModels()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -88,6 +90,7 @@ class MainActivity1 : ComponentActivity() {
                         inventoryManager = inventoryManager,
                         statisticsManager = statisticsManager,
                         levelManager = levelManager,
+                        achievementsManager = achievementsManager,
                         imagenes = images(),
                         backgrounds = backgrounds()
                     )
@@ -114,6 +117,7 @@ fun Greeting1(
     inventoryManager: InventoryManager,
     statisticsManager: StatisticsManager,
     levelManager: LevelManager,
+    achievementsManager: AchievementsManager,
     imagenes: List<Painter>,
     backgrounds: List<Sombrero>,
     hats: List<Sombrero> = hats(),
@@ -126,21 +130,13 @@ fun Greeting1(
     // variable para mostrar o no el popup
     var showDialog by remember { mutableStateOf(false) }
     // mostrar dialogo de logros
-    var showAchivments by remember { mutableStateOf(true) }
+    var showAchivments by remember { mutableStateOf(false) }
     // variable para mostrar o no el popup1
     var showDialogStats by remember { mutableStateOf(false) }
     // variable que define el progreso de la barra de nivel
     var progress by remember { mutableFloatStateOf(0.0f) }
     // nivel actual
     var level by remember { mutableIntStateOf(0) }
-    // experiencia
-    var experience by remember { mutableIntStateOf(0) }
-    // experiencia total para el siguiente nivel
-    var totalExperience by remember { mutableIntStateOf(400) }
-    //variable que almacena la cantidad de monedas
-    var money by remember { mutableIntStateOf(0) }
-    // variable que almacena la cantidad de las rachas
-    var racha by remember { mutableIntStateOf(0) }
     //variable que almacena el tiempo del temporizador
     var time by remember { mutableLongStateOf(1200000L) }
     //variable que sirve para identificar si el temporizadore está corriendo o no
@@ -152,9 +148,6 @@ fun Greeting1(
     var fishbowlIndex by remember { mutableIntStateOf(0) }
     //variable que cambia de acuerdo al frame de la animación del ajolote
     var ajoIndex by remember { mutableIntStateOf(0) }
-    // variable que almacenará las duchas totales
-    var duchasTotales by remember { mutableIntStateOf(0) }
-    var duchasMen5 by remember { mutableIntStateOf(0) }
     var litrosAhorrados by remember { mutableFloatStateOf(0.0f) }
 
     // -----------------DECLARACIÓN DE VALORES PARA MODIFICAR LAS VARIABLES --------------
@@ -170,15 +163,7 @@ fun Greeting1(
     val setStatsDialog: (Boolean) -> Unit = { newinfoDialog -> showDialogStats = newinfoDialog }
     //para modificar el booleano del popup de las logros
     val setAchivmentDialig: (Boolean) -> Unit = { newAchivmentD -> showAchivments = newAchivmentD }
-    val setMoney: (Int) -> Unit = { moreMoney -> money = moreMoney }
-    val setRacha: (Int) -> Unit = { masRacha -> racha = masRacha }
-    val setProgress: (Float) -> Unit = { newProgress -> progress = newProgress }
-    val setduchasTotales: (Int) -> Unit = { masduchasT -> duchasTotales = masduchasT }
-    val setduchasMen5: (Int) -> Unit = { masduchasMen5 -> duchasMen5 = masduchasMen5 }
     val setLitrosAhorrados: (Float) -> Unit = { masLitrosAhorrados -> litrosAhorrados = masLitrosAhorrados }
-    val setExperience: (Int) -> Unit = { newExperience -> experience = newExperience }
-    val setLevel: (Int) -> Unit = { newLevel -> level = newLevel }
-    val setTotalExperience: (Int) -> Unit = { newTotal -> totalExperience = newTotal }
 
     val currentTank by userData.currentTank.observeAsState(initial = 0)
     val currentSkin by userData.currentSkin.observeAsState(initial = 0)
@@ -294,11 +279,7 @@ fun Greeting1(
                     currentTime = time,
                     setStatsDialog = setStatsDialog,
                     showDialogStats = showDialogStats,
-                    setduchasTotales = setduchasTotales,
                     setLitrosAhorrados = setLitrosAhorrados,
-                    setduchasMen5 = setduchasMen5,
-                    duchasTotales = duchasTotales,
-                    duchasMen5 = duchasMen5,
                     litrosAhorrados = litrosAhorrados
                 )
 
@@ -361,6 +342,8 @@ fun Greeting1(
             PopAchivement(
                 onDismiss = { showAchivments = false },
                 statisticsManager = statisticsManager,
+                achievementsManager = achievementsManager,
+                inventoryManager = inventoryManager,
                 imagenes = imagenes,
                 maxHeight = maxHeight,
                 achivements = achievements
@@ -405,6 +388,7 @@ fun GreetingPreview1() {
             inventoryManager = InventoryManager(Application()),
             statisticsManager = StatisticsManager(Application()),
             levelManager = LevelManager(Application()),
+            achievementsManager = AchievementsManager(Application()),
             imagenes = images(),
             backgrounds = backgrounds()
         )
