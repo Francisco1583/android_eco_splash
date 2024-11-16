@@ -40,11 +40,8 @@ fun SecondTopPart(
     strikeManager: StrikeManager,
     levelManager: LevelManager,
     imagenes: List<Painter>,
-    progress: Float,
     maxWidth: Dp,
-    maxHeight: Dp,
-    modifier: Modifier = Modifier,
-    level: Int
+    maxHeight: Dp
 ) {
     val coins by coinManager.coins.observeAsState(initial = 0)
     val strikes by strikeManager.strikes.observeAsState(initial = 0)
@@ -70,8 +67,6 @@ fun SecondTopPart(
             Text(
                 text = "Nivel: $userLevel",
                 modifier = Modifier,
-                //.align(Alignment.TopCenter)
-                // .offset(y = maxHeight * 0.08f),
                 style = TextStyle(fontSize = 70.sp), fontFamily = montserratFontFamily,
                 color = Color.Black
             )
@@ -86,7 +81,6 @@ fun SecondTopPart(
             Surface(
                 color = Color.Transparent,
                 modifier = Modifier
-                    //.align(Alignment.TopCenter)
                     .height(maxHeight * 0.08f)
                     .width(maxWidth * 0.6f)
             )

@@ -133,10 +133,6 @@ fun Greeting1(
     var showAchivments by remember { mutableStateOf(false) }
     // variable para mostrar o no el popup1
     var showDialogStats by remember { mutableStateOf(false) }
-    // variable que define el progreso de la barra de nivel
-    var progress by remember { mutableFloatStateOf(0.0f) }
-    // nivel actual
-    var level by remember { mutableIntStateOf(0) }
     //variable que almacena el tiempo del temporizador
     var time by remember { mutableLongStateOf(1200000L) }
     //variable que sirve para identificar si el temporizadore está corriendo o no
@@ -196,11 +192,9 @@ fun Greeting1(
             coinManager = coinManager,
             strikeManager = strikeManager,
             levelManager = levelManager,
-            progress = progress,
             maxWidth = maxWidth,
             maxHeight = maxHeight,
             imagenes = imagenes,
-            level = level
         )
         val fishbolwframe = if (time > 1195000L) {
             backgrounds[currentTank].frames[fishbowlIndex]

@@ -79,15 +79,15 @@ class LevelManager(application: Application): AndroidViewModel(application) {
     private fun levelUp() {
         val newLevel = (_level.value ?: 0) + 1
         _level.value = newLevel
-        increaseExperienceToNextLevel()
         resetCurrentExperience()
+        increaseExperienceToNextLevel()
         saveLevel(newLevel)
     }
 
     fun addExperience(value: Int) {
         val newExperience = (_currentExperience.value ?: 0) + value
         _currentExperience.value = newExperience
-        saveLevel(newExperience)
+        saveCurrentExperience(newExperience)
         if ((_currentExperience.value ?: 0) > (_experienceToNextLevel.value ?: 0)) {
             levelUp()
         }

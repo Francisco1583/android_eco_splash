@@ -42,7 +42,7 @@ class CoinManager(application: Application) : AndroidViewModel(application) {
         saveCoins(newAmount)
     }
 
-    fun substractCoins(amount: Int) {
+    fun subtractCoins(amount: Int) {
         val newAmount = (_coins.value ?: 0) - amount
         _coins.value = newAmount
         saveCoins(newAmount)

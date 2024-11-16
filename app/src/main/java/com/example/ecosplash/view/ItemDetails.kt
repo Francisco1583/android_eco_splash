@@ -107,7 +107,7 @@ fun ItemDetails(
                         Button(onClick = {
                             if (coins >= accesorie.precio) {
                                 inventoryManager.unlockItem(index, switchMode)
-                                coinManager.substractCoins(accesorie.precio)
+                                coinManager.subtractCoins(accesorie.precio)
                                 inventoryManager.addPurchasedItems()
                                 onDismiss()
 
