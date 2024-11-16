@@ -2,6 +2,7 @@ package com.example.ecosplash.view.popup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
@@ -80,28 +81,25 @@ fun PopAchivement(
                     ) {
                         items(achivements.size) { index ->
 
-                            if(!achievementsManager.isUnlocked(index)) {
+                            if (!achievementsManager.isUnlocked(index)) {
                                 if (achivements[index].id == 0) {
-                                    if(quickShowers >= achivements[index].goal) {
+                                    if (quickShowers >= achivements[index].goal) {
                                         achievementsManager.unlockAchievement(index)
-                                    }
-                                    else {
+                                    } else {
                                         achivements[index].progress = quickShowers
                                     }
                                 }
                                 if (achivements[index].id == 1) {
-                                    if(litersSaved.toInt() >= achivements[index].goal) {
+                                    if (litersSaved.toInt() >= achivements[index].goal) {
                                         achievementsManager.unlockAchievement(index)
-                                    }
-                                    else {
+                                    } else {
                                         achivements[index].progress = litersSaved.toInt()
                                     }
                                 }
                                 if (achivements[index].id == 2) {
-                                    if(purchasedItems >= achivements[index].goal) {
+                                    if (purchasedItems >= achivements[index].goal) {
                                         achievementsManager.unlockAchievement(index)
-                                    }
-                                    else {
+                                    } else {
                                         achivements[index].progress = purchasedItems
                                     }
                                 }
@@ -122,7 +120,9 @@ fun PopAchivement(
                                     modifier = Modifier
                                         .fillMaxSize()
                                         .padding(maxHeight * 0.0f),
-                                    colorFilter = if (!achievementsManager.isUnlocked(index)) ColorFilter.colorMatrix(matrix) else null
+                                    colorFilter = if (!achievementsManager.isUnlocked(index)) ColorFilter.colorMatrix(
+                                        matrix
+                                    ) else null
                                 )
                             }
                         }
@@ -134,13 +134,36 @@ fun PopAchivement(
                             Alignment.CenterHorizontally
                         )
                     )
-                    LinearProgressIndicator(
-                        progress = {if(!achievementsManager.isUnlocked(selection)) achivements[selection].progress.toFloat()/achivements[selection].goal.toFloat() else 1.0f},
-                        color = if(achievementsManager.isUnlocked(selection)) Color.Green else Color(0xFF6483B9),
-                        modifier = Modifier
-                            .height(maxHeight * 0.04f)
-                            .clip(RoundedCornerShape(20.dp)),
-                    )
+                    Box(
+                        modifier = Modifier.fillMaxWidth(),
+                        contentAlignment = Alignment.Center
+                    ) {
+                        var progressToShow = ""
+
+                        if (selection == 0) {
+                            progressToShow = quickShowers.toString()
+                        } else if (selection == 1) {
+                            progressToShow = litersSaved.toString()
+                        } else if (selection == 2) {
+                            progressToShow = purchasedItems.toString()
+                        }
+                        LinearProgressIndicator(
+                            progress = { if (!achievementsManager.isUnlocked(selection)) achivements[selection].progress.toFloat() / achivements[selection].goal.toFloat() else 1.0f },
+                            color = if (achievementsManager.isUnlocked(selection)) Color.Green else Color(
+                                0xFF6483B9
+                            ),
+                            modifier = Modifier
+                                .height(maxHeight * 0.04f)
+                                .clip(RoundedCornerShape(20.dp)),
+                        )
+                        Text(
+                            text = if (!achievementsManager.isUnlocked(selection)) {
+                                "$progressToShow/${achivements[selection].goal}"
+                            } else {
+                                "Completado"
+                            }
+                        )
+                    }
 
 
                 }
