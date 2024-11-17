@@ -59,6 +59,14 @@ import com.example.ecosplash.view.popup.Statistics
 import kotlinx.coroutines.delay
 import java.util.Locale
 import java.util.concurrent.TimeUnit
+import android.content.Intent
+import android.os.Build
+import android.util.Log
+import com.example.ecosplash.model.TimerService
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.core.content.ContextCompat
 
 val montserratFontFamily = FontFamily(
     Font(R.font.montserrat, FontWeight.Normal)
@@ -77,8 +85,22 @@ class MainActivity1 : ComponentActivity() {
     private val levelManager: LevelManager by viewModels()
     private val achievementsManager: AchievementsManager by viewModels()
 
+    private val requestPermissionLauncher = registerForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        if (isGranted) {
+            Log.d("Permissions", "Permiso FOREGROUND_SERVICE concedido")
+        } else {
+            Log.d("Permissions", "Permiso FOREGROUND_SERVICE denegado")
+        }
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        // Verifica y solicita permisos
+        checkAndRequestPermissions()
+
         enableEdgeToEdge()
         setContent {
             EcosplashTheme {
@@ -92,13 +114,59 @@ class MainActivity1 : ComponentActivity() {
                         levelManager = levelManager,
                         achievementsManager = achievementsManager,
                         imagenes = images(),
-                        backgrounds = backgrounds()
+                        backgrounds = backgrounds(),
+                        StartTimerService = { initialTime -> startTimerService(initialTime) },
+                        StopTimerService = { stopTimerService() }
                     )
                 }
             }
         }
     }
+
+    private fun checkAndRequestPermissions() {
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) { // Android 13+
+            val notificationPermission = Manifest.permission.POST_NOTIFICATIONS
+            if (ContextCompat.checkSelfPermission(this, notificationPermission) != PackageManager.PERMISSION_GRANTED) {
+                requestPermissionLauncher.launch(notificationPermission)
+            }
+        }
+        // Solicitar FOREGROUND_SERVICE (No interactivo, pero obligatorio para servicios en primer plano)
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.P) { // Android 9+
+            val foregroundServicePermission = Manifest.permission.FOREGROUND_SERVICE
+            if (ContextCompat.checkSelfPermission(this, foregroundServicePermission) != PackageManager.PERMISSION_GRANTED) {
+                Log.e("Permissions", "El permiso FOREGROUND_SERVICE no está otorgado. No se puede iniciar el servicio.")
+            }
+        }
+    }
+
+
+    private fun startTimerService(initialTime: Long) {
+        Log.d("MainActivity", "Iniciando el servicio de temporizador.")
+        val intent = Intent(this, TimerService::class.java).apply {
+            action = TimerService.ACTION_START
+            putExtra(TimerService.EXTRA_TIME, initialTime)
+        }
+        try {
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+                startForegroundService(intent)
+            } else {
+                startService(intent)
+            }
+            Log.d("MainActivity", "Servicio de temporizador iniciado.")
+        } catch (e: SecurityException) {
+            Log.e("MainActivity", "Error al iniciar servicio: ${e.message}")
+        }
+    }
+
+
+    private fun stopTimerService() {
+        val intent = Intent(this, TimerService::class.java).apply {
+            action = TimerService.ACTION_STOP
+        }
+        startService(intent)
+    }
 }
+
 
 
 @Composable
@@ -121,7 +189,9 @@ fun Greeting1(
     imagenes: List<Painter>,
     backgrounds: List<Sombrero>,
     hats: List<Sombrero> = hats(),
-    achievements:   List<Achievements> = achivements()
+    achievements:   List<Achievements> = achivements(),
+    StartTimerService: (Long) -> Unit,
+    StopTimerService: () -> Unit
 ) {
 
     // -------------DECLARACIÓN DE VARIABLES --------------------------
@@ -292,7 +362,8 @@ fun Greeting1(
                     statisticsManager = statisticsManager,
                     imagenes = imagenes,
                     maxHeight = maxHeight,
-                    onClick = onClick, time = setTime,
+                    onClick = onClick,
+                    time = setTime,
                     isRunning = setIsRunning,
                     isCurrentlyRunning = isRunning,
                     currentTime = time,
@@ -301,7 +372,10 @@ fun Greeting1(
                     setLitrosAhorrados = setLitrosAhorrados,
                     litrosAhorrados = litrosAhorrados,
                     levelManager = levelManager,
+                    startTimerService = StartTimerService,
+                    stopTimerService = StopTimerService
                 )
+
 
             }
         } else if (boxVisible == 3) {
@@ -400,7 +474,6 @@ fun Greeting1(
 @Composable
 fun GreetingPreview1() {
     EcosplashTheme {
-
         Greeting1(
             userData = UserData(Application()),
             coinManager = CoinManager(Application()),
@@ -410,7 +483,9 @@ fun GreetingPreview1() {
             levelManager = LevelManager(Application()),
             achievementsManager = AchievementsManager(Application()),
             imagenes = images(),
-            backgrounds = backgrounds()
+            backgrounds = backgrounds(),
+            StartTimerService = { _ -> }, // Función dummy que no hace nada
+            StopTimerService = {}         // Función dummy que no hace nada
         )
     }
 }

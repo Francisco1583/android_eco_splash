@@ -1,5 +1,6 @@
 package com.example.ecosplash.menus
 
+import android.util.Log
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
@@ -24,7 +25,6 @@ import com.example.ecosplash.model.StatisticsManager
 import com.example.ecosplash.model.StrikeManager
 
 @Composable
-// mainmenu es el botón principal
 fun MainMenu(
     coinManager: CoinManager,
     strikeManager: StrikeManager,
@@ -40,7 +40,9 @@ fun MainMenu(
     showDialogStats: Boolean,
     litrosAhorrados: Float,
     levelManager: LevelManager,
-    setLitrosAhorrados: (Float) -> Unit
+    setLitrosAhorrados: (Float) -> Unit,
+    startTimerService: (Long) -> Unit,
+    stopTimerService: () -> Unit
 ) {
     var remainingTime by remember { mutableLongStateOf(0L) }
     val value by coinManager.coins.observeAsState(initial = 0)
@@ -68,33 +70,45 @@ fun MainMenu(
 
             )
         }
-        //Spacer(modifier = Modifier.width(maxHeight*0.05f))
 
         IconButton(
             onClick = {
+                Log.d("MainMenu", "Botón de temporizador presionado. isCurrentlyRunning: $isCurrentlyRunning")
                 if (isCurrentlyRunning) {
-                    isRunning(false)
+                    // Detener el temporizador
+                    isRunning(false) // Actualiza el estado
+                    stopTimerService() // Detiene el servicio
+
+                    // Actualizar estadísticas
                     statisticsManager.addShowers()
-                    val actLitrosahorrados = (((currentTime.toInt()) / 1000).toFloat() * 0.2f)
-                    statisticsManager.addLitersSaved(actLitrosahorrados)
+                    val actLitrosAhorrados = (((currentTime.toInt()) / 1000).toFloat() * 0.2f)
+                    statisticsManager.addLitersSaved(actLitrosAhorrados)
+
+                    // Recompensas o penalizaciones
                     if (currentTime.toInt() >= 900000) {
-                        levelManager.addExperience(actLitrosahorrados.toInt())
+                        levelManager.addExperience(actLitrosAhorrados.toInt())
                         statisticsManager.addQuickShowers()
                         coinManager.addCoins(10)
                         strikeManager.addStrikes()
                     } else {
                         strikeManager.resetStrikes()
                     }
-                    time(1200000)
 
+                    // Reinicia el temporizador
+                    time(1200000)
                 } else {
-                    isRunning(true)
+                    // Iniciar el temporizador
+                    val safeCurrentTime = if (currentTime > 0) currentTime else 1200000L
+                    isRunning(true) // Actualiza el estado
+                    startTimerService(safeCurrentTime) // Inicia el servicio con un valor seguro
                 }
             },
             modifier = Modifier
                 .height((maxHeight * 0.16f))
                 .weight(1f)
         )
+
+
         {
 
             Image(
