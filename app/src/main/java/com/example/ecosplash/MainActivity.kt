@@ -64,9 +64,19 @@ import android.os.Build
 import android.util.Log
 import com.example.ecosplash.model.TimerService
 import android.Manifest
+import android.app.Activity
 import android.content.pm.PackageManager
+import android.media.MediaPlayer
+import android.view.WindowManager
 import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.runtime.DisposableEffect
+import androidx.compose.ui.platform.LocalContext
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.LifecycleEventObserver
+import androidx.lifecycle.LifecycleOwner
+import com.example.ecosplash.view.popup.MoreInfoTwo
+import java.util.Calendar
 
 val montserratFontFamily = FontFamily(
     Font(R.font.montserrat, FontWeight.Normal)
@@ -104,6 +114,7 @@ class MainActivity1 : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             EcosplashTheme {
+                KeepScreenOn()
                 Surface {
                     Greeting1(
                         userData = userData,
@@ -178,6 +189,19 @@ fun formatTimer(timeMi: Long): String {
 }
 
 @Composable
+fun KeepScreenOn() {
+    val context = LocalContext.current
+    DisposableEffect(Unit) {
+        val activity = context as? Activity
+        activity?.window?.addFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+
+        onDispose {
+            activity?.window?.clearFlags(WindowManager.LayoutParams.FLAG_KEEP_SCREEN_ON)
+        }
+    }
+}
+
+@Composable
 fun Greeting1(
     userData: UserData,
     coinManager: CoinManager,
@@ -233,6 +257,39 @@ fun Greeting1(
 
     val currentTank by userData.currentTank.observeAsState(initial = 0)
     val currentSkin by userData.currentSkin.observeAsState(initial = 0)
+    val userLevel by levelManager.level.observeAsState(initial = 0)
+    val tutorial by userData.tutorial.observeAsState(initial = true)
+
+    val context = LocalContext.current
+    val menuMusic = remember {
+        MediaPlayer.create(context, R.raw.music).apply {
+            isLooping = true
+        }
+    }
+
+    DisposableEffect(Unit) {
+        menuMusic.start()
+        val lifecycle = (context as? LifecycleOwner)?.lifecycle
+        val observer = LifecycleEventObserver { _, event ->
+            when (event) {
+                Lifecycle.Event.ON_PAUSE -> menuMusic.pause()
+                Lifecycle.Event.ON_RESUME -> menuMusic.start()
+                Lifecycle.Event.ON_DESTROY -> {
+                    menuMusic.stop()
+                    menuMusic.release()
+                }
+                else -> {}
+            }
+        }
+        lifecycle?.addObserver(observer)
+        onDispose {
+            lifecycle?.removeObserver(observer)
+            menuMusic.stop()
+            menuMusic.release()
+        }
+    }
+
+
 
     BoxWithConstraints(
         modifier = Modifier
@@ -266,9 +323,9 @@ fun Greeting1(
             maxHeight = maxHeight,
             imagenes = imagenes,
         )
-        val fishbolwframe = if (time > 1195000L) {
+        val fishbolwframe = if (time > 900000L) {
             backgrounds[currentTank].frames[fishbowlIndex]
-        } else if (time > 1190000L) {
+        } else if (time > 600000L) {
             backgrounds[currentTank].halframes[fishbowlIndex]
         } else {
             backgrounds[currentTank].emptyFrames[fishbowlIndex]
@@ -284,24 +341,20 @@ fun Greeting1(
                 .offset(y = maxHeight * 0.07f)
         )
 
-        val frame = if (time > 1195000L) {
+        val frame = if (time > 900000L) {
             hats[currentSkin].frames[ajoIndex]
-        } else if (time > 1190000L) {
+        } else if (time > 600000L) {
             hats[currentSkin].halframes[ajoIndex]
         } else {
             hats[currentSkin].emptyFrames[ajoIndex]
         }
+        val size = if (userLevel >= 10) {
+            0.12f
+        }
+        else {
+            (0.20f -(userLevel.toFloat() * 0.008f))
+        }
         Image(
-            //painter = hats[currentSkin].frames[ajoIndex],
-//            if (time.toInt() >1195000L) {
-//                val frame = hats[currentSkin].frames[ajoIndex]
-//            }
-//            else if (time > 1190000L) {
-//                val frame = hats[currentSkin].halframes[ajoIndex]
-//            }
-//            else {
-//                val frame = hats[currentSkin].emptyFrames[ajoIndex]
-//            }
             painter = frame,
             contentDescription = "imagen del ajolote",
             contentScale = ContentScale.Fit,
@@ -311,7 +364,7 @@ fun Greeting1(
                 .align(Alignment.Center)
                 .offset(y = maxHeight * 0.1f)
                 .offset(x = maxWidth * -0.1f)
-                .padding(maxHeight * 0.12f)
+                .padding(maxHeight * size)
 
         )
         if (isRunning) {
@@ -373,7 +426,8 @@ fun Greeting1(
                     litrosAhorrados = litrosAhorrados,
                     levelManager = levelManager,
                     startTimerService = StartTimerService,
-                    stopTimerService = StopTimerService
+                    stopTimerService = StopTimerService,
+                    userData = userData,
                 )
 
 
@@ -443,12 +497,16 @@ fun Greeting1(
                 achivements = achievements
             )
         }
+        if (tutorial) {
+            MoreInfoTwo(onDismiss = { userData.setTutorial() }, imagenes = imagenes, maxHeight = maxHeight)
+        }
     }
     LaunchedEffect(isRunning) {
         while (isRunning) {
             delay(1000)
             time -= 1000
             if (time.toInt() == 0) {
+                strikeManager.resetStrikes()
                 isRunning = false
                 time = 1200000
             }

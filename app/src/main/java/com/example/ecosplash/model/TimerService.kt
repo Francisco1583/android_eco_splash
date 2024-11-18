@@ -84,14 +84,36 @@ class TimerService : Service() {
             while (isRunning && remainingTime > 0) {
                 delay(1000L)
                 remainingTime -= 1000L
-                updateNotification(remainingTime)
+                if (shouldSendNotification(remainingTime)) {
+                    updateNotification(remainingTime)
+                }
 
                 // Aquí puedes enviar broadcast para actualizar la UI si es necesario
                 val intent = Intent("TIMER_UPDATED")
                 intent.putExtra("remaining_time", remainingTime)
                 sendBroadcast(intent)
             }
-            if (remainingTime <= 0) stopSelf()
+            if (remainingTime <= 0) {
+                stopSelf()
+            }
+        }
+    }
+    private fun shouldSendNotification(remainingTime: Long): Boolean {
+        return when {
+            remainingTime % (60 * 1000*15) == 0L -> true
+            remainingTime % (60 * 1000*10) == 0L -> true
+            remainingTime % (60 * 1000*5) == 0L -> true
+            remainingTime <= 10 * 1000 -> true
+            else -> false
+        }
+    }
+    private fun textNotification(remainingTime: Long): String {
+        return when {
+            remainingTime % (60 * 1000*15) == 0L -> "haz perdido tu racha, "
+            remainingTime % (60 * 1000*10) == 0L -> "Corre queda menos tiempo, "
+            remainingTime % (60 * 1000*5) == 0L -> "solo te quedan 5 minutos :(, "
+            remainingTime <= 10 * 1000 -> "Ya no hay tiempo, "
+            else -> ""
         }
     }
 
@@ -105,10 +127,10 @@ class TimerService : Service() {
         val minutes = time / 60000
         val seconds = (time / 1000) % 60
         val timeText = String.format("%02d:%02d", minutes, seconds)
-
+        val textNotification = textNotification(remainingTime)
         return NotificationCompat.Builder(this, CHANNEL_ID)
             .setContentTitle("Temporizador")
-            .setContentText("Tiempo restante: $timeText")
+            .setContentText(textNotification +"Tiempo restante: $timeText")
             .setSmallIcon(android.R.drawable.ic_notification_overlay)
             .setPriority(NotificationCompat.PRIORITY_HIGH)
             .build()

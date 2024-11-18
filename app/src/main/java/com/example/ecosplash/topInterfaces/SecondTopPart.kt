@@ -1,6 +1,7 @@
 package com.example.ecosplash.topInterfaces
 
 import androidx.compose.foundation.Image
+import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
@@ -12,7 +13,9 @@ import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.shape.RoundedCornerShape
+import androidx.compose.material3.ColorScheme
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -70,14 +73,23 @@ fun SecondTopPart(
                 style = TextStyle(fontSize = 70.sp), fontFamily = montserratFontFamily,
                 color = Color.Black
             )
-            LinearProgressIndicator(
-                progress = {currentExperience.toFloat()/experienceToNextLevel.toFloat()},
-                color = Color(0xFF6483B9),
-                modifier = Modifier
-                    .height(maxHeight * 0.04f)
-                    .width(maxWidth * 0.87f)
-                    .clip(RoundedCornerShape(20.dp)),
-            )
+            MaterialTheme( colorScheme =  MaterialTheme.colorScheme.copy(surfaceVariant = Color.White)) {
+                LinearProgressIndicator(
+                    progress = {
+                        if (experienceToNextLevel > 0) {
+                            currentExperience.toFloat() / experienceToNextLevel
+                        } else {
+                            0f // Valor predeterminado si experienceToNextLevel es 0 o no válido
+                        }
+                    },
+                    modifier = Modifier
+                        .height(maxHeight * 0.04f)
+                        .width(maxWidth * 0.87f)
+                        .clip(RoundedCornerShape(20.dp)),
+                    color = Color(0xFF6483B9),
+                )
+            }
+
             Surface(
                 color = Color.Transparent,
                 modifier = Modifier

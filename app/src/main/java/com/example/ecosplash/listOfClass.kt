@@ -2,8 +2,10 @@ package com.example.ecosplash
 
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.graphics.painter.Painter
+import androidx.compose.ui.res.painterResource
 import com.example.ecosplash.classes.Achievements
 import com.example.ecosplash.classes.Sombrero
+import com.example.ecosplash.classes.Tutorial
 
 @Composable
     fun backgrounds(backgroundImages: List<Painter> = backgroundsOptions()): List<Sombrero> {
@@ -36,5 +38,37 @@ fun achivements(achivemntsImages: List<Painter> = achivemntsImages()): List<Achi
         Achievements(nombre = "super ahorrador",id = 1, imagen =achivemntsImages[1], descripcion = "Ahorra más de 10,000 litros de agua", goal = 10000, progress = 0, completed = false),
         Achievements(nombre = "ahorro semanal",id = 2, imagen =achivemntsImages[2], descripcion = "Compra todos los objetos de la tienda", goal = 8, progress = 0, completed = false)
     )
+    return imagenes
+}
+
+@Composable
+fun tutorials(): List<Tutorial> {
+    val imagenes = listOf(
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n", imageSize = 0.25f, textSize = 0.025f, top = 0.0f, bottom = 0.0f,image = painterResource(id = R.drawable.sprite_00), secondText = "Este es tu ajolote, cuidalo muy bien, conforme progreses irá creciendo y podrás personalizarlo"),
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n", imageSize = 0.12f, textSize = 0.0f,top = 0.0f, bottom = 0.0f, image = painterResource(id = R.drawable.clock), secondText = "Botón de temporizador: Justo cuando estés a punto de meterte a bañar, presiona el botón de temporizador para tomar el tiempo. Cuando termines, oprimelo una vez más para detenerlo. ¡Si tu ducha es menor a 8 minutos, ganarás más recompensas!"),
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n", imageSize = 0.12f, textSize = 0.025f,top = 0.04f, bottom = 0.04f,image = painterResource(id = R.drawable.digitalclock), secondText = "Temporizador: Aquí se mostrará el tiempo restante de la ducha para conseguir más recompensas. ¡No dejes que el reloj llegue a 0!"),
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n",imageSize = 0.08f, textSize = 0.025f,top = 0.03f, bottom = 0.02f,image = painterResource(id = R.drawable.rachav2), secondText = "Racha: Cada vez que completes una ducha en menos de 8 minutos, esta irá incrementando, entre mayor sea la racha, mayores serán las recompensas. ¡No la pierdas!"),
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n", imageSize = 0.08f, textSize = 0.025f,top = 0.03f, bottom = 0.02f,image = painterResource(id = R.drawable.dinero), secondText = "¡Monedas!: Ganarás monedas conforme tomes duchas rápidas, entre menor sea el tiempo de tu ducha, ganarás más monedas, las cuales podrás gastar en la tienda"),
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n", imageSize = 0.09f, textSize = 0.025f,top = 0.06f, bottom = 0.06f,image = painterResource(id = R.drawable.edit_button), secondText = "Tienda: Accede a la tienda por medio de este botón, en ella podrás gastar tus monedas para adquirir accesorios para tu ajolote y pecera"),
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n", imageSize = 0.09f, textSize = 0.025f,top = 0.06f, bottom = 0.06f,image = painterResource(id = R.drawable.activity), secondText = "Estadísticas: Oprime el botón de estadísticas para ver tus duchas totales, duchas rápidas y litros de agua ahorrados."),
+        Tutorial(firstText = "¡Bienvenido a EcoSplash!\n" +
+                "¡Una app donde cuidas el agua, divirtiéndote!\n " +
+                "Para comenzar, conoce las características y botones principales\n", imageSize = 0.09f, textSize = 0.025f,top = 0.05f, bottom = 0.05f,image = painterResource(id = R.drawable.award), secondText = "Botón de logros: Ganarás medallas conforme alcances los logros, puedes ver tu progreso y metas cumplidas. ¡Completa todos!"),
+
+        )
     return imagenes
 }

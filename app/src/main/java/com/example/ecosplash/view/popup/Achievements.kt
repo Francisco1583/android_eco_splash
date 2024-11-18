@@ -2,17 +2,21 @@ package com.example.ecosplash.view.popup
 
 import androidx.compose.foundation.Image
 import androidx.compose.foundation.background
+import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.offset
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.LinearProgressIndicator
+import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
@@ -28,6 +32,8 @@ import androidx.compose.ui.graphics.ColorFilter
 import androidx.compose.ui.graphics.ColorMatrix
 import androidx.compose.ui.graphics.painter.Painter
 import androidx.compose.ui.layout.ContentScale
+import androidx.compose.ui.platform.LocalDensity
+import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.dp
 import com.example.ecosplash.classes.Achievements
@@ -52,24 +58,26 @@ fun PopAchivement(
     val litersSaved by statisticsManager.litersSaved.observeAsState(initial = 0)
 
     val purchasedItems by inventoryManager.purchasedItems.observeAsState(initial = 0)
+    val fontSizeSp = with(LocalDensity.current) { maxHeight.toSp() }
 
     androidx.compose.material3.AlertDialog(
         onDismissRequest = onDismiss,
         confirmButton = { /*TODO*/ },
         text = {
             Column {
-                IconButton(
-                    onClick = onDismiss,
-                    modifier = Modifier
-                        .height((maxHeight * 0.06f))
-                ) {
-                    Image(
-                        painter = imagenes[13],
-                        contentDescription = "icono de X",
-                        contentScale = ContentScale.FillWidth,
+                Row(modifier = Modifier.fillMaxWidth(), horizontalArrangement = Arrangement.End) {
+                    IconButton(onClick = onDismiss,
                         modifier = Modifier
-                            .fillMaxSize()
-                    )
+                            .height((maxHeight * 0.06f))
+                    ) {
+                        Image(
+                            painter = imagenes[13],
+                            contentDescription = "icono de X",
+                            contentScale = ContentScale.FillWidth,
+                            modifier = Modifier
+                                .fillMaxSize()
+                        )
+                    }
                 }
                 Column {
                     LazyVerticalGrid(
@@ -127,43 +135,28 @@ fun PopAchivement(
                             }
                         }
                     }
-
                     Text(
 
-                        text = achivements[selection].descripcion, modifier = Modifier.align(
+                        text = achivements[selection].descripcion, fontSize = fontSizeSp*0.02f, color = Color.Black,textAlign = TextAlign.Center,modifier = Modifier.align(
                             Alignment.CenterHorizontally
                         )
                     )
-                    Box(
-                        modifier = Modifier.fillMaxWidth(),
-                        contentAlignment = Alignment.Center
-                    ) {
-                        var progressToShow = ""
-
-                        if (selection == 0) {
-                            progressToShow = quickShowers.toString()
-                        } else if (selection == 1) {
-                            progressToShow = litersSaved.toString()
-                        } else if (selection == 2) {
-                            progressToShow = purchasedItems.toString()
+                    Box() {
+                        MaterialTheme( colorScheme =  MaterialTheme.colorScheme.copy(surfaceVariant = Color.White)) {
+                            LinearProgressIndicator(
+                                progress = {if(!achievementsManager.isUnlocked(selection)) achivements[selection].progress.toFloat()/achivements[selection].goal.toFloat() else 1.0f},
+                                color = if(achievementsManager.isUnlocked(selection)) Color.Green else Color(0xFF6483B9),
+                                modifier = Modifier
+                                    .height(maxHeight * 0.04f)
+                                    .clip(RoundedCornerShape(20.dp)),
+                            )
                         }
-                        LinearProgressIndicator(
-                            progress = { if (!achievementsManager.isUnlocked(selection)) achivements[selection].progress.toFloat() / achivements[selection].goal.toFloat() else 1.0f },
-                            color = if (achievementsManager.isUnlocked(selection)) Color.Green else Color(
-                                0xFF6483B9
-                            ),
-                            modifier = Modifier
-                                .height(maxHeight * 0.04f)
-                                .clip(RoundedCornerShape(20.dp)),
-                        )
-                        Text(
-                            text = if (!achievementsManager.isUnlocked(selection)) {
-                                "$progressToShow/${achivements[selection].goal}"
-                            } else {
-                                "Completado"
-                            }
-                        )
+
+                        val progress = achivements[selection].progress
+                        val goal = achivements[selection].goal
+                        Text(text = if(!achievementsManager.isUnlocked(selection)) "$progress/$goal" else "completado", fontSize = fontSizeSp*0.02f, color = Color.Black,modifier = Modifier.align(Alignment.Center).offset(y = -maxHeight*0.001f))
                     }
+
 
 
                 }
