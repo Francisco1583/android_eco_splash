@@ -12,9 +12,6 @@ import androidx.compose.material3.IconButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.livedata.observeAsState
-import androidx.compose.runtime.mutableLongStateOf
-import androidx.compose.runtime.remember
-import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.graphics.painter.Painter
@@ -42,17 +39,13 @@ fun MainMenu(
     maxHeight: Dp,
     setStatsDialog: (Boolean) -> Unit,
     showDialogStats: Boolean,
-    litrosAhorrados: Float,
     levelManager: LevelManager,
-    setLitrosAhorrados: (Float) -> Unit,
     startTimerService: (Long) -> Unit,
     stopTimerService: () -> Unit,
     userData: UserData,
 ) {
-    var remainingTime by remember { mutableLongStateOf(0L) }
-    val value by coinManager.coins.observeAsState(initial = 0)
-    val litersSaved by statisticsManager.litersSaved.observeAsState(initial = 0)
     val clockActivation by userData.clockAction.observeAsState(initial = 0)
+    val strikes by strikeManager.strikes.observeAsState(initial = 0)
     val mContext = LocalContext.current
     val calendar = Calendar.getInstance()
     val dayOfYear = calendar.get(Calendar.DAY_OF_YEAR)
@@ -85,38 +78,33 @@ fun MainMenu(
                 Log.d("MainMenu", "Botón de temporizador presionado. isCurrentlyRunning: $isCurrentlyRunning")
                 if(clockActivation != dayOfYear) {
                     if (isCurrentlyRunning && currentTime.toInt() < 1080000) {
-                        // Detener el temporizador
-                        isRunning(false) // Actualiza el estado
-                        stopTimerService() // Detiene el servicio
+
+                        isRunning(false)
+                        stopTimerService()
                         userData.setClockAction(dayOfYear)
 
-                        // Actualizar estadísticas
                         statisticsManager.addShowers()
-                        val actLitrosAhorrados = (((currentTime.toInt()) / 1000).toFloat() * 0.2f)
+                        val actLitrosAhorrados = ((currentTime.toInt() / 1000).toFloat() * 0.2f)
                         statisticsManager.addLitersSaved(actLitrosAhorrados)
 
-                        // Recompensas o penalizaciones
                         if (currentTime.toInt() >= 900000) {
                             levelManager.addExperience(actLitrosAhorrados.toInt())
                             statisticsManager.addQuickShowers()
-                            coinManager.addCoins(10)
+                            coinManager.addCoins(10 + (strikes / 5))
                             strikeManager.addStrikes()
                         }
                         else {
                             strikeManager.resetStrikes()
                         }
-
-                        // Reinicia el temporizador
                         time(1200000)
                     }
                     else if(isCurrentlyRunning) {
                         Toast.makeText(mContext, "Es muy pronto para acabar la ducha", Toast.LENGTH_SHORT).show()
                     }
                     else {
-                        // Iniciar el temporizador
                         val safeCurrentTime = if (currentTime > 0) currentTime else 1200000L
-                        isRunning(true) // Actualiza el estado
-                        startTimerService(safeCurrentTime) // Inicia el servicio con un valor seguro
+                        isRunning(true)
+                        startTimerService(safeCurrentTime)
                     }
                 }
                 else {

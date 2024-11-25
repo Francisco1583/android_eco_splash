@@ -35,7 +35,7 @@ import com.example.ecosplash.model.UserData
 import com.example.ecosplash.montserratFontFamily
 
 @Composable
-// editmenu es el menú que se despliega al darle al botón de editar
+
 fun BackgroupsMenu(
     userData: UserData,
     coinManager: CoinManager,
@@ -68,8 +68,6 @@ fun BackgroupsMenu(
 
             },
             modifier = Modifier
-            //.height((maxHeight * 0.08f))
-            // .align(Alignment.Top)
         )
         {
             Image(
@@ -78,17 +76,15 @@ fun BackgroupsMenu(
                 contentScale = ContentScale.Fit,
                 modifier = Modifier
                     .fillMaxSize()
-                    //.align(Alignment.TopStart)
                     .padding(maxHeight * 0.009f)
             )
         }
         var selectedIndex by remember { mutableIntStateOf(currentImage) }
-        LazyRow(//horizontalArrangement = Arrangement.spacedBy(8.dp),
+        LazyRow(
             modifier = Modifier.fillMaxHeight()
         ) {
             item { Spacer(modifier = Modifier.padding(10.dp)) }
             items(backgrounds.size) { pos ->
-                // Spacer(modifier = Modifier.padding(10.dp))
                 IconButton(
                     onClick = {
                         if (selectedIndex != pos) {

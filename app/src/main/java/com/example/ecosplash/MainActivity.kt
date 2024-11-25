@@ -76,7 +76,6 @@ import androidx.lifecycle.Lifecycle
 import androidx.lifecycle.LifecycleEventObserver
 import androidx.lifecycle.LifecycleOwner
 import com.example.ecosplash.view.popup.MoreInfoTwo
-import java.util.Calendar
 
 val montserratFontFamily = FontFamily(
     Font(R.font.montserrat, FontWeight.Normal)
@@ -253,7 +252,6 @@ fun Greeting1(
     val setStatsDialog: (Boolean) -> Unit = { newinfoDialog -> showDialogStats = newinfoDialog }
     //para modificar el booleano del popup de las logros
     val setAchivmentDialig: (Boolean) -> Unit = { newAchivmentD -> showAchivments = newAchivmentD }
-    val setLitrosAhorrados: (Float) -> Unit = { masLitrosAhorrados -> litrosAhorrados = masLitrosAhorrados }
 
     val currentTank by userData.currentTank.observeAsState(initial = 0)
     val currentSkin by userData.currentSkin.observeAsState(initial = 0)
@@ -422,8 +420,6 @@ fun Greeting1(
                     currentTime = time,
                     setStatsDialog = setStatsDialog,
                     showDialogStats = showDialogStats,
-                    setLitrosAhorrados = setLitrosAhorrados,
-                    litrosAhorrados = litrosAhorrados,
                     levelManager = levelManager,
                     startTimerService = StartTimerService,
                     stopTimerService = StopTimerService,
@@ -542,8 +538,8 @@ fun GreetingPreview1() {
             achievementsManager = AchievementsManager(Application()),
             imagenes = images(),
             backgrounds = backgrounds(),
-            StartTimerService = { _ -> }, // Función dummy que no hace nada
-            StopTimerService = {}         // Función dummy que no hace nada
+            StartTimerService = { _ -> },
+            StopTimerService = {}
         )
     }
 }

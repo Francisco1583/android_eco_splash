@@ -142,7 +142,7 @@ fun SecondTopPart(
                                 .padding((maxHeight * 0.01f))
                         ) {
                             Text(
-                                text = "$coins",
+                                text = "$ $coins",
                                 modifier = Modifier
                                     .align(Alignment.Center), fontFamily = montserratFontFamily,
                                 color = Color.Black
